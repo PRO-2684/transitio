@@ -2,15 +2,26 @@
 
 # Transitio
 
-[LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 提供一些丝滑的过渡动画 (`transition 0.2s ease-in-out`)。
+[LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 提供一些 QOL 的**纯 CSS 实现的外观更改**。
+
+## 具体功能
+
+- 提供了亿些丝滑的**过渡动画** (`transition 0.2s ease-in-out`)
+- 修改了图片查看器**工具栏和缩放提示的不透明度** (增加了透明度，避免引起遮挡)
 
 ## 演示
+
+> 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
+
+### 过渡动画
 
 ![Transitio gif](./attachments/transitio.gif)
 
 [Video](./attachments/transitio.mp4)
 
-> 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
+### 图片查看器工具栏
+
+![Transitio image viewer](./attachments/image-viewer.jpg)
 
 ## 使用方法
 

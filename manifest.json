@@ -3,8 +3,8 @@
     "type": "theme",
     "name": "Transitio",
     "slug": "transitio",
-    "description": "为 QQNT 添加过渡动画",
-    "version": "0.1.0",
+    "description": "为 QQNT 提供 QOL 的外观更改",
+    "version": "0.1.1",
     "thumbnail": "./icon.png",
     "author": {
         "name": "PRO-2684",
