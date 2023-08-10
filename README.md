@@ -8,8 +8,9 @@
 
 - 提供了亿些丝滑的**过渡动画** (`transition 0.2s ease-in-out`)
 - 修改了图片查看器**工具栏和缩放提示的不透明度** (增加了透明度，避免引起遮挡)
+- 自定义加载 CSS 代码片段
 
-## 演示
+## 内置样式演示
 
 > 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
 
@@ -23,7 +24,7 @@
 
 ![Transitio image viewer](./attachments/image-viewer.jpg)
 
-## 使用方法
+## 安装
 
 ### 插件商店
 
@@ -37,9 +38,25 @@
 完成后的目录结构应该如下:
 
 ```
-plugins
-└── transitio
-    ├── manifest.json
-    ├── renderer.js
-    └── icon.png
+plugins (所有的插件目录)
+└── transitio (此插件目录)
+    ├── manifest.json (插件元数据)
+    ├── main.js (插件脚本)
+    ├── preload.js (插件脚本)
+    ├── renderer.js (插件脚本)
+    ├── icon.png (插件图标)
+    ├── settings.html (插件设置界面)
+    └── styles (内置/自定义样式文件夹)
+        ├── image-viewer.css (内置样式：图片查看器)
+        └── transition.css (内置样式：过渡动画)
 ```
+
+## 使用方法
+
+- 启用/禁用样式：打开插件设置界面，将对应的样式开关打开/关闭，即时生效。
+    - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
+    - 由于写入文件需要一定的时间，因此禁用样式后，可能需要等待一段时间才能看到效果。
+    - 若点击各个开关速度过快，可能会导致错位等情况，此时请重新打开设置界面。
+- 导入样式：~~将 CSS 文件拖入设置窗口，或~~将之放入 `plugins/transitio/styles` 文件夹然后重新进入插件设置界面即可看到导入的样式。
+    - CSS 文件开头的注释（若有）会被当作样式说明，显示在设置界面中。
+- 删除样式：~~点击删除按钮，或~~进入 `plugins/transitio/styles` 文件夹删除对应文件即可。

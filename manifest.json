@@ -3,8 +3,8 @@
     "type": "theme",
     "name": "Transitio",
     "slug": "transitio",
-    "description": "为 QQNT 提供 QOL 的外观更改",
-    "version": "0.1.1",
+    "description": "为 QQNT 添加自定义的 CSS 外观更改，内置过渡动画和图片查看器的增强",
+    "version": "0.2.0",
     "thumbnail": "./icon.png",
     "author": {
         "name": "PRO-2684",
@@ -24,6 +24,8 @@
         "darwin"
     ],
     "injects": {
-        "renderer": "./renderer.js"
+        "renderer": "./renderer.js",
+        "main": "./main.js",
+        "preload": "./preload.js"
     }
 }
