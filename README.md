@@ -10,17 +10,21 @@
 - 修改了图片查看器**工具栏和缩放提示的不透明度** (增加了透明度，避免引起遮挡)
 - 自定义加载 CSS 代码片段
 
-## 内置样式演示
+## 截图
 
 > 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
 
-### 过渡动画
+### 设置页面
+
+![Transitio settings](./attachments/settings.png)
+
+### 过渡动画 (内置样式)
 
 ![Transitio gif](./attachments/transitio.gif)
 
 [Video](./attachments/transitio.mp4)
 
-### 图片查看器工具栏
+### 图片查看器工具栏 (内置样式)
 
 ![Transitio image viewer](./attachments/image-viewer.jpg)
 
@@ -53,12 +57,12 @@ plugins (所有的插件目录)
 
 ## 使用方法
 
-> 所有不是通过配置界面进行的更改，除非打开了*开发者模式*，都会在**双击CSS 片段列表**这行字或重启 QQ 后生效。
+> 所有不是通过配置界面进行的更改，除非打开了*开发者模式*，都只在**双击 CSS 片段列表**这行字或重启 QQ 后生效。
 
 - 启用/禁用样式：打开插件设置界面，将对应的样式开关打开/关闭，即时生效。
     - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
     - 若点击各个开关速度过快，可能会导致错位等情况，此时请双击 "CSS 片段列表" 来重载。
-- 导入样式：~~在配置界面导入 CSS 文件，或~~将之放入 `plugins_data/transitio/styles/` 文件夹。
+- 导入样式：在配置界面导入 CSS 文件，或将之放入 `plugins_data/transitio/styles/` 文件夹。
     - CSS 文件开头的注释（若有）会被当作样式说明，显示在设置界面中。
 - 删除样式：~~点击删除按钮，或~~进入 `plugins_data/transitio/styles/` 文件夹删除对应文件。
 - 修改样式：修改对应文件即可。
