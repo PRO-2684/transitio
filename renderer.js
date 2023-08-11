@@ -79,13 +79,11 @@ async function onConfigView(view) {
             item.remove();
         });
     });
-    function toggleAll() {
+    function devMode() {
         let enabled = this.classList.toggle("is-active");
-        document.querySelectorAll(`style[id^="${styleIdPrefix}"]`).forEach((style) => {
-            style.disabled = !enabled;
-        });
+        transitio.devMode(enabled);
     }
-    view.querySelector("div#transitio-enable").addEventListener("click", toggleAll);
+    view.querySelector("div#transitio-dev").addEventListener("click", devMode);
     transitio.rendererReady(); // We don't have to create a new function for this 😉
 }
 

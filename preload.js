@@ -8,6 +8,10 @@ contextBridge.exposeInMainWorld("transitio", {
         "LiteLoader.transitio.configChange",
         name, enable
     ),
+    devMode: (enable) => ipcRenderer.send(
+        "LiteLoader.transitio.devMode",
+        enable
+    ),
     onUpdateStyle: (callback) => ipcRenderer.on(
         "LiteLoader.transitio.updateStyle",
         callback

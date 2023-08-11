@@ -4,7 +4,7 @@
     "name": "Transitio",
     "slug": "transitio",
     "description": "为 QQNT 添加自定义的 CSS 外观更改，内置过渡动画和图片查看器的增强",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "thumbnail": "./icon.png",
     "author": {
         "name": "PRO-2684",
