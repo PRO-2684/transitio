@@ -12,6 +12,17 @@ contextBridge.exposeInMainWorld("transitio", {
         "LiteLoader.transitio.devMode",
         enable
     ),
+    reloadStyle: () => ipcRenderer.send(
+        "LiteLoader.transitio.reloadStyle"
+    ),
+    importStyle: (fname, content) => ipcRenderer.send(
+        "LiteLoader.transitio.importStyle",
+        fname, content
+    ),
+    open: (type, uri) => ipcRenderer.send(
+        "LiteLoader.transitio.open",
+        type, uri
+    ),
     onUpdateStyle: (callback) => ipcRenderer.on(
         "LiteLoader.transitio.updateStyle",
         callback
@@ -19,8 +30,5 @@ contextBridge.exposeInMainWorld("transitio", {
     onResetStyle: (callback) => ipcRenderer.on(
         "LiteLoader.transitio.resetStyle",
         callback
-    ),
-    reloadStyle: () => ipcRenderer.send(
-        "LiteLoader.transitio.reloadStyle"
     ),
 });

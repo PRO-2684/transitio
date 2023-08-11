@@ -1,17 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const { BrowserWindow, ipcMain } = require("electron");
+const { BrowserWindow, ipcMain, shell } = require("electron");
 
+let dataPath = null;
 let stylePath = null;
 let devMode = false;
 let updateInterval = 1000;
 let openedContents = new Set();
 let watcher = null;
 
-// function log(...args) { // DEBUG
-//     console.log("[Transitio]", ...args);
-// }
-function log(...args) { }
+function log(...args) { // DEBUG
+    console.log("[Transitio]", ...args);
+}
+// function log(...args) { }
 
 // 防抖
 function debounce(fn, time) {
@@ -69,6 +70,13 @@ function reloadStyle(webContents) {
     files.forEach((file) => {
         updateStyle(file.slice(0, -4), webContents);
     });
+}
+
+// 导入样式
+function importStyle(fname, content) {
+    log("importStyle", fname);
+    let filePath = path.join(stylePath, fname);
+    fs.writeFileSync(filePath, content, "utf-8");
 }
 
 // 监听 `styles` 目录修改
@@ -174,7 +182,8 @@ async function moveDir() {
 
 // 插件加载触发
 async function onLoad(plugin) {
-    stylePath = path.join(plugin.path.data, "styles/");
+    dataPath = plugin.path.data;
+    stylePath = path.join(dataPath, "styles/");
     await moveDir();
     // 监听
     ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
@@ -183,6 +192,22 @@ async function onLoad(plugin) {
     });
     ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
         reloadStyle();
+    });
+    ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
+        importStyle(fname, content);
+    });
+    ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
+        log("open", type, uri);
+        switch (type) {
+            case "folder": // Relative to dataPath
+                shell.openPath(path.join(dataPath, uri));
+                break;
+            case "link":
+                shell.openExternal(uri);
+                break;
+            default:
+                break;
+        }
     });
     ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
     ipcMain.on("LiteLoader.transitio.devMode", onDevMode);

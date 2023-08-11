@@ -79,20 +79,61 @@ async function onConfigView(view) {
             item.remove();
         });
     });
+    function $(prop) { // Helper function for transitio selectors
+        return view.querySelector(`#transitio-${prop}`);
+    }
     function devMode() {
         let enabled = this.classList.toggle("is-active");
         transitio.devMode(enabled);
     }
-    function importCSS() {
+    function openURI(type, uri) {
+        console.log("[Transitio] Opening", type, uri);
+        transitio.open(type, uri);
+    }
+    function openURL() {
+        let url = this.getAttribute("data-transitio-url");
+        openURI("link", url);
+    }
+    async function importCSS() {
         if (this.files.length == 0) return; // No file selected
+        let cnt = 0;
+        let promises = [];
         for (let file of this.files) {
-            console.log("[Transitio] Importing", file.name);
+            if (!file.name.endsWith(".css")) {
+                console.log("[Transitio] Ignored", file.name);
+                continue;
+            }
+            promises.push(new Promise((resolve, reject) => {
+                cnt++;
+                console.log("[Transitio] Importing", file.name);
+                let reader = new FileReader();
+                reader.onload = () => {
+                    transitio.importStyle(file.name, reader.result);
+                    console.log("[Transitio] Imported", file.name);
+                    resolve();
+                };
+                reader.readAsText(file);
+            }));
+        }
+        await Promise.all(promises);
+        console.log("[Transitio] Imported", cnt, "files");
+        if (cnt > 0) {
+            transitio.reloadStyle();
+            alert(`成功导入 ${cnt} 个 CSS 文件`);
+        } else {
+            alert("没有导入任何 CSS 文件");
         }
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
-    view.querySelector("div#transitio-dev").addEventListener("click", devMode);
-    view.querySelector("h2#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
-    view.querySelector("input#transitio-import").addEventListener("change", importCSS);
+    $("dev").addEventListener("click", devMode);
+    $("reload").addEventListener("dblclick", transitio.reloadStyle);
+    $("open-folder").addEventListener("click", () => {
+        openURI("folder", "styles"); // Relative to the data directory
+    });
+    $("import").addEventListener("change", importCSS);
+    // About - Version
+    $("version").textContent = LiteLoader.plugins.transitio.manifest.version;
+    view.querySelectorAll(".transitio-link").forEach(link => link.addEventListener("click", openURL));
 }
 
 export {
