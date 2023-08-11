@@ -71,7 +71,7 @@ async function onConfigView(view) {
         switch_.classList.toggle("is-active", enabled);
         let span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
         span.textContent = comment || "此文件没有描述";
-        console.log("[Transitio] onUpdateStyle", name, enabled); // DEBUG
+        // console.log("[Transitio] onUpdateStyle", name, enabled); // DEBUG
     });
     transitio.onResetStyle(() => {
         let items = view.querySelectorAll(`[id^="${configIdPrefix}"]`);
@@ -83,9 +83,16 @@ async function onConfigView(view) {
         let enabled = this.classList.toggle("is-active");
         transitio.devMode(enabled);
     }
+    function importCSS() {
+        if (this.files.length == 0) return; // No file selected
+        for (let file of this.files) {
+            console.log("[Transitio] Importing", file.name);
+        }
+    }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
     view.querySelector("div#transitio-dev").addEventListener("click", devMode);
     view.querySelector("h2#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
+    view.querySelector("input#transitio-import").addEventListener("change", importCSS);
 }
 
 export {
