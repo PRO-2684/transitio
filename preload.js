@@ -19,5 +19,8 @@ contextBridge.exposeInMainWorld("transitio", {
     onResetStyle: (callback) => ipcRenderer.on(
         "LiteLoader.transitio.resetStyle",
         callback
-    )
+    ),
+    reloadStyle: () => ipcRenderer.send(
+        "LiteLoader.transitio.reloadStyle"
+    ),
 });

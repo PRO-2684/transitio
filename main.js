@@ -57,7 +57,7 @@ function updateStyle(name, webContents) {
 }
 
 // 重置样式
-function resetStyle(webContents) {
+function reloadStyle(webContents) {
     if (webContents) {
         webContents.send("LiteLoader.transitio.resetStyle");
     } else {
@@ -81,7 +81,7 @@ function onStyleChange(eventType, filename) {
     //     resetStyle();
     // }
     // 由于特性，重命名文件不会触发 rename，反而会触发 change 事件，不好区分
-    resetStyle(); // 开摆，直接重置所有样式 (反正是开发者模式才会用到)
+    reloadStyle(); // 开摆，直接重置所有样式 (反正是开发者模式才会用到)
 }
 
 // 监听配置修改
@@ -179,7 +179,10 @@ async function onLoad(plugin) {
     // 监听
     ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
         const window = BrowserWindow.fromWebContents(event.sender);
-        resetStyle(window.webContents);
+        reloadStyle(window.webContents);
+    });
+    ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
+        reloadStyle();
     });
     ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
     ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
@@ -190,7 +193,6 @@ function onBrowserWindowCreated(window, plugin) {
     window.on("ready-to-show", () => {
         const url = window.webContents.getURL();
         if (url.includes("app://./renderer/index.html")) {
-            // watchStyleChange(window.webContents);
             openedContents.add(window.webContents);
             window.webContents.once("destroyed", () => {
                 openedContents.delete(window.webContents);

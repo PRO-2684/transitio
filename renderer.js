@@ -83,8 +83,9 @@ async function onConfigView(view) {
         let enabled = this.classList.toggle("is-active");
         transitio.devMode(enabled);
     }
-    view.querySelector("div#transitio-dev").addEventListener("click", devMode);
     transitio.rendererReady(); // We don't have to create a new function for this 😉
+    view.querySelector("div#transitio-dev").addEventListener("click", devMode);
+    view.querySelector("h2#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
 }
 
 export {
