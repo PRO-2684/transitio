@@ -47,7 +47,6 @@ plugins (所有的插件目录)
     ├── icon.png (插件图标)
     ├── settings.html (插件设置界面)
     └── styles (内置/自定义样式文件夹，将会被移动至数据目录)
-        ├── config.css (内置样式：设置界面用到的样式)
         ├── image-viewer.css (内置样式：图片查看器)
         └── transition.css (内置样式：过渡动画)
 ```

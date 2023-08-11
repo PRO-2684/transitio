@@ -1,3 +1,24 @@
+<style id="transitio-style-settings">
+    /* 设置界面用到的 CSS */
+    .transitio input[type="file"] {
+        border-color: var(--fill_standard_primary);
+        border-style: dashed;
+        border-radius: 0.5em;
+        padding: 0.5em;
+    }
+    .transitio input[type="file"]::file-selector-button {
+        background-color: transparent;
+        border-radius: 8px;
+        color: var(--text_primary);
+        border: 1px solid;
+        border-color: var(--fill_standard_primary);
+        height: 2em;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .transitio input[type="file"]::file-selector-button:hover {
+        background-color: var(--overlay_hover);
+    }
+</style>
 <section class="main-settings">
     <h1>调试</h1>
     <div class="wrap">
@@ -20,7 +41,7 @@
                 <h2>导入 CSS...</h2>
                 <span class="secondary-text" title="你可以点击按钮来选择，也可以将文件文件拖入右侧区域" style="cursor: help;">导入自定义的 CSS 片段</span>
             </div>
-            <input id="transitio-import" type="file" accept=".css" multiple/>
+            <input id="transitio-import" type="file" accept="text/css" multiple/>
         </div>
     </div>
 </section>
