@@ -30,6 +30,10 @@
 
 ![Transitio image viewer](./attachments/image-viewer.jpg)
 
+### 隐藏更新小红点 (内置样式)
+
+![Transitio no update dot](./attachments/no-update-dot.jpg)
+
 ## 安装
 
 ### 插件商店
