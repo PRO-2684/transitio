@@ -1,0 +1,4 @@
+/* 隐藏 QQ 版本更新小红点 */
+sub.q-badge-sub.q-badge-dot.q-badge-dot__small.q-badge__red {
+    display: none;
+}
