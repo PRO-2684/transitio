@@ -18,6 +18,13 @@
     .transitio input[type="file"]::file-selector-button:hover {
         background-color: var(--overlay_hover);
     }
+    .transitio div.vertical-list-item.is-loading {
+        cursor: progress;
+    }
+    .transitio div.vertical-list-item.is-loading > div.q-switch, .transitio div.vertical-list-item.is-loading > input, .transitio div.vertical-list-item.is-loading > div.ops-btns {
+        pointer-events: none;
+        opacity: 0.6;
+    }
 </style>
 <section class="main-settings">
     <h1>调试</h1>

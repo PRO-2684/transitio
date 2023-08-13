@@ -59,8 +59,8 @@ async function onConfigView(view) {
         span2.className = "q-switch__handle";
         switch_.appendChild(span2);
         switch_.addEventListener("click", () => {
-            switch_.classList.toggle("is-active"); // Update the UI immediately, so it would be more smooth
-            transitio.configChange(name, switch_.classList.contains("is-active"));
+            switch_.parentNode.classList.toggle("is-loading", true);
+            transitio.configChange(name, switch_.classList.toggle("is-active")); // Update the UI immediately, so it would be more smooth
         });
         return switch_;
     }
@@ -69,6 +69,7 @@ async function onConfigView(view) {
         let switch_ = view.querySelector("#" + configIdPrefix + name)
             || addItem(name);
         switch_.classList.toggle("is-active", enabled);
+        switch_.parentNode.classList.toggle("is-loading", false);
         let span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
         span.textContent = comment || "此文件没有描述";
         // console.log("[Transitio] onUpdateStyle", name, enabled); // DEBUG
@@ -96,6 +97,7 @@ async function onConfigView(view) {
     }
     async function importCSS() {
         if (this.files.length == 0) return; // No file selected
+        this.parentNode.classList.toggle("is-loading", true);
         let cnt = 0;
         let promises = [];
         for (let file of this.files) {
@@ -116,6 +118,7 @@ async function onConfigView(view) {
             }));
         }
         await Promise.all(promises);
+        this.parentNode.classList.toggle("is-loading", false);
         console.log("[Transitio] Imported", cnt, "files");
         if (cnt > 0) {
             transitio.reloadStyle();
