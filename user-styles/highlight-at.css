@@ -1,4 +1,15 @@
-/* 高亮艾特：将艾特着色为主题色 */
+/* 高亮艾特：将艾特显示为下划线，着色为主题色 */
+
 span.text-element--at {
-    color: var(--global-brand_standard);
+    text-decoration: underline dashed;
 }
+
+/* 别人发的信息，着色为链接 */
+.container--others span.text-element--at {
+    color: var(--text_link);
+}
+
+/* 自己发的信息不能着色，否则看不见 */
+/* .container--self span.text-element--at {
+    color: var();
+} */
