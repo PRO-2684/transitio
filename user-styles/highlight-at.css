@@ -1,0 +1,4 @@
+/* 高亮艾特：将艾特着色为主题色 */
+span.text-element--at {
+    color: var(--global-brand_standard);
+}
