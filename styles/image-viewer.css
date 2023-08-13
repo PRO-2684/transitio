@@ -1,4 +1,6 @@
-/* 图片查看器透明度修改 */
+/* 媒体查看器透明度修改 */
+
+/* 图片查看器 */
 div.main-area__footer {
     backdrop-filter: none;
     background: rgba(0, 0, 0, 0.4);
@@ -6,7 +8,7 @@ div.main-area__footer {
 div.image-viewer__tip {
     opacity: 0.4;
 }
-/* 视频查看器透明度修改 */
+/* 视频查看器 */
 div.plugin-panel-main-area {
     opacity: 0.4;
 }
