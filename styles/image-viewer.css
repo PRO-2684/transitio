@@ -6,3 +6,10 @@ div.main-area__footer {
 div.image-viewer__tip {
     opacity: 0.4;
 }
+/* 视频查看器透明度修改 */
+div.plugin-panel-main-area {
+    opacity: 0.4;
+}
+div.plugin-panel-main-area > div.footer {
+    backdrop-filter: none;
+}
