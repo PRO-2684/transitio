@@ -9,10 +9,10 @@ let updateInterval = 1000;
 let openedContents = new Set();
 let watcher = null;
 
-function log(...args) { // DEBUG
-    console.log("[Transitio]", ...args);
-}
-// function log(...args) { }
+// function log(...args) { // DEBUG
+//     console.log("[Transitio]", ...args);
+// }
+function log(...args) { }
 
 // 防抖
 function debounce(fn, time) {
@@ -45,9 +45,13 @@ function getStyle(name) {
 // 样式更改
 function updateStyle(name, webContents) {
     let content = getStyle(name);
-    let comment = getDesc(content);
-    let enabled = (comment === null) || !comment.endsWith(" [Disabled]");
-    log("updateStyle", name);
+    let comment = getDesc(content) || "";
+    let enabled = true;
+    if (comment.endsWith("[Disabled]")) {
+        comment = comment.slice(0, -10).trim();
+        enabled = false;
+    }
+    log("updateStyle", name, comment, enabled);
     if (webContents) {
         webContents.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
     } else {
@@ -97,7 +101,7 @@ function onConfigChange(event, name, enable) {
     log("onConfigChange", name, enable);
     let content = getStyle(name);
     let comment = getDesc(content);
-    let current = (comment === null) || !comment.endsWith(" [Disabled]");
+    let current = (comment === null) || !comment.endsWith("[Disabled]");
     if (current === enable) return;
     if (comment === null) {
         comment = "";
