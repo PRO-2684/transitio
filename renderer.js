@@ -121,7 +121,6 @@ async function onConfigView(view) {
         this.parentNode.classList.toggle("is-loading", false);
         console.log("[Transitio] Imported", cnt, "files");
         if (cnt > 0) {
-            transitio.reloadStyle();
             alert(`成功导入 ${cnt} 个 CSS 文件`);
         } else {
             alert("没有导入任何 CSS 文件");

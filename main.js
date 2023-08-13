@@ -81,6 +81,9 @@ function importStyle(fname, content) {
     log("importStyle", fname);
     let filePath = path.join(stylePath, fname);
     fs.writeFileSync(filePath, content, "utf-8");
+    if (!devMode) {
+        updateStyle(fname.slice(0, -4));
+    }
 }
 
 // 监听 `styles` 目录修改
