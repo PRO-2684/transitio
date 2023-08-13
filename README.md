@@ -18,7 +18,7 @@
 
 ### 设置页面
 
-![Transitio settings](./attachments/settings.png)
+![Transitio settings](./attachments/settings.jpg)
 
 ### 过渡动画 (内置样式)
 
