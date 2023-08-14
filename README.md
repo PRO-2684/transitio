@@ -87,7 +87,7 @@ plugins (所有的插件目录)
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
 | auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/auto-fold-chat-input-area.css) |
-| hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/transitio/tree/main/user-styles/hide-items.css) |
-| highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/transitio/tree/main/user-styles/highlight-at.css) |
+| hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/hide-items.css) |
+| highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/highlight-at.css) |
 | message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/message-img-transparent.css) |
-| no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/transitio/tree/main/user-styles/no-update-dialog.css) |
+| no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/no-update-dialog.css) |
