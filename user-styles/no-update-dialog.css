@@ -1,0 +1,4 @@
+/* 通过 CSS 隐藏更新提示框 */
+div.q-dialog:has(>div.update-dialog) {
+    display: none;
+}
