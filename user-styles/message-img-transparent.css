@@ -1,0 +1,4 @@
+/* 包含图片消息背景透明 */
+.ml-list .message-content__wrapper .container--others:has(.message-content .image-content){
+  background-color:transparent !important;
+}
