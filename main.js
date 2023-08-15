@@ -9,10 +9,10 @@ let updateInterval = 1000;
 let openedContents = new Set();
 let watcher = null;
 
-// function log(...args) { // DEBUG
-//     console.log("[Transitio]", ...args);
-// }
-function log(...args) { }
+function log(...args) { // DEBUG
+    console.log("[Transitio]", ...args);
+}
+// function log(...args) { }
 
 // 防抖
 function debounce(fn, time) {
@@ -70,9 +70,9 @@ function reloadStyle(webContents) {
             webContents.send("LiteLoader.transitio.resetStyle");
         });
     }
-    const files = fs.readdirSync(stylePath).filter((file) => file.endsWith(".css"));
+    const files = fs.readdirSync(stylePath, { withFileTypes: true }).filter((file) => file.name.endsWith(".css") && !file.isDirectory());
     files.forEach((file) => {
-        updateStyle(file.slice(0, -4), webContents);
+        updateStyle(file.name.slice(0, -4), webContents);
     });
 }
 
