@@ -67,6 +67,7 @@ plugins (所有的插件目录)
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
 | auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) |
+| demo-mode | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) |
 | hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
 | highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
 | image-viewer | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |

@@ -9,10 +9,10 @@ let updateInterval = 1000;
 let openedContents = new Set();
 let watcher = null;
 
-function log(...args) { // DEBUG
-    console.log("[Transitio]", ...args);
-}
-// function log(...args) { }
+// function log(...args) { // DEBUG
+//     console.log("[Transitio]", ...args);
+// }
+function log(...args) { }
 
 // 防抖
 function debounce(fn, time) {
