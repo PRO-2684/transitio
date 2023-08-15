@@ -142,56 +142,11 @@ function watchStyleChange() {
         debounce(onStyleChange, updateInterval)
     );
 }
-// 移动文件夹
-async function moveDir() {
-    // 若有，将 stylePath 目录下内容移动到 dataPath 下，随后删除 stylePath 目录
-    // 检查 stylePath 目录是否存在
-    const origPath = path.join(__dirname, "styles/");
-    if (!fs.existsSync(origPath)) {
-        log(`${origPath} does not exist, skipping...`);
-        return; // 不存在，说明已经移动过了
-    }
-    // 检查 dataPath 目录是否存在
-    if (!fs.existsSync(stylePath)) {
-        log(`${stylePath} does not exist, creating...`);
-        fs.mkdirSync(stylePath, { recursive: true });
-    }
-    // 移动文件
-    const files = fs.readdirSync(origPath);
-    let promises = [];
-    files.forEach((file) => {
-        let promise = new Promise((resolve, reject) => {
-            log(`moving ${file}...`);
-            // fs.renameSync(path.join(origPath, file), path.join(stylePath, file));
-            // 考虑跨盘符移动，使用 stream
-            let readStream = fs.createReadStream(path.join(origPath, file));
-            let writeStream = fs.createWriteStream(path.join(stylePath, file));
-            readStream.pipe(writeStream);
-            readStream.on("end", () => {
-                fs.unlinkSync(path.join(origPath, file));
-                resolve();
-            });
-            readStream.on("error", (err) => {
-                reject(err);
-            });
-            writeStream.on("error", (err) => {
-                reject(err);
-            });
-        });
-        promises.push(promise);
-    });
-    // 等待移动成功时删除 stylePath 目录
-    return Promise.all(promises).then(() => {
-        log(`removing ${origPath}...`);
-        fs.rmdirSync(origPath);
-    });
-}
 
 // 插件加载触发
 async function onLoad(plugin) {
     dataPath = plugin.path.data;
     stylePath = path.join(dataPath, "styles/");
-    await moveDir();
     // 监听
     ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
         const window = BrowserWindow.fromWebContents(event.sender);
