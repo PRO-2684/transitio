@@ -66,11 +66,11 @@ plugins (所有的插件目录)
 
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
-| auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/auto-fold-chat-input-area.css) |
+| auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) |
 | hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
 | highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
 | image-viewer | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
-| message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/message-img-transparent.css) |
+| message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio-css#message-img-transparent) |
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
