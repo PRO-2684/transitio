@@ -16,23 +16,7 @@
 
 > 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
 
-### 设置页面
-
 ![Transitio settings](./attachments/settings.jpg)
-
-### 过渡动画 (内置样式)
-
-![Transitio gif](./attachments/transitio.gif)
-
-[Video](./attachments/transitio.mp4)
-
-### 图片查看器工具栏 (内置样式)
-
-![Transitio image viewer](./attachments/image-viewer.jpg)
-
-### 隐藏更新小红点 (内置样式)
-
-![Transitio no update dot](./attachments/no-update-dot.jpg)
 
 ## 安装
 
@@ -55,10 +39,7 @@ plugins (所有的插件目录)
     ├── preload.js (插件脚本)
     ├── renderer.js (插件脚本)
     ├── icon.png (插件图标)
-    ├── settings.html (插件设置界面)
-    └── styles (内置/自定义样式文件夹，将会被移动至数据目录)
-        ├── image-viewer.css (内置样式：图片查看器)
-        └── transition.css (内置样式：过渡动画)
+    └── settings.html (插件设置界面)
 ```
 
 ## 使用方法
@@ -86,8 +67,11 @@ plugins (所有的插件目录)
 
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
-| auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/auto-fold-chat-input-area.css) |
-| hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/hide-items.css) |
-| highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/highlight-at.css) |
-| message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/message-img-transparent.css) |
-| no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/tree/main/no-update-dialog.css) |
+| auto-fold-chat-input-area | @lamprose | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/auto-fold-chat-input-area.css) |
+| hide-items | @PRO-2684 | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
+| highlight-at | @PRO-2684 | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
+| image-viewer | @PRO-2684 | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
+| message-img-transparent | @lamprose | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio/tree/main/user-styles/message-img-transparent.css) |
+| no-update-dialog | @PRO-2684 | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
+| no-update-dot | @PRO-2684 | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
+| transition | @PRO-2684 | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
