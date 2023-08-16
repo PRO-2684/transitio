@@ -6,6 +6,9 @@
         border-radius: 0.5em;
         padding: 0.5em;
     }
+    .transitio input[type="file"]:focus, .transitio input[type="file"]:hover {
+        border: dashed var(--text_secondary) !important;
+    }
     .transitio input[type="file"]::file-selector-button {
         background-color: transparent;
         border-radius: 8px;
@@ -56,10 +59,12 @@
         <div class="vertical-list-item">
             <div>
                 <h2>导入 CSS...</h2>
-                <span class="secondary-text">导入自定义的 CSS 片段，或查看<a class="transitio-link" href="javascript:void(0);"style="color: inherit; cursor: pointer; font-style: italic;"
-                    data-transitio-url="https://github.com/PRO-2684/transitio#%E7%94%A8%E6%88%B7-css-%E7%89%87%E6%AE%B5">用户 CSS 片段列表</a></span>
+                <span class="secondary-text">导入自定义的 CSS 片段，或查看<a class="transitio-link" href="javascript:void(0);"
+                    style="color: inherit; cursor: pointer; font-style: italic;"
+                    data-transitio-url="https://github.com/PRO-2684/transitio#%E7%94%A8%E6%88%B7-css-%E7%89%87%E6%AE%B5"
+                    title="https://github.com/PRO-2684/transitio#用户-css-片段">用户 CSS 片段列表</a></span>
             </div>
-            <input id="transitio-import" type="file" accept="text/css" multiple/>
+            <input id="transitio-import" type="file" accept="text/css" multiple />
         </div>
     </div>
 </section>
