@@ -45,6 +45,12 @@
     /* 链接 */
     .transitio .transitio-link {
         cursor: pointer;
+        width: fit-content;
+        margin: auto;
+        transition: color 0.2s ease-in-out;
+    }
+    .transitio .transitio-link:hover {
+        color: var(--brand_standard);
     }
 </style>
 <section class="dev">
@@ -78,7 +84,7 @@
             <div>
                 <h2>导入 CSS...</h2>
                 <span class="secondary-text">导入自定义的 CSS 片段，或查看<a class="transitio-link"
-                    style="color: inherit; cursor: pointer; font-style: italic;"
+                    style="font-style: italic;"
                     data-transitio-url="https://github.com/PRO-2684/transitio#用户-css-片段">用户 CSS 片段列表</a></span>
             </div>
             <input id="transitio-import" type="file" accept="text/css" multiple />
