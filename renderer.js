@@ -135,7 +135,12 @@ async function onConfigView(view) {
     $("import").addEventListener("change", importCSS);
     // About - Version
     $("version").textContent = LiteLoader.plugins.transitio.manifest.version;
-    view.querySelectorAll(".transitio-link").forEach(link => link.addEventListener("click", openURL));
+    view.querySelectorAll(".transitio-link").forEach(link => {
+        if (!link.getAttribute("title")) {
+            link.setAttribute("title", link.getAttribute("data-transitio-url"));
+        }
+        link.addEventListener("click", openURL);
+    });
 }
 
 export {
