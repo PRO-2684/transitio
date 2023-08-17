@@ -64,6 +64,9 @@ plugins (所有的插件目录)
 >
 > 若你有愿意分享的样式，欢迎[提交 PR 或 Issue](https://github.com/PRO-2684/transitio/issues/4) 来将它们添加到这里。
 
+> [!WARNING]
+> 请不要在文件名中使用诸如 `.` 等特殊字符，否则可能会导致插件无法正常工作。推荐仅使用字母、数字、下划线 `_` 与连字符 `-`。(参照 Issue #8)
+
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
 | auto-fold-chat-input-area | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) |
