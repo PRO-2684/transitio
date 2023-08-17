@@ -147,6 +147,11 @@ function watchStyleChange() {
 async function onLoad(plugin) {
     dataPath = plugin.path.data;
     stylePath = path.join(dataPath, "styles/");
+    // 创建 styles 目录 (如果不存在)
+    if (!fs.existsSync(stylePath)) {
+        log(`${stylePath} does not exist, creating...`);
+        fs.mkdirSync(stylePath, { recursive: true });
+    }
     // 监听
     ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
         const window = BrowserWindow.fromWebContents(event.sender);
