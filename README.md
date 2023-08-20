@@ -1,4 +1,4 @@
-<img src="./icon.png" align="right" style="width: 6em; height: 6em;"></img>
+<img src="./icon.svg" align="right" style="width: 6em; height: 6em;"></img>
 
 # Transitio
 
