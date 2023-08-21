@@ -81,3 +81,4 @@ plugins (所有的插件目录)
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
+| transparent | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
