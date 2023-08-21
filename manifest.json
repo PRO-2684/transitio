@@ -5,7 +5,7 @@
     "slug": "transitio",
     "description": "自定义 CSS 片段加载器",
     "version": "0.2.9",
-    "thumbnail": "./icon.svg",
+    "thumbnail": "./icons/icon.svg",
     "author": {
         "name": "PRO-2684",
         "link": "https://github.com/PRO-2684"

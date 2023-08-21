@@ -37,8 +37,8 @@ plugins (所有的插件目录)
     ├── main.js (插件脚本)
     ├── preload.js (插件脚本)
     ├── renderer.js (插件脚本)
-    ├── icon.svg (插件图标)
-    └── settings.html (插件设置界面)
+    ├── settings.html (插件设置界面)
+    └── icons/ (插件用到的图标)
 ```
 
 ## 使用方法

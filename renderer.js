@@ -1,6 +1,7 @@
 const styleIdPrefix = "transitio-style-";
 const configIdPrefix = "transitio-config-";
-const plugin_path = LiteLoader.plugins.transitio.path.plugin;
+// Normalized plugin path
+const plugin_path = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/");
 
 // Helper function for css
 function injectCSS(name, css) {
@@ -140,6 +141,10 @@ async function onConfigView(view) {
             link.setAttribute("title", link.getAttribute("data-transitio-url"));
         }
         link.addEventListener("click", openURL);
+    });
+    // About - Backgroud image
+    ["version", "author", "issues", "submit"].forEach(id => {
+        $(`about-${id}`).style.backgroundImage = `url("llqqnt://local-file/${plugin_path}/icons/${id}.svg")`;
     });
 }
 
