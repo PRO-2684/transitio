@@ -4,20 +4,20 @@
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意 CSS 片段。
 
-## 具体功能
+## 🪄 具体功能
 
 - 导入 CSS 代码片段
 - 启用/禁用 CSS 代码片段
 - 开发者模式：监控文件更改，实时预览效果
 - 立即重载：立即重载所有 CSS 代码片段
 
-## 截图
+## 🖼️ 截图
 
 > 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
 
 ![Transitio settings](./attachments/settings.jpg)
 
-## 安装
+## 📥 安装
 
 ### 插件商店
 
@@ -41,7 +41,7 @@ plugins (所有的插件目录)
     └── icons/ (插件用到的图标)
 ```
 
-## 使用方法
+## 🤔 使用方法
 
 > [!WARNING]
 > 所有不是通过配置界面进行的更改，除非打开了*开发者模式*，都只在**双击 CSS 片段列表**这行字或重启 QQ 后生效。
@@ -55,7 +55,7 @@ plugins (所有的插件目录)
 - 修改样式：修改对应文件即可。
 - 更新样式：重新导入即可。
 
-## 用户 CSS 片段
+## 📜 用户 CSS 片段
 
 > [!NOTE]
 > 以下样式均为由我/其它用户编写的 CSS 片段，不内置在插件中。
