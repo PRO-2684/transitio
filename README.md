@@ -4,6 +4,8 @@
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意 CSS 片段。
 
+你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义渲染层 JavaScript 脚本加载器。
+
 ## 🪄 具体功能
 
 - 导入 CSS 代码片段
@@ -50,7 +52,7 @@ plugins (所有的插件目录)
     - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
     - 若点击各个开关速度过快，可能会导致错位等情况，此时请双击 "CSS 片段列表" 来重载。
 - 导入样式：在配置界面导入 CSS 文件，或将之放入 `plugins_data/transitio/styles/` 文件夹。
-    - CSS 文件开头的注释（若有）会被当作样式说明，显示在设置界面中。
+    - CSS 文件首行的注释（若有）会被当作样式说明，显示在设置界面中。
 - 删除样式：~~点击删除按钮，或~~进入 `plugins_data/transitio/styles/` 文件夹删除对应文件。
 - 修改样式：修改对应文件即可。
 - 更新样式：重新导入即可。
