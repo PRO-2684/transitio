@@ -2,6 +2,8 @@ const styleIdPrefix = "transitio-style-";
 const configIdPrefix = "transitio-config-";
 // Normalized plugin path
 const plugin_path = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/");
+let isDebug = false;
+let log = () => { }; // Dummy function
 
 // Helper function for css
 function injectCSS(name, css) {
@@ -30,6 +32,10 @@ async function onLoad() {
         });
     });
     transitio.rendererReady();
+    isDebug = await transitio.queryIsDebug();
+    if (isDebug) {
+        log = console.log.bind(console, "[Transitio]");
+    }
 }
 async function onConfigView(view) {
     let r = await fetch(`llqqnt://local-file/${plugin_path}/settings.html`);
@@ -73,7 +79,7 @@ async function onConfigView(view) {
         switch_.parentNode.classList.toggle("is-loading", false);
         let span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
         span.textContent = comment || "此文件没有描述";
-        // console.log("[Transitio] onUpdateStyle", name, enabled); // DEBUG
+        log("onUpdateStyle", name, enabled);
     });
     transitio.onResetStyle(() => {
         let items = view.querySelectorAll(`[id^="${configIdPrefix}"]`);
@@ -128,11 +134,17 @@ async function onConfigView(view) {
         }
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
-    $("dev").addEventListener("click", devMode);
+    let dev = $("dev");
+    dev.addEventListener("click", devMode);
     transitio.queryDevMode().then(enabled => {
-        // console.log("[Transitio] devModeStatus", enabled); // DEBUG
-        $("dev").classList.toggle("is-active", enabled);
+        log("queryDevMode", enabled);
+        dev.classList.toggle("is-active", enabled);
     });
+    if (isDebug) {
+        let debug = $("debug");
+        debug.style.color = "red";
+        debug.title = "Debug 模式已激活";
+    }
     $("reload").addEventListener("dblclick", transitio.reloadStyle);
     $("open-folder").addEventListener("click", () => {
         openURI("folder", "styles"); // Relative to the data directory

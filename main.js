@@ -5,14 +5,11 @@ const { BrowserWindow, ipcMain, shell } = require("electron");
 let dataPath = null;
 let stylePath = null;
 let devMode = false;
-let updateInterval = 1000;
 let openedContents = new Set();
 let watcher = null;
-
-// function log(...args) { // DEBUG
-//     console.log("[Transitio]", ...args);
-// }
-function log(...args) { }
+const isDebug = process.argv.includes("--debug") || process.argv.includes("--transitio-debug");
+const updateInterval = 1000;
+const log = isDebug ? console.log.bind(console, "[Transitio]") : () => { };
 
 // 防抖
 function debounce(fn, time) {
@@ -181,6 +178,10 @@ async function onLoad(plugin) {
     ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
         log("queryDevMode", devMode);
         return devMode;
+    });
+    ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
+        log("queryIsDebug", isDebug);
+        return isDebug;
     });
 }
 
