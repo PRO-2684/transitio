@@ -1,11 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const { BrowserWindow, ipcMain, shell } = require("electron");
+const { BrowserWindow, ipcMain, shell, webContents } = require("electron");
 
 let dataPath = null;
 let stylePath = null;
 let devMode = false;
-let openedContents = new Set();
 let watcher = null;
 const isDebug = process.argv.includes("--debug") || process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -40,7 +39,7 @@ function getStyle(name) {
 }
 
 // 样式更改
-function updateStyle(name, webContents) {
+function updateStyle(name, webContent) {
     let content = getStyle(name);
     let comment = getDesc(content) || "";
     let enabled = true;
@@ -49,27 +48,27 @@ function updateStyle(name, webContents) {
         enabled = false;
     }
     log("updateStyle", name, comment, enabled);
-    if (webContents) {
-        webContents.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
+    if (webContent) {
+        webContent.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
     } else {
-        openedContents.forEach((webContents) => {
-            webContents.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
+        webContents.getAllWebContents().forEach((webContent) => {
+            webContent.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
         });
     }
 }
 
 // 重置样式
-function reloadStyle(webContents) {
-    if (webContents) {
-        webContents.send("LiteLoader.transitio.resetStyle");
+function reloadStyle(webContent) {
+    if (webContent) {
+        webContent.send("LiteLoader.transitio.resetStyle");
     } else {
-        openedContents.forEach((webContents) => {
-            webContents.send("LiteLoader.transitio.resetStyle");
+        webContents.getAllWebContents().forEach((webContent) => {
+            webContent.send("LiteLoader.transitio.resetStyle");
         });
     }
     const files = fs.readdirSync(stylePath, { withFileTypes: true }).filter((file) => file.name.endsWith(".css") && !file.isDirectory());
     files.forEach((file) => {
-        updateStyle(file.name.slice(0, -4), webContents);
+        updateStyle(file.name.slice(0, -4), webContent);
     });
 }
 
@@ -185,20 +184,6 @@ async function onLoad(plugin) {
     });
 }
 
-// 创建窗口触发
-function onBrowserWindowCreated(window, plugin) {
-    window.on("ready-to-show", () => {
-        const url = window.webContents.getURL();
-        if (url.includes("app://./renderer/index.html")) {
-            openedContents.add(window.webContents);
-            window.webContents.once("destroyed", () => {
-                openedContents.delete(window.webContents);
-            });
-        }
-    });
-}
-
 module.exports = {
-    onLoad,
-    onBrowserWindowCreated
+    onLoad
 }
