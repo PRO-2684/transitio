@@ -178,6 +178,10 @@ async function onLoad(plugin) {
     });
     ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
     ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
+    ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
+        log("queryDevMode", devMode);
+        return devMode;
+    });
 }
 
 // 创建窗口触发

@@ -23,6 +23,9 @@ contextBridge.exposeInMainWorld("transitio", {
         "LiteLoader.transitio.open",
         type, uri
     ),
+    queryDevMode: () => ipcRenderer.invoke(
+        "LiteLoader.transitio.queryDevMode"
+    ),
     onUpdateStyle: (callback) => ipcRenderer.on(
         "LiteLoader.transitio.updateStyle",
         callback

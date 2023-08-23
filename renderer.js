@@ -129,6 +129,10 @@ async function onConfigView(view) {
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
     $("dev").addEventListener("click", devMode);
+    transitio.queryDevMode().then(enabled => {
+        // console.log("[Transitio] devModeStatus", enabled); // DEBUG
+        $("dev").classList.toggle("is-active", enabled);
+    });
     $("reload").addEventListener("dblclick", transitio.reloadStyle);
     $("open-folder").addEventListener("click", () => {
         openURI("folder", "styles"); // Relative to the data directory
