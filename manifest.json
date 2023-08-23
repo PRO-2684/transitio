@@ -4,7 +4,7 @@
     "name": "Transitio",
     "slug": "transitio",
     "description": "自定义 CSS 片段加载器",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "thumbnail": "./icons/icon.svg",
     "author": {
         "name": "PRO-2684",
