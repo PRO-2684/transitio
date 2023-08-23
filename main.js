@@ -6,7 +6,7 @@ let dataPath = null;
 let stylePath = null;
 let devMode = false;
 let watcher = null;
-const isDebug = process.argv.includes("--debug") || process.argv.includes("--transitio-debug");
+const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
 const log = isDebug ? console.log.bind(console, "[Transitio]") : () => { };
 
