@@ -49,10 +49,10 @@ plugins (所有的插件目录)
 > 所有不是通过配置界面进行的更改，除非打开了*开发者模式*，都只在**双击 CSS 片段列表**这行字或重启 QQ 后生效。
 
 - 启用/禁用样式：打开插件设置界面，将对应的样式开关打开/关闭，即时生效。
-    - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
-    - 若点击各个开关速度过快，可能会导致错位等情况，此时请双击 "CSS 片段列表" 来重载。
+  - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
+  - 若点击各个开关速度过快，可能会导致错位等情况，此时请双击 "CSS 片段列表" 来重载。
 - 导入样式：在配置界面导入 CSS 文件，或将之放入 `plugins_data/transitio/styles/` 文件夹。
-    - CSS 文件首行的注释（若有）会被当作样式说明，显示在设置界面中。
+  - CSS 文件首行的注释（若有）会被当作样式说明，显示在设置界面中。
 - 删除样式：~~点击删除按钮，或~~进入 `plugins_data/transitio/styles/` 文件夹删除对应文件。
 - 修改样式：修改对应文件即可。
 - 更新样式：重新导入即可。
@@ -72,7 +72,7 @@ plugins (所有的插件目录)
 > 若你有愿意分享的样式，欢迎[提交 PR 或 Issue](https://github.com/PRO-2684/transitio/issues/4) 来将它们添加到这里。
 
 > [!WARNING]
-> 请不要在文件名中使用诸如句点 `.`, 空格 ` `, 加 `+` 等特殊字符，否则可能会导致插件无法正常工作。推荐仅使用字母、数字、下划线 `_` 与连字符 `-`。(参照 Issue [#8](https://github.com/PRO-2684/transitio/issues/8#issuecomment-1681774753))
+> 请不要在文件名中使用诸如句点 `.`, 空格 ``, 加 `+` 等特殊字符，否则可能会导致插件无法正常工作。推荐仅使用字母、数字、下划线 `_` 与连字符 `-`。(参照 Issue [#8](https://github.com/PRO-2684/transitio/issues/8#issuecomment-1681774753))
 
 | 名称 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- |
@@ -90,3 +90,4 @@ plugins (所有的插件目录)
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
 | transparent | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
+| SimSun-font | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css)
