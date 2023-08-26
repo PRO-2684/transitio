@@ -88,5 +88,6 @@ plugins (所有的插件目录)
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
+| SimSun-font | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css)
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
 | transparent | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
