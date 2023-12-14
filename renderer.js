@@ -1,24 +1,24 @@
 const styleIdPrefix = "transitio-style-";
 const configIdPrefix = "transitio-config-";
 // Normalized plugin path
-const plugin_path = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/");
+const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/");
 let isDebug = false;
 let log = () => { }; // Dummy function
 
 // Helper function for css
 function injectCSS(name, css) {
-    let style = document.createElement("style");
+    const style = document.createElement("style");
     style.id = styleIdPrefix + name;
     style.textContent = css;
     document.head.appendChild(style);
     return style;
 }
 function cssHelper(name, css, enabled, comment) {
-    let current = document.getElementById(styleIdPrefix + name);
+    const current = document.getElementById(styleIdPrefix + name);
     if (current) {
         current.textContent = enabled ? css : `/* ${comment || "此文件没有描述"} */`;
     } else {
-        current = injectCSS(name, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
+        injectCSS(name, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
     }
 }
 async function onLoad() {
@@ -26,7 +26,7 @@ async function onLoad() {
         cssHelper(...args);
     });
     transitio.onResetStyle(() => {
-        let styles = document.querySelectorAll(`style[id^="${styleIdPrefix}"]`);
+        const styles = document.querySelectorAll(`style[id^="${styleIdPrefix}"]`);
         styles.forEach((style) => {
             style.remove();
         });
@@ -38,31 +38,31 @@ async function onLoad() {
     }
 }
 async function onConfigView(view) {
-    let r = await fetch(`llqqnt://local-file/${plugin_path}/settings.html`);
+    const r = await fetch(`llqqnt://local-file/${pluginPath}/settings.html`);
     view.innerHTML = await r.text();
-    let container = view.querySelector("section.snippets > div.wrap");
+    const container = view.querySelector("section.snippets > div.wrap");
     function addItem(name) { // Add a list item with name and description, returns the switch
-        let divider = document.createElement("hr");
+        const divider = document.createElement("hr");
         divider.className = "horizontal-dividing-line";
         divider.id = configIdPrefix + name + "-divider";
         container.appendChild(divider);
-        let item = document.createElement("div");
+        const item = document.createElement("div");
         item.className = "vertical-list-item";
         item.id = configIdPrefix + name + "-item";
         container.appendChild(item);
-        let left = document.createElement("div");
+        const left = document.createElement("div");
         item.appendChild(left);
-        let h2 = document.createElement("h2");
+        const h2 = document.createElement("h2");
         h2.textContent = name;
         left.appendChild(h2);
-        let span = document.createElement("span");
+        const span = document.createElement("span");
         span.className = "secondary-text";
         left.appendChild(span);
-        let switch_ = document.createElement("div");
+        const switch_ = document.createElement("div");
         switch_.className = "q-switch";
         switch_.id = configIdPrefix + name;
         item.appendChild(switch_);
-        let span2 = document.createElement("span");
+        const span2 = document.createElement("span");
         span2.className = "q-switch__handle";
         switch_.appendChild(span2);
         switch_.addEventListener("click", () => {
@@ -72,17 +72,17 @@ async function onConfigView(view) {
         return switch_;
     }
     transitio.onUpdateStyle((event, args) => {
-        let [name, css, enabled, comment] = args;
-        let switch_ = view.querySelector("#" + configIdPrefix + name)
+        const [name, css, enabled, comment] = args;
+        const switch_ = view.querySelector("#" + configIdPrefix + name)
             || addItem(name);
         switch_.classList.toggle("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
-        let span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
+        const span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
         span.textContent = comment || "此文件没有描述";
         log("onUpdateStyle", name, enabled);
     });
     transitio.onResetStyle(() => {
-        let items = view.querySelectorAll(`[id^="${configIdPrefix}"]`);
+        const items = view.querySelectorAll(`[id^="${configIdPrefix}"]`);
         items.forEach((item) => {
             item.remove();
         });
@@ -91,7 +91,7 @@ async function onConfigView(view) {
         return view.querySelector(`#transitio-${prop}`);
     }
     function devMode() {
-        let enabled = this.classList.toggle("is-active");
+        const enabled = this.classList.toggle("is-active");
         transitio.devMode(enabled);
     }
     function openURI(type, uri) {
@@ -99,15 +99,15 @@ async function onConfigView(view) {
         transitio.open(type, uri);
     }
     function openURL() {
-        let url = this.getAttribute("data-transitio-url");
+        const url = this.getAttribute("data-transitio-url");
         openURI("link", url);
     }
     async function importCSS() {
         if (this.files.length == 0) return; // No file selected
         this.parentNode.classList.toggle("is-loading", true);
         let cnt = 0;
-        let promises = [];
-        for (let file of this.files) {
+        const promises = [];
+        for (const file of this.files) {
             if (!file.name.endsWith(".css")) {
                 console.log("[Transitio] Ignored", file.name);
                 continue;
@@ -134,14 +134,14 @@ async function onConfigView(view) {
         }
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
-    let dev = $("dev");
+    const dev = $("dev");
     dev.addEventListener("click", devMode);
     transitio.queryDevMode().then(enabled => {
         log("queryDevMode", enabled);
         dev.classList.toggle("is-active", enabled);
     });
     if (isDebug) {
-        let debug = $("debug");
+        const debug = $("debug");
         debug.style.color = "red";
         debug.title = "Debug 模式已激活";
     }
@@ -160,7 +160,7 @@ async function onConfigView(view) {
     });
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`about-${id}`).style.backgroundImage = `url("llqqnt://local-file/${plugin_path}/icons/${id}.svg")`;
+        $(`about-${id}`).style.backgroundImage = `url("llqqnt://local-file/${pluginPath}/icons/${id}.svg")`;
     });
 }
 

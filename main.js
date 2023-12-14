@@ -12,7 +12,7 @@ const log = isDebug ? console.log.bind(console, "[Transitio]") : () => { };
 
 // 防抖
 function debounce(fn, time) {
-    let timer = null;
+    const timer = null;
     return function (...args) {
         timer && clearTimeout(timer);
         timer = setTimeout(() => {
@@ -22,7 +22,7 @@ function debounce(fn, time) {
 }
 // 获取 CSS 文件的首行注释
 function getDesc(css) {
-    let firstLine = css.split("\n")[0].trim();
+    const firstLine = css.split("\n")[0].trim();
     if (firstLine.startsWith("/*") && firstLine.endsWith("*/")) {
         return firstLine.slice(2, -2).trim();
     } else {
@@ -31,16 +31,16 @@ function getDesc(css) {
 }
 
 function getStyle(name) {
-    let content = "";
     try {
-        content = fs.readFileSync(path.join(stylePath, name + ".css"), "utf-8");
-    } catch (err) { }
-    return content;
+        return fs.readFileSync(path.join(stylePath, name + ".css"), "utf-8");
+    } catch (err) {
+        return "";
+    }
 }
 
 // 样式更改
 function updateStyle(name, webContent) {
-    let content = getStyle(name);
+    const content = getStyle(name);
     let comment = getDesc(content) || "";
     let enabled = true;
     if (comment.endsWith("[Disabled]")) {
@@ -75,7 +75,7 @@ function reloadStyle(webContent) {
 // 导入样式
 function importStyle(fname, content) {
     log("importStyle", fname);
-    let filePath = path.join(stylePath, fname);
+    const filePath = path.join(stylePath, fname);
     fs.writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
         updateStyle(fname.slice(0, -4));
@@ -100,7 +100,7 @@ function onConfigChange(event, name, enable) {
     log("onConfigChange", name, enable);
     let content = getStyle(name);
     let comment = getDesc(content);
-    let current = (comment === null) || !comment.endsWith("[Disabled]");
+    const current = (comment === null) || !comment.endsWith("[Disabled]");
     if (current === enable) return;
     if (comment === null) {
         comment = "";
