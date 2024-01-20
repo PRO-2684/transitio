@@ -21,7 +21,7 @@ function cssHelper(name, css, enabled, comment) {
         injectCSS(name, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
     }
 }
-async function onLoad() {
+// async function onLoad() {
     transitio.onUpdateStyle((event, args) => {
         cssHelper(...args);
     });
@@ -36,9 +36,9 @@ async function onLoad() {
     if (isDebug) {
         log = console.log.bind(console, "[Transitio]");
     }
-}
-async function onConfigView(view) {
-    const r = await fetch(`llqqnt://local-file/${pluginPath}/settings.html`);
+// }
+async function onSettingWindowCreated(view) {
+    const r = await fetch(`local://${pluginPath}/settings.html`);
     view.innerHTML = await r.text();
     const container = view.querySelector("section.snippets > div.wrap");
     function addItem(name) { // Add a list item with name and description, returns the switch
@@ -160,11 +160,10 @@ async function onConfigView(view) {
     });
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`about-${id}`).style.backgroundImage = `url("llqqnt://local-file/${pluginPath}/icons/${id}.svg")`;
+        $(`about-${id}`).style.backgroundImage = `url("local://${pluginPath}/icons/${id}.svg")`;
     });
 }
 
 export {
-    onLoad,
-    onConfigView
+    onSettingWindowCreated
 }

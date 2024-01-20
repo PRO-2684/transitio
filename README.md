@@ -2,6 +2,9 @@
 
 # Transitio
 
+> [!NOTE]
+> 此插件 `1.0.0` 版本及以上最低支持 LiteLoaderQQNT 1.0.0，之前版本的 LiteLoaderQQNT 请使用 `1.0.0` 之前的 Release
+
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意 CSS 片段。
 
 你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义渲染层 JavaScript 脚本加载器。
@@ -51,15 +54,15 @@ plugins (所有的插件目录)
 - 启用/禁用样式：打开插件设置界面，将对应的样式开关打开/关闭，即时生效。
     - 注意：禁用样式，实际上是在文件内第一行注释末尾添加了 `[Disabled]` 标记。
     - 若点击各个开关速度过快，可能会导致错位等情况，此时请双击 "CSS 片段列表" 来重载。
-- 导入样式：在配置界面导入 CSS 文件，或将之放入 `plugins_data/transitio/styles/` 文件夹。
+- 导入样式：在配置界面导入 CSS 文件，或将之放入 `data/transitio/styles/` 文件夹。
     - CSS 文件首行的注释（若有）会被当作样式说明，显示在设置界面中。
-- 删除样式：~~点击删除按钮，或~~进入 `plugins_data/transitio/styles/` 文件夹删除对应文件。
+- 删除样式：~~点击删除按钮，或~~进入 `data/transitio/styles/` 文件夹删除对应文件。
 - 修改样式：修改对应文件即可。
 - 更新样式：重新导入即可。
 
 ## 💻 调试
 
-- 开发者模式：若您想要调试**您的 CSS 片段**，可以在插件设置界面打开*开发者模式*，此时插件会监控 `plugins_data/transitio/styles/` 文件夹，当发生更改时，会自动重载。
+- 开发者模式：若您想要调试**您的 CSS 片段**，可以在插件设置界面打开*开发者模式*，此时插件会监控 `data/transitio/styles/` 文件夹，当发生更改时，会自动重载。
 - Debug 模式：若您想要调试**此插件本身**，可以使用 `--transitio-debug` 参数启动 QQNT，此时插件会在控制台输出调试信息。
 
 ## 📜 用户 CSS 片段

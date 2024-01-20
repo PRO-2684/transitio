@@ -2,13 +2,58 @@ const fs = require("fs");
 const path = require("path");
 const { BrowserWindow, ipcMain, shell, webContents } = require("electron");
 
-let dataPath = null;
-let stylePath = null;
-let devMode = false;
-let watcher = null;
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
 const log = isDebug ? console.log.bind(console, "[Transitio]") : () => { };
+let devMode = false;
+let watcher = null;
+
+// 加载插件时触发
+const dataPath = LiteLoader.plugins.transitio.path.data;
+const stylePath = path.join(dataPath, "styles");
+
+// 初始化插件
+// async function initialize(plugin) {
+// 创建 styles 目录 (如果不存在)
+if (!fs.existsSync(stylePath)) {
+    log(`${stylePath} does not exist, creating...`);
+    fs.mkdirSync(stylePath, { recursive: true });
+}
+// 监听
+ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    reloadStyle(window.webContents);
+});
+ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
+    reloadStyle();
+});
+ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
+    importStyle(fname, content);
+});
+ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
+    log("open", type, uri);
+    switch (type) {
+        case "folder": // Relative to dataPath
+            shell.openPath(path.join(dataPath, uri));
+            break;
+        case "link":
+            shell.openExternal(uri);
+            break;
+        default:
+            break;
+    }
+});
+ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
+ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
+ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
+    log("queryDevMode", devMode);
+    return devMode;
+});
+ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
+    log("queryIsDebug", isDebug);
+    return isDebug;
+});
+// }
 
 // 防抖
 function debounce(fn, time) {
@@ -139,51 +184,13 @@ function watchStyleChange() {
     );
 }
 
-// 插件加载触发
-async function onLoad(plugin) {
-    dataPath = plugin.path.data;
-    stylePath = path.join(dataPath, "styles/");
-    // 创建 styles 目录 (如果不存在)
-    if (!fs.existsSync(stylePath)) {
-        log(`${stylePath} does not exist, creating...`);
-        fs.mkdirSync(stylePath, { recursive: true });
-    }
-    // 监听
-    ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
-        const window = BrowserWindow.fromWebContents(event.sender);
-        reloadStyle(window.webContents);
-    });
-    ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
-        reloadStyle();
-    });
-    ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
-        importStyle(fname, content);
-    });
-    ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
-        log("open", type, uri);
-        switch (type) {
-            case "folder": // Relative to dataPath
-                shell.openPath(path.join(dataPath, uri));
-                break;
-            case "link":
-                shell.openExternal(uri);
-                break;
-            default:
-                break;
-        }
-    });
-    ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
-    ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
-    ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
-        log("queryDevMode", devMode);
-        return devMode;
-    });
-    ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
-        log("queryIsDebug", isDebug);
-        return isDebug;
-    });
-}
 
-module.exports = {
-    onLoad
-}
+// module.exports.onBrowserWindowCreated = window => {
+//     window.on("ready-to-show", () => {
+//         const url = window.webContents.getURL();
+//         if (url.includes("app://./renderer/index.html")) {
+//             // initialize(window.plugin);
+//             log(url);
+//         }
+//     });
+// }

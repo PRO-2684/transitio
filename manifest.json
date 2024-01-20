@@ -1,15 +1,17 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 4,
     "type": "theme",
     "name": "Transitio",
     "slug": "transitio",
     "description": "自定义 CSS 片段加载器",
-    "version": "0.3.2",
-    "thumbnail": "./icons/icon.svg",
-    "author": {
-        "name": "PRO-2684",
-        "link": "https://github.com/PRO-2684"
-    },
+    "version": "1.0.0",
+    "icon": "./icons/icon.svg",
+    "authors": [
+        {
+            "name": "PRO-2684",
+            "link": "https://github.com/PRO-2684"
+        }
+    ],
     "repository": {
         "repo": "PRO-2684/transitio",
         "branch": "main",
