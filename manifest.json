@@ -15,9 +15,9 @@
     "repository": {
         "repo": "PRO-2684/transitio",
         "branch": "main",
-        "use_release": {
-            "tag": "latest",
-            "name": "transitio-release.zip"
+        "release": {
+            "tag": "1.0.1",
+            "file": "transitio-release.zip"
         }
     },
     "platform": [
