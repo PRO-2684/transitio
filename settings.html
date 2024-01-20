@@ -23,10 +23,10 @@
         background-color: var(--overlay_hover);
     }
     /* 各个 CSS 片段 */
-    .transitio div.vertical-list-item.is-loading {
+    .transitio setting-item.is-loading {
         cursor: progress;
     }
-    .transitio div.vertical-list-item.is-loading > div.q-switch, .transitio div.vertical-list-item.is-loading > input, .transitio div.vertical-list-item.is-loading > div.ops-btns {
+    .transitio setting-item.is-loading > setting-switch, .transitio setting-item.is-loading > input, .transitio setting-item.is-loading > setting-button {
         pointer-events: none;
         opacity: 0.6;
     }
@@ -52,12 +52,11 @@
     }
 </style>
 <setting-section data-title="调试" class="dev">
-    <h1 id="transitio-debug">调试</h1>
     <setting-panel>
         <setting-list data-direction="column">
             <setting-item data-direction="row">
                 <div>
-                    <setting-text>开发者模式</setting-text>
+                    <setting-text id="transitio-debug">开发者模式</setting-text>
                     <setting-text data-type="secondary">监听文件目录，本地修改 CSS 后自动重载所有样式（可能造成性能损失）</setting-text>
                 </div>
                 <setting-switch id="transitio-dev"></setting-switch>
@@ -67,20 +66,17 @@
                     <setting-text>打开样式目录</setting-text>
                     <setting-text data-type="secondary">点击以打开存放样式的目录</setting-text>
                 </div>
-                <div class="ops-btns">
-                    <button class="q-button q-button--small q-button--secondary" id="transitio-open-folder">打开目录</button>
-                </div>
+                <setting-button data-type="primary" id="transitio-open-folder">打开目录</setting-button>
             </setting-item>
         </setting-list>
     </setting-panel>
 </setting-section>
 <setting-section data-title="CSS 片段列表" class="snippets">
-    <h1 id="transitio-reload" title="双击以立即重载样式">CSS 片段列表</h1>
     <setting-panel>
         <setting-list data-direction="column">
             <setting-item data-direction="row">
                 <div>
-                    <setting-text>导入 CSS...</setting-text>
+                    <setting-text id="transitio-reload" title="双击以立即重载样式">导入 CSS...</setting-text>
                     <setting-text data-type="secondary">导入自定义的 CSS 片段，或查看<span class="transitio-link"
                         style="font-style: italic;"
                         data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS 片段列表</span></setting-text>

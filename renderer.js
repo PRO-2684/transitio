@@ -43,10 +43,6 @@ async function onSettingWindowCreated(view) {
     view.innerHTML = await r.text();
     const container = view.querySelector("setting-section.snippets > setting-panel > setting-list");
     function addItem(name) { // Add a list item with name and description, returns the switch
-        // const divider = document.createElement("hr");
-        // divider.className = "horizontal-dividing-line";
-        // divider.id = configIdPrefix + name + "-divider";
-        // container.appendChild(divider);
         const item = document.createElement("setting-item");
         item.setAttribute("data-direction", "row");
         item.id = configIdPrefix + name + "-item";
@@ -58,16 +54,12 @@ async function onSettingWindowCreated(view) {
         left.appendChild(itemName);
         const itemDesc = document.createElement("setting-text");
         itemDesc.setAttribute("data-type", "secondary");
-        // itemDesc.textContent = "此文件没有描述";
         left.appendChild(itemDesc);
         const switch_ = document.createElement("setting-switch");
         switch_.id = configIdPrefix + name;
         item.appendChild(switch_);
-        // const span2 = document.createElement("span");
-        // span2.className = "q-switch__handle";
-        // switch_.appendChild(span2);
         switch_.addEventListener("click", () => {
-            // switch_.parentNode.classList.toggle("is-loading", true);
+            switch_.parentNode.classList.toggle("is-loading", true);
             transitio.configChange(name, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
         });
         return switch_;
@@ -77,7 +69,7 @@ async function onSettingWindowCreated(view) {
         const switch_ = view.querySelector("#" + configIdPrefix + name)
             || addItem(name);
         switch_.toggleAttribute("is-active", enabled);
-        // switch_.parentNode.classList.toggle("is-loading", false);
+        switch_.parentNode.classList.toggle("is-loading", false);
         const span = view.querySelector(`setting-item#${configIdPrefix}${name}-item > div > setting-text[data-type="secondary"]`);
         span.textContent = comment || "此文件没有描述";
         log("onUpdateStyle", name, enabled);
@@ -105,7 +97,7 @@ async function onSettingWindowCreated(view) {
     }
     async function importCSS() {
         if (this.files.length == 0) return; // No file selected
-        // this.parentNode.classList.toggle("is-loading", true);
+        this.parentNode.classList.toggle("is-loading", true);
         let cnt = 0;
         const promises = [];
         for (const file of this.files) {
@@ -126,7 +118,7 @@ async function onSettingWindowCreated(view) {
             }));
         }
         await Promise.all(promises);
-        // this.parentNode.classList.toggle("is-loading", false);
+        this.parentNode.classList.toggle("is-loading", false);
         console.log("[Transitio] Imported", cnt, "files");
         if (cnt > 0) {
             alert(`成功导入 ${cnt} 个 CSS 文件`);
