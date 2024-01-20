@@ -84,7 +84,7 @@ async function onSettingWindowCreated(view) {
         return view.querySelector(`#transitio-${prop}`);
     }
     function devMode() {
-        const enabled = this.classList.toggle("is-active");
+        const enabled = this.toggleAttribute("is-active");
         transitio.devMode(enabled);
     }
     function openURI(type, uri) {
