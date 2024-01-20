@@ -13,7 +13,6 @@ const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
 
 // 初始化插件
-// async function initialize(plugin) {
 // 创建 styles 目录 (如果不存在)
 if (!fs.existsSync(stylePath)) {
     log(`${stylePath} does not exist, creating...`);
@@ -53,7 +52,6 @@ ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
     log("queryIsDebug", isDebug);
     return isDebug;
 });
-// }
 
 // 防抖
 function debounce(fn, time) {
@@ -183,14 +181,3 @@ function watchStyleChange() {
         debounce(onStyleChange, updateInterval)
     );
 }
-
-
-// module.exports.onBrowserWindowCreated = window => {
-//     window.on("ready-to-show", () => {
-//         const url = window.webContents.getURL();
-//         if (url.includes("app://./renderer/index.html")) {
-//             // initialize(window.plugin);
-//             log(url);
-//         }
-//     });
-// }

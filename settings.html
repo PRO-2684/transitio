@@ -31,12 +31,7 @@
         opacity: 0.6;
     }
     /* 关于 */
-    .transitio .about .wrap {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px 0px;
-    }
-    .transitio .about .wrap > div {
+    .transitio .about setting-item {
         flex: 1;
         margin: 0px 10px;
         border-radius: 8px;
@@ -56,73 +51,73 @@
         color: var(--brand_standard);
     }
 </style>
-<section class="dev">
+<setting-section data-title="调试" class="dev">
     <h1 id="transitio-debug">调试</h1>
-    <div class="wrap">
-        <div class="vertical-list-item">
-            <div>
-                <h2>开发者模式</h2>
-                <span class="secondary-text">监听文件目录，本地修改 CSS 后自动重载所有样式（可能造成性能损失）</span>
-            </div>
-            <div class="q-switch" id="transitio-dev">
-                <span class="q-switch__handle"></span>
-            </div>
-        </div>
-        <hr class="horizontal-dividing-line">
-        <div class="vertical-list-item">
-            <div>
-                <h2>打开样式目录</h2>
-                <span class="secondary-text">点击以打开存放样式的目录</span>
-            </div>
-            <div class="ops-btns">
-                <button class="q-button q-button--small q-button--secondary" id="transitio-open-folder">打开目录</button>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="snippets">
+    <setting-panel>
+        <setting-list data-direction="column">
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>开发者模式</setting-text>
+                    <setting-text data-type="secondary">监听文件目录，本地修改 CSS 后自动重载所有样式（可能造成性能损失）</setting-text>
+                </div>
+                <setting-switch id="transitio-dev"></setting-switch>
+            </setting-item>
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>打开样式目录</setting-text>
+                    <setting-text data-type="secondary">点击以打开存放样式的目录</setting-text>
+                </div>
+                <div class="ops-btns">
+                    <button class="q-button q-button--small q-button--secondary" id="transitio-open-folder">打开目录</button>
+                </div>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="CSS 片段列表" class="snippets">
     <h1 id="transitio-reload" title="双击以立即重载样式">CSS 片段列表</h1>
-    <div class="wrap">
-        <div class="vertical-list-item">
-            <div>
-                <h2>导入 CSS...</h2>
-                <span class="secondary-text">导入自定义的 CSS 片段，或查看<span class="transitio-link"
-                    style="font-style: italic;"
-                    data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS 片段列表</span></span>
-            </div>
-            <input id="transitio-import" type="file" accept="text/css" multiple />
-        </div>
-    </div>
-</section>
-<section class="about">
-    <h1>关于</h1>
-    <div class="wrap">
-        <div id="transitio-about-version">
-            <div>
-                <h2>版本</h2>
-                <p class="secondary-text transitio-link" id="transitio-version" data-transitio-url="https://github.com/PRO-2684/transitio">NaN</p>
-            </div>
-        </div>
-        <hr class="vertical-dividing-line">
-        <div id="transitio-about-author">
-            <div>
-                <h2>作者</h2>
-                <p class="secondary-text transitio-link" data-transitio-url="https://github.com/PRO-2684/">PRO-2684</p>
-            </div>
-        </div>
-        <hr class="vertical-dividing-line">
-        <div id="transitio-about-issues">
-            <div>
-                <h2>反馈</h2>
-                <p class="secondary-text transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues">GitHub Issues</p>
-            </div>
-        </div>
-        <hr class="vertical-dividing-line">
-        <div id="transitio-about-submit">
-            <div>
-                <h2>投稿</h2>
-                <p class="secondary-text transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues/4">提交您的片段</p>
-            </div>
-        </div>
-    </div>
-</section>
+    <setting-panel>
+        <setting-list data-direction="column">
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>导入 CSS...</setting-text>
+                    <setting-text data-type="secondary">导入自定义的 CSS 片段，或查看<span class="transitio-link"
+                        style="font-style: italic;"
+                        data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS 片段列表</span></setting-text>
+                </div>
+                <input id="transitio-import" type="file" accept="text/css" multiple />
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="关于" class="about">
+    <setting-panel>
+        <setting-list data-direction="row">
+            <setting-item id="transitio-about-version">
+                <div>
+                    <setting-text>版本</setting-text>
+                    <setting-text data-type="secondary" class="transitio-link" id="transitio-version" data-transitio-url="https://github.com/PRO-2684/transitio">NaN</setting-text>
+                </div>
+            </setting-item>
+            <setting-item id="transitio-about-author">
+                <div>
+                    <setting-text>作者</setting-text>
+                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/">PRO-2684</setting-text>
+                </div>
+            </setting-item>
+            <setting-item id="transitio-about-issues">
+                <div>
+                    <setting-text>反馈</setting-text>
+                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues">GitHub Issues</setting-text>
+                </div>
+            </setting-item>
+            <setting-item id="transitio-about-submit">
+                <div>
+                    <setting-text>投稿</setting-text>
+                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues/4">提交您的片段</setting-text>
+                </div>
+            </setting-item>
+        </setting-list>
+            
+    </setting-panel>
+</setting-section>

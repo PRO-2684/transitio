@@ -21,53 +21,54 @@ function cssHelper(name, css, enabled, comment) {
         injectCSS(name, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
     }
 }
-// async function onLoad() {
-    transitio.onUpdateStyle((event, args) => {
-        cssHelper(...args);
+
+transitio.onUpdateStyle((event, args) => {
+    cssHelper(...args);
+});
+transitio.onResetStyle(() => {
+    const styles = document.querySelectorAll(`style[id^="${styleIdPrefix}"]`);
+    styles.forEach((style) => {
+        style.remove();
     });
-    transitio.onResetStyle(() => {
-        const styles = document.querySelectorAll(`style[id^="${styleIdPrefix}"]`);
-        styles.forEach((style) => {
-            style.remove();
-        });
-    });
-    transitio.rendererReady();
-    isDebug = await transitio.queryIsDebug();
-    if (isDebug) {
-        log = console.log.bind(console, "[Transitio]");
-    }
-// }
+});
+transitio.rendererReady();
+isDebug = await transitio.queryIsDebug();
+if (isDebug) {
+    log = console.log.bind(console, "[Transitio]");
+}
+
 async function onSettingWindowCreated(view) {
-    const r = await fetch(`local://${pluginPath}/settings.html`);
+    log(pluginPath);
+    const r = await fetch(`local:///${pluginPath}/settings.html`);
     view.innerHTML = await r.text();
-    const container = view.querySelector("section.snippets > div.wrap");
+    const container = view.querySelector("setting-section.snippets > setting-panel > setting-list");
     function addItem(name) { // Add a list item with name and description, returns the switch
-        const divider = document.createElement("hr");
-        divider.className = "horizontal-dividing-line";
-        divider.id = configIdPrefix + name + "-divider";
-        container.appendChild(divider);
-        const item = document.createElement("div");
-        item.className = "vertical-list-item";
+        // const divider = document.createElement("hr");
+        // divider.className = "horizontal-dividing-line";
+        // divider.id = configIdPrefix + name + "-divider";
+        // container.appendChild(divider);
+        const item = document.createElement("setting-item");
+        item.setAttribute("data-direction", "row");
         item.id = configIdPrefix + name + "-item";
         container.appendChild(item);
         const left = document.createElement("div");
         item.appendChild(left);
-        const h2 = document.createElement("h2");
-        h2.textContent = name;
-        left.appendChild(h2);
-        const span = document.createElement("span");
-        span.className = "secondary-text";
-        left.appendChild(span);
-        const switch_ = document.createElement("div");
-        switch_.className = "q-switch";
+        const itemName = document.createElement("setting-text");
+        itemName.textContent = name;
+        left.appendChild(itemName);
+        const itemDesc = document.createElement("setting-text");
+        itemDesc.setAttribute("data-type", "secondary");
+        // itemDesc.textContent = "此文件没有描述";
+        left.appendChild(itemDesc);
+        const switch_ = document.createElement("setting-switch");
         switch_.id = configIdPrefix + name;
         item.appendChild(switch_);
-        const span2 = document.createElement("span");
-        span2.className = "q-switch__handle";
-        switch_.appendChild(span2);
+        // const span2 = document.createElement("span");
+        // span2.className = "q-switch__handle";
+        // switch_.appendChild(span2);
         switch_.addEventListener("click", () => {
-            switch_.parentNode.classList.toggle("is-loading", true);
-            transitio.configChange(name, switch_.classList.toggle("is-active")); // Update the UI immediately, so it would be more smooth
+            // switch_.parentNode.classList.toggle("is-loading", true);
+            transitio.configChange(name, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
         });
         return switch_;
     }
@@ -75,9 +76,9 @@ async function onSettingWindowCreated(view) {
         const [name, css, enabled, comment] = args;
         const switch_ = view.querySelector("#" + configIdPrefix + name)
             || addItem(name);
-        switch_.classList.toggle("is-active", enabled);
-        switch_.parentNode.classList.toggle("is-loading", false);
-        const span = view.querySelector(`div#${configIdPrefix}${name}-item > div > span.secondary-text`);
+        switch_.toggleAttribute("is-active", enabled);
+        // switch_.parentNode.classList.toggle("is-loading", false);
+        const span = view.querySelector(`setting-item#${configIdPrefix}${name}-item > div > setting-text[data-type="secondary"]`);
         span.textContent = comment || "此文件没有描述";
         log("onUpdateStyle", name, enabled);
     });
@@ -104,7 +105,7 @@ async function onSettingWindowCreated(view) {
     }
     async function importCSS() {
         if (this.files.length == 0) return; // No file selected
-        this.parentNode.classList.toggle("is-loading", true);
+        // this.parentNode.classList.toggle("is-loading", true);
         let cnt = 0;
         const promises = [];
         for (const file of this.files) {
@@ -125,7 +126,7 @@ async function onSettingWindowCreated(view) {
             }));
         }
         await Promise.all(promises);
-        this.parentNode.classList.toggle("is-loading", false);
+        // this.parentNode.classList.toggle("is-loading", false);
         console.log("[Transitio] Imported", cnt, "files");
         if (cnt > 0) {
             alert(`成功导入 ${cnt} 个 CSS 文件`);
@@ -138,7 +139,7 @@ async function onSettingWindowCreated(view) {
     dev.addEventListener("click", devMode);
     transitio.queryDevMode().then(enabled => {
         log("queryDevMode", enabled);
-        dev.classList.toggle("is-active", enabled);
+        dev.toggleAttribute("is-active", enabled);
     });
     if (isDebug) {
         const debug = $("debug");
@@ -160,7 +161,7 @@ async function onSettingWindowCreated(view) {
     });
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`about-${id}`).style.backgroundImage = `url("local://${pluginPath}/icons/${id}.svg")`;
+        $(`about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
     });
 }
 
