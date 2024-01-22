@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { BrowserWindow, ipcMain, shell, webContents } = require("electron");
+const { BrowserWindow, ipcMain, webContents } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -33,10 +33,10 @@ ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
     log("open", type, uri);
     switch (type) {
         case "folder": // Relative to dataPath
-            shell.openPath(path.join(dataPath, uri));
+            LiteLoader.api.openPath(path.join(dataPath, uri));
             break;
         case "link":
-            shell.openExternal(uri);
+            LiteLoader.api.openExternal(uri);
             break;
         default:
             break;
