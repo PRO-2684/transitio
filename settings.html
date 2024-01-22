@@ -7,9 +7,12 @@
         border-radius: 0.5em;
         padding: 0.5em;
     }
-    .transitio input[type="file"]:focus, .transitio input[type="file"]:hover {
+
+    .transitio input[type="file"]:focus,
+    .transitio input[type="file"]:hover {
         border: dashed var(--text_secondary) !important;
     }
+
     .transitio input[type="file"]::file-selector-button {
         background-color: transparent;
         border-radius: 8px;
@@ -19,17 +22,23 @@
         height: 2em;
         transition: background-color 0.2s ease-in-out;
     }
+
     .transitio input[type="file"]::file-selector-button:hover {
         background-color: var(--overlay_hover);
     }
+
     /* 各个 CSS 片段 */
     .transitio setting-item.is-loading {
         cursor: progress;
     }
-    .transitio setting-item.is-loading > setting-switch, .transitio setting-item.is-loading > input, .transitio setting-item.is-loading > setting-button {
+
+    .transitio setting-item.is-loading>setting-switch,
+    .transitio setting-item.is-loading>input,
+    .transitio setting-item.is-loading>setting-button {
         pointer-events: none;
         opacity: 0.6;
     }
+
     /* 关于 */
     .transitio .about setting-item {
         flex: 1;
@@ -40,6 +49,7 @@
         background-size: 1.8em;
         background-position: left;
     }
+
     /* 链接 */
     .transitio .transitio-link {
         cursor: pointer;
@@ -47,6 +57,7 @@
         margin: auto;
         transition: color 0.2s ease-in-out;
     }
+
     .transitio .transitio-link:hover {
         color: var(--brand_standard);
     }
@@ -78,8 +89,9 @@
                 <div>
                     <setting-text id="transitio-reload" title="双击以立即重载样式">导入 CSS...</setting-text>
                     <setting-text data-type="secondary">导入自定义的 CSS 片段，或查看<span class="transitio-link"
-                        style="font-style: italic;"
-                        data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS 片段列表</span></setting-text>
+                            style="font-style: italic;"
+                            data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS
+                            片段列表</span></setting-text>
                 </div>
                 <input id="transitio-import" type="file" accept="text/css" multiple />
             </setting-item>
@@ -92,28 +104,38 @@
             <setting-item id="transitio-about-version">
                 <div>
                     <setting-text>版本</setting-text>
-                    <setting-text data-type="secondary" class="transitio-link" id="transitio-version" data-transitio-url="https://github.com/PRO-2684/transitio">NaN</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="transitio-link" id="transitio-version"
+                            data-transitio-url="https://github.com/PRO-2684/transitio">NaN</span>
+                    </setting-text>
                 </div>
             </setting-item>
             <setting-item id="transitio-about-author">
                 <div>
                     <setting-text>作者</setting-text>
-                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/">PRO-2684</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="transitio-link" data-transitio-url="https://github.com/PRO-2684/">PRO-2684</span>
+                    </setting-text>
                 </div>
             </setting-item>
             <setting-item id="transitio-about-issues">
                 <div>
                     <setting-text>反馈</setting-text>
-                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues">GitHub Issues</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="transitio-link"
+                            data-transitio-url="https://github.com/PRO-2684/transitio/issues">GitHub Issues</span>
+                    </setting-text>
                 </div>
             </setting-item>
             <setting-item id="transitio-about-submit">
                 <div>
                     <setting-text>投稿</setting-text>
-                    <setting-text data-type="secondary" class="transitio-link" data-transitio-url="https://github.com/PRO-2684/transitio/issues/4">提交您的片段</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="transitio-link"
+                            data-transitio-url="https://github.com/PRO-2684/transitio/issues/4">提交您的片段</span>
+                    </setting-text>
                 </div>
             </setting-item>
         </setting-list>
-            
     </setting-panel>
 </setting-section>
