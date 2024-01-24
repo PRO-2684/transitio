@@ -1,24 +1,26 @@
-const styleIdPrefix = "transitio-style-";
-const configIdPrefix = "transitio-config-";
+const styleDataAttr = "data-transitio-style";
+const configDataAttr = "data-transitio-config";
+const switchDataAttr = "data-transitio-switch";
+const $ = document.querySelector.bind(document);
 // Normalized plugin path
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/");
 let isDebug = false;
 let log = () => { }; // Dummy function
 
 // Helper function for css
-function injectCSS(name, css) {
+function injectCSS(path, css) {
     const style = document.createElement("style");
-    style.id = styleIdPrefix + name;
+    style.setAttribute(styleDataAttr, path);
     style.textContent = css;
     document.head.appendChild(style);
     return style;
 }
-function cssHelper(name, css, enabled, comment) {
-    const current = document.getElementById(styleIdPrefix + name);
+function cssHelper(path, css, enabled, comment) {
+    const current = $(`style[${styleDataAttr}="${path}"]`);
     if (current) {
         current.textContent = enabled ? css : `/* ${comment || "此文件没有描述"} */`;
     } else {
-        injectCSS(name, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
+        injectCSS(path, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
     }
 }
 
@@ -26,7 +28,7 @@ transitio.onUpdateStyle((event, args) => {
     cssHelper(...args);
 });
 transitio.onResetStyle(() => {
-    const styles = document.querySelectorAll(`style[id^="${styleIdPrefix}"]`);
+    const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
     styles.forEach((style) => {
         style.remove();
     });
@@ -40,49 +42,54 @@ if (isDebug) {
 async function onSettingWindowCreated(view) {
     log(pluginPath);
     const r = await fetch(`local:///${pluginPath}/settings.html`);
+    const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
-    const container = view.querySelector("setting-section.snippets > setting-panel > setting-list");
-    function addItem(name) { // Add a list item with name and description, returns the switch
+    const container = $("setting-section.snippets > setting-panel > setting-list");
+    function stem(path) { // Get the stem of a path
+        // Assuming the path is separated by slash
+        const parts = path.split("/");
+        const last = parts.pop();
+        const name = last.split(".").slice(0, -1).join(".");
+        return name;
+    }
+    function addItem(path) { // Add a list item with name and description, returns the switch
         const item = document.createElement("setting-item");
         item.setAttribute("data-direction", "row");
-        item.id = configIdPrefix + name + "-item";
+        item.setAttribute(configDataAttr, path);
         container.appendChild(item);
         const left = document.createElement("div");
         item.appendChild(left);
         const itemName = document.createElement("setting-text");
-        itemName.textContent = name;
+        itemName.textContent = stem(path);
+        itemName.title = path;
         left.appendChild(itemName);
         const itemDesc = document.createElement("setting-text");
         itemDesc.setAttribute("data-type", "secondary");
         left.appendChild(itemDesc);
         const switch_ = document.createElement("setting-switch");
-        switch_.id = configIdPrefix + name;
+        switch_.setAttribute(switchDataAttr, path);
         item.appendChild(switch_);
         switch_.addEventListener("click", () => {
             switch_.parentNode.classList.toggle("is-loading", true);
-            transitio.configChange(name, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
+            transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
         });
         return switch_;
     }
     transitio.onUpdateStyle((event, args) => {
-        const [name, css, enabled, comment] = args;
-        const switch_ = view.querySelector("#" + configIdPrefix + name)
-            || addItem(name);
+        const [path, css, enabled, comment] = args;
+        const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path);
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
-        const span = view.querySelector(`setting-item#${configIdPrefix}${name}-item > div > setting-text[data-type="secondary"]`);
+        const span = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text[data-type="secondary"]`);
         span.textContent = comment || "此文件没有描述";
-        log("onUpdateStyle", name, enabled);
+        log("onUpdateStyle", path, enabled);
     });
     transitio.onResetStyle(() => {
-        const items = view.querySelectorAll(`[id^="${configIdPrefix}"]`);
+        const items = view.querySelectorAll(`[${configDataAttr}]`);
         items.forEach((item) => {
             item.remove();
         });
     });
-    function $(prop) { // Helper function for transitio selectors
-        return view.querySelector(`#transitio-${prop}`);
-    }
     function devMode() {
         const enabled = this.toggleAttribute("is-active");
         transitio.devMode(enabled);
@@ -127,24 +134,24 @@ async function onSettingWindowCreated(view) {
         }
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
-    const dev = $("dev");
+    const dev = $("#transitio-dev");
     dev.addEventListener("click", devMode);
     transitio.queryDevMode().then(enabled => {
         log("queryDevMode", enabled);
         dev.toggleAttribute("is-active", enabled);
     });
     if (isDebug) {
-        const debug = $("debug");
+        const debug = $("#transitio-debug");
         debug.style.color = "red";
         debug.title = "Debug 模式已激活";
     }
-    $("reload").addEventListener("dblclick", transitio.reloadStyle);
-    $("open-folder").addEventListener("click", () => {
+    $("#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
+    $("#transitio-open-folder").addEventListener("click", () => {
         openURI("folder", "styles"); // Relative to the data directory
     });
-    $("import").addEventListener("change", importCSS);
+    $("#transitio-import").addEventListener("change", importCSS);
     // About - Version
-    $("version").textContent = LiteLoader.plugins.transitio.manifest.version;
+    $("#transitio-version").textContent = LiteLoader.plugins.transitio.manifest.version;
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {
             link.setAttribute("title", link.getAttribute("data-transitio-url"));
@@ -153,7 +160,7 @@ async function onSettingWindowCreated(view) {
     });
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+        $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
     });
 }
 

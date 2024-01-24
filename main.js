@@ -4,7 +4,7 @@ const { BrowserWindow, ipcMain, webContents } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
-const log = isDebug ? console.log.bind(console, "[Transitio]") : () => { };
+const log = isDebug ? (...args) => console.log("\x1b[36m%s\x1b[0m", "[Transitio]", ...args) : () => { };
 let devMode = false;
 let watcher = null;
 
@@ -63,6 +63,30 @@ function debounce(fn, time) {
         }, time);
     }
 }
+
+function listCSS(dir) {
+    function walk(dir, files = []) {
+        const dirFiles = fs.readdirSync(dir);
+        for (const f of dirFiles) {
+            const stat = fs.lstatSync(dir + "/" + f);
+            if (stat.isDirectory()) {
+                walk(dir + "/" + f, files);
+            } else if (f.endsWith(".css")) {
+                files.push(dir + "/" + f);
+            }
+        }
+        return files;
+    }
+    // Need relative path
+    return walk(dir).map((f) => {
+        f = f.slice(dir.length);
+        if (f.startsWith("/")) {
+            f = f.slice(1);
+        }
+        return f;
+    });
+}
+
 // 获取 CSS 文件的首行注释
 function getDesc(css) {
     const firstLine = css.split("\n")[0].trim();
@@ -73,35 +97,37 @@ function getDesc(css) {
     }
 }
 
-function getStyle(name) {
+function getStyle(relPath) {
     try {
-        return fs.readFileSync(path.join(stylePath, name + ".css"), "utf-8");
+        return fs.readFileSync(path.join(stylePath, relPath), "utf-8");
     } catch (err) {
+        log("getStyle", relPath, err);
         return "";
     }
 }
 
 // 样式更改
-function updateStyle(name, webContent) {
-    const content = getStyle(name);
+function updateStyle(relPath, webContent) {
+    const content = getStyle(relPath);
     let comment = getDesc(content) || "";
     let enabled = true;
     if (comment.endsWith("[Disabled]")) {
         comment = comment.slice(0, -10).trim();
         enabled = false;
     }
-    log("updateStyle", name, comment, enabled);
+    log("updateStyle", relPath, comment, enabled);
     if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
+        webContent.send("LiteLoader.transitio.updateStyle", [relPath, content, enabled, comment]);
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", [name, content, enabled, comment]);
+            webContent.send("LiteLoader.transitio.updateStyle", [relPath, content, enabled, comment]);
         });
     }
 }
 
 // 重置样式
-function reloadStyle(webContent) {
+async function reloadStyle(webContent) {
+    log("reloadStyle");
     if (webContent) {
         webContent.send("LiteLoader.transitio.resetStyle");
     } else {
@@ -109,10 +135,9 @@ function reloadStyle(webContent) {
             webContent.send("LiteLoader.transitio.resetStyle");
         });
     }
-    const files = fs.readdirSync(stylePath, { withFileTypes: true }).filter((file) => file.name.endsWith(".css") && !file.isDirectory());
-    files.forEach((file) => {
-        updateStyle(file.name.slice(0, -4), webContent);
-    });
+    for (const relPath of listCSS(stylePath)) {
+        updateStyle(relPath, webContent);
+    }
 }
 
 // 导入样式
@@ -121,7 +146,7 @@ function importStyle(fname, content) {
     const filePath = path.join(stylePath, fname);
     fs.writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
-        updateStyle(fname.slice(0, -4));
+        updateStyle(fname);
     }
 }
 
@@ -139,9 +164,9 @@ function onStyleChange(eventType, filename) {
 }
 
 // 监听配置修改
-function onConfigChange(event, name, enable) {
-    log("onConfigChange", name, enable);
-    let content = getStyle(name);
+function onConfigChange(event, relPath, enable) {
+    log("onConfigChange", relPath, enable);
+    let content = getStyle(relPath);
     let comment = getDesc(content);
     const current = (comment === null) || !comment.endsWith("[Disabled]");
     if (current === enable) return;
@@ -156,9 +181,9 @@ function onConfigChange(event, name, enable) {
         comment += " [Disabled]";
     }
     content = `/* ${comment} */\n` + content;
-    fs.writeFileSync(path.join(stylePath, name + ".css"), content, "utf-8");
+    fs.writeFileSync(path.join(stylePath, relPath), content, "utf-8");
     if (!devMode) {
-        updateStyle(name);
+        updateStyle(relPath);
     }
 }
 
