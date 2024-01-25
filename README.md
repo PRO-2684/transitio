@@ -72,7 +72,7 @@ plugins (所有的插件目录)
 > [!NOTE]
 > 以下样式均为由我/其它用户编写的 CSS 片段，不内置在插件中。
 >
-> 你可以下载后**修改其内容**来满足你的需求，随后将其**导入到插件中**来体验。
+> 你可以下载后**修改其内容**来满足你的需求，随后将其**导入到插件中**来体验。或者，若你装有 [插件商店](https://github.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store)，你可以直接在插件商店中点击安装它们（此项功能正在测试中）。
 >
 > 若你有愿意分享的样式，欢迎[提交 PR 或 Issue](https://github.com/PRO-2684/transitio/issues/4) 来将它们添加到这里。
 
@@ -93,6 +93,6 @@ plugins (所有的插件目录)
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
-| SimSun-font | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css)
+| SimSun-font | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) |
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
 | transparent | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |

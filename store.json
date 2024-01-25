@@ -1,0 +1,92 @@
+[
+    {
+        "name": "all-in-one",
+        "description": "大杂烩",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/all-in-one.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#all-in-one"
+    },
+    {
+        "name": "auto-fold-chat-input-area",
+        "description": "消息输入框默认折叠有文字输入时展开",
+        "download": "https://github.com/lamprose/transitio-css/raw/main/auto-fold-chat-input-area.css",
+        "details": "https://github.com/lamprose/transitio-css/#auto-fold-chat-input-area"
+    },
+    {
+        "name": "demo-mode",
+        "description": "[演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode) 的 CSS",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/demo-mode.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#demo-mode"
+    },
+    {
+        "name": "hide-items",
+        "description": "隐藏一些元素",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/hide-items.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#hide-items"
+    },
+    {
+        "name": "hide-self",
+        "description": "隐藏自己的头像和昵称",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/hide-self.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#hide-self"
+    },
+    {
+        "name": "highlight-at",
+        "description": "高亮艾特",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/highlight-at.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#highlight-at"
+    },
+    {
+        "name": "image-viewer",
+        "description": "媒体查看器透明度修改",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/image-viewer.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#image-viewer"
+    },
+    {
+        "name": "message-img-transparent",
+        "description": "包含图片消息背景透明",
+        "download": "https://github.com/lamprose/transitio-css/raw/main/message-img-transparent.css",
+        "details": "https://github.com/lamprose/transitio-css/#message-img-transparent"
+    },
+    {
+        "name": "input-placeholder",
+        "description": "添加输入框提示（占位符）",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/input-placeholder.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#input-placeholder"
+    },
+    {
+        "name": "no-update-dialog",
+        "description": "隐藏更新提示框",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/no-update-dialog.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog"
+    },
+    {
+        "name": "no-update-dot",
+        "description": "隐藏更新小红点",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/no-update-dot.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#no-update-dot"
+    },
+    {
+        "name": "qqface-fine-tune",
+        "description": "QQ 表情微调",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/qqface-fine-tune.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune"
+    },
+    {
+        "name": "SimSun-font",
+        "description": "使用宋体字体",
+        "download": "https://github.com/shiquda/Transitio-user-css/raw/main/SimSun-font.css.css",
+        "details": "https://github.com/shiquda/Transitio-user-css/#SimSun-font.css"
+    },
+    {
+        "name": "transition",
+        "description": "添加过渡动画",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/transition.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#transition"
+    },
+    {
+        "name": "transparent",
+        "description": "透明化部分元素",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/transparent.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#transparent"
+    }
+]

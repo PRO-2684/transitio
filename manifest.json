@@ -20,6 +20,11 @@
             "file": "transitio-release.zip"
         }
     },
+    "store": {
+        "repo": "Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store",
+        "branch": "master",
+        "save_folder": "./styles/"
+    },
     "platform": [
         "win32",
         "linux",
