@@ -39,7 +39,6 @@
 plugins (所有的插件目录)
 └── transitio (此插件目录)
     ├── manifest.json (插件元数据)
-    ├── store.json (插件商店元数据, v1.1.1 起)
     ├── main.js (插件脚本)
     ├── preload.js (插件脚本)
     ├── renderer.js (插件脚本)

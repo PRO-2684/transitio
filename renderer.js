@@ -152,16 +152,31 @@ async function onSettingWindowCreated(view) {
     $("#transitio-import").addEventListener("change", importCSS);
     // About - Version
     $("#transitio-version").textContent = LiteLoader.plugins.transitio.manifest.version;
+    // About - Backgroud image
+    ["version", "author", "issues", "submit"].forEach(id => {
+        $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+    });
+    // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {
             link.setAttribute("title", link.getAttribute("data-transitio-url"));
         }
         link.addEventListener("click", openURL);
     });
-    // About - Backgroud image
-    ["version", "author", "issues", "submit"].forEach(id => {
-        $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
-    });
+    if (pluginStore?.createBrowserWindow) {
+        log("PluginStore detected");
+        const link = $("#transitio-snippets");
+        link.removeEventListener("click", openURL);
+        link.textContent = "侧载插件商店";
+        link.title = "打开 Transitio 侧载插件商店，或者 Ctrl + Click 打开默认的用户 CSS 片段列表";
+        link.addEventListener("click", (e) => {
+            if (e.ctrlKey) {
+                openURL.call(link);
+            } else {
+                pluginStore.createBrowserWindow("transitio");
+            }
+        });
+    }
 }
 
 export {
