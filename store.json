@@ -14,6 +14,13 @@
         "details": "https://github.com/lamprose/transitio-css/#auto-fold-chat-input-area"
     },
     {
+        "name": "avatar-float",
+        "save_name": "avatar-float.css",
+        "description": "头像浮动",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/avatar-float.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#avatar-float"
+    },
+    {
         "name": "demo-mode",
         "save_name": "demo-mode.css",
         "description": "[演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode) 的 CSS",
