@@ -21,6 +21,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#avatar-float"
     },
     {
+        "name": "compact-at-list",
+        "save_name": "compact-at-list.css",
+        "description": "艾特建议面板更为紧凑",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/compact-at-list.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#compact-at-list"
+    },
+    {
         "name": "demo-mode",
         "save_name": "demo-mode.css",
         "description": "[演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode) 的 CSS",
