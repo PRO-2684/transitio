@@ -77,6 +77,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#input-placeholder"
     },
     {
+        "name": "link-color",
+        "save_name": "link-color.css",
+        "description": "添加输入框提示（占位符）",
+        "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/link-color.css",
+        "details": "https://github.com/PRO-2684/Transitio-user-css/#link-color"
+    },
+    {
         "name": "no-update-dialog",
         "save_name": "no-update-dialog.css",
         "description": "隐藏更新提示框",

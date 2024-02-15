@@ -92,6 +92,7 @@ plugins (所有的插件目录)
 | image-viewer | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
 | message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio-css#message-img-transparent) |
 | input-placeholder | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) |
+| link-color | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#link-color) |
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
