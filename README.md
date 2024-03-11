@@ -99,3 +99,4 @@ plugins (所有的插件目录)
 | SimSun-font | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) |
 | transition | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
 | transparent | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
+| wechat-theme | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 | [GitHub](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) |

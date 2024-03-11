@@ -124,5 +124,12 @@
         "description": "透明化部分元素",
         "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/transparent.css",
         "details": "https://github.com/PRO-2684/Transitio-user-css/#transparent"
+    },
+    {
+        "name": "wechat-theme",
+        "save_name": "wechat-theme.css",
+        "description": "透明化部分元素",
+        "download": "https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/raw/v4/wechat-theme.css",
+        "details": "https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/"
     }
 ]
