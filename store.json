@@ -63,6 +63,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#image-viewer"
     },
     {
+        "name": "ImageSize",
+        "save_name": "ImageSize.css",
+        "description": "限制图片和表情显示大小",
+        "download": "https://github.com/zhuoxin-lzk/transitio-ImageSize/blob/main/ImageSize.css",
+        "details": "https://github.com/zhuoxin-lzk/transitio-ImageSize"
+    },
+    {
         "name": "message-img-transparent",
         "save_name": "message-img-transparent.css",
         "description": "包含图片消息背景透明",
