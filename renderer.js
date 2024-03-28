@@ -157,7 +157,40 @@ async function onSettingWindowCreated(view) {
         $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
     });
     // Logo
-    $(".logo").src = `local:///${pluginPath}/icons/icon.svg`;
+    const logo = $(".logo");
+    logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    // Easter egg
+    const title = document.querySelector(".setting-title");
+    function lumos() {
+        document.body.classList.remove("q-theme-tokens-dark");
+        document.body.classList.add("q-theme-tokens-light");
+        document.body.setAttribute("q-theme", "light");
+        title.classList.add("lumos");
+        setTimeout(() => {
+            title.classList.remove("lumos");
+        }, 2000);
+    }
+    function nox() {
+        document.body.classList.remove("q-theme-tokens-light");
+        document.body.classList.add("q-theme-tokens-dark");
+        document.body.setAttribute("q-theme", "dark");
+        title.classList.add("nox");
+        setTimeout(() => {
+            title.classList.remove("nox");
+        }, 2000);
+    }
+    function currentTheme() {
+        return document.body.getAttribute("q-theme");
+    }
+    logo.addEventListener("animationend", () => {
+        document.startViewTransition(() => {
+            if (currentTheme() == "light") {
+                nox();
+            } else {
+                lumos();
+            }
+        });
+    });
     // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {
