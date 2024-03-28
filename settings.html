@@ -6,37 +6,39 @@
         border-style: dashed;
         border-radius: 0.5em;
         padding: 0.5em;
+
+        &:focus,
+        &:hover {
+            border: dashed var(--text_secondary) !important;
+        }
+
+        &::file-selector-button {
+            background-color: transparent;
+            border-radius: 8px;
+            color: var(--text_primary);
+            border: 1px solid;
+            border-color: var(--fill_standard_primary);
+            height: 2em;
+            transition: background-color 0.2s ease-in-out;
+
+        }
+
+        &::file-selector-button:hover {
+            background-color: var(--overlay_hover);
+        }
     }
 
-    .transitio input[type="file"]:focus,
-    .transitio input[type="file"]:hover {
-        border: dashed var(--text_secondary) !important;
-    }
-
-    .transitio input[type="file"]::file-selector-button {
-        background-color: transparent;
-        border-radius: 8px;
-        color: var(--text_primary);
-        border: 1px solid;
-        border-color: var(--fill_standard_primary);
-        height: 2em;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-    .transitio input[type="file"]::file-selector-button:hover {
-        background-color: var(--overlay_hover);
-    }
 
     /* 各个 CSS 片段 */
     .transitio setting-item.is-loading {
         cursor: progress;
-    }
 
-    .transitio setting-item.is-loading>setting-switch,
-    .transitio setting-item.is-loading>input,
-    .transitio setting-item.is-loading>setting-button {
-        pointer-events: none;
-        opacity: 0.6;
+        > setting-switch,
+        > input,
+        > setting-button {
+            pointer-events: none;
+            opacity: 0.6;
+        }
     }
 
     /* 关于 */
@@ -48,25 +50,49 @@
         background-repeat: no-repeat;
         background-size: 3em;
         background-position: center;
+
+        &:hover {
+            background-size: 2em;
+            background-position: left;
+        }
     }
-    
-    .transitio .about setting-item:hover {
-        background-size: 2em;
-        background-position: left;
-    }
-    
+
     /* 链接 */
     .transitio .transitio-link {
         cursor: pointer;
         width: fit-content;
         margin: auto;
         transition: color 0.2s ease-in-out;
+
+        &:hover {
+            color: var(--brand_standard);
+        }
     }
 
-    .transitio .transitio-link:hover {
-        color: var(--brand_standard);
+    /* Logo */
+    .transitio .logo {
+        position: fixed;
+        right: 20px;
+        top: 40px;
+        width: 4em;
+        height: 4em;
+
+        &:hover {
+            animation: magic 4s;
+        }
+    }
+
+    /* 动画 - Adapted from https://codepen.io/averyhw/pen/xyxKjO/ */
+    @keyframes magic {
+        0% { transform: rotate(0deg) translateX(0px) rotate(0deg) scale(1); transform-origin: 50% 50%; }
+        15% { transform: rotate(0deg) translateX(20px) rotate(0deg) scale(1); transform-origin: 50% 50%; }
+        70% { transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(1); transform-origin: 50% 50%; }
+        77% { transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(0.9); transform-origin: 50% 50%; }
+        80% { transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(1); transform-origin: 50% 50%; }
+        100% { transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(1); transform-origin: 50% 50%; }
     }
 </style>
+<img class="logo" src=""></img>
 <setting-section data-title="调试" class="dev">
     <setting-panel>
         <setting-list data-direction="column">

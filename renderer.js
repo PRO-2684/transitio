@@ -156,6 +156,8 @@ async function onSettingWindowCreated(view) {
     ["version", "author", "issues", "submit"].forEach(id => {
         $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
     });
+    // Logo
+    $(".logo").src = `local:///${pluginPath}/icons/icon.svg`;
     // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {
