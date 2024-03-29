@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { BrowserWindow, ipcMain, webContents } = require("electron");
+const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -74,6 +74,10 @@ function debounce(fn, time) {
     }
 }
 
+function normalize(path) {
+    return path.replace(":\\", "://").replaceAll("\\", "/");
+}
+
 function listCSS(dir) {
     function walk(dir, files = []) {
         const dirFiles = fs.readdirSync(dir);
@@ -82,19 +86,18 @@ function listCSS(dir) {
             if (stat.isDirectory()) {
                 walk(dir + "/" + f, files);
             } else if (f.endsWith(".css")) {
-                files.push(dir + "/" + f);
+                files.push(normalize(dir + "/" + f));
+            } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
+                const { target } = shell.readShortcutLink(dir + "/" + f);
+                if (target.endsWith(".css")) {
+                    files.push(normalize(target));
+                }
             }
         }
         return files;
     }
-    // Need relative path
-    return walk(dir).map((f) => {
-        f = f.slice(dir.length);
-        if (f.startsWith("/")) {
-            f = f.slice(1);
-        }
-        return f;
-    });
+    // Absolute path
+    return walk(dir);
 }
 
 // 获取 CSS 文件的首行注释
@@ -107,18 +110,18 @@ function getDesc(css) {
     }
 }
 
-function getStyle(relPath) {
+function getStyle(absPath) {
     try {
-        return fs.readFileSync(path.join(stylePath, relPath), "utf-8");
+        return fs.readFileSync(absPath, "utf-8");
     } catch (err) {
-        log("getStyle", relPath, err);
+        log("getStyle", absPath, err);
         return "";
     }
 }
 
 // 样式更改
-function updateStyle(relPath, webContent) {
-    const content = getStyle(relPath);
+function updateStyle(absPath, webContent) {
+    const content = getStyle(absPath);
     if (!content) return;
     let comment = getDesc(content) || "";
     let enabled = true;
@@ -126,12 +129,12 @@ function updateStyle(relPath, webContent) {
         comment = comment.slice(0, -10).trim();
         enabled = false;
     }
-    log("updateStyle", relPath, comment, enabled);
+    log("updateStyle", absPath, comment, enabled);
     if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", [relPath, content, enabled, comment]);
+        webContent.send("LiteLoader.transitio.updateStyle", [absPath, content, enabled, comment]);
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", [relPath, content, enabled, comment]);
+            webContent.send("LiteLoader.transitio.updateStyle", [absPath, content, enabled, comment]);
         });
     }
 }
@@ -146,8 +149,8 @@ async function reloadStyle(webContent) {
             webContent.send("LiteLoader.transitio.resetStyle");
         });
     }
-    for (const relPath of listCSS(stylePath)) {
-        updateStyle(relPath, webContent);
+    for (const absPath of listCSS(stylePath)) {
+        updateStyle(absPath, webContent);
     }
 }
 
@@ -175,9 +178,9 @@ function onStyleChange(eventType, filename) {
 }
 
 // 监听配置修改
-function onConfigChange(event, relPath, enable) {
-    log("onConfigChange", relPath, enable);
-    let content = getStyle(relPath);
+function onConfigChange(event, absPath, enable) {
+    log("onConfigChange", absPath, enable);
+    let content = getStyle(absPath);
     let comment = getDesc(content);
     const current = (comment === null) || !comment.endsWith("[Disabled]");
     if (current === enable) return;
@@ -192,9 +195,9 @@ function onConfigChange(event, relPath, enable) {
         comment += " [Disabled]";
     }
     content = `/* ${comment} */\n` + content;
-    fs.writeFileSync(path.join(stylePath, relPath), content, "utf-8");
+    fs.writeFileSync(absPath, content, "utf-8");
     if (!devMode) {
-        updateStyle(relPath);
+        updateStyle(absPath);
     }
 }
 
