@@ -110,6 +110,7 @@ function getDesc(css) {
     }
 }
 
+// 获取 CSS 文件内容
 function getStyle(absPath) {
     try {
         return fs.readFileSync(absPath, "utf-8");
@@ -215,6 +216,7 @@ function onDevMode(event, enable) {
     }
 }
 
+// 监听目录更改
 function watchStyleChange() {
     return fs.watch(stylePath, "utf-8",
         debounce(onStyleChange, updateInterval)
