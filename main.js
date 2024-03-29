@@ -8,11 +8,9 @@ const log = isDebug ? (...args) => console.log("\x1b[36m%s\x1b[0m", "[Transitio]
 let devMode = false;
 let watcher = null;
 
-// 加载插件时触发
 const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
 
-// 初始化插件
 // 创建 styles 目录 (如果不存在)
 if (!fs.existsSync(stylePath)) {
     log(`${stylePath} does not exist, creating...`);
@@ -32,11 +30,14 @@ ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
 ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
     log("open", type, uri);
     switch (type) {
-        case "folder": // Relative to dataPath
-            LiteLoader.api.openPath(path.join(dataPath, uri));
-            break;
         case "link":
-            LiteLoader.api.openExternal(uri);
+            shell.openExternal(uri);
+            break;
+        case "path":
+            shell.openPath(path.normalize(uri));
+            break;
+        case "show":
+            shell.showItemInFolder(path.normalize(uri));
             break;
         default:
             break;
@@ -74,6 +75,7 @@ function debounce(fn, time) {
     }
 }
 
+// 标准化路径 (Unix style)
 function normalize(path) {
     return path.replace(":\\", "://").replaceAll("\\", "/");
 }
@@ -96,7 +98,6 @@ function listCSS(dir) {
         }
         return files;
     }
-    // Absolute path
     return walk(dir);
 }
 
