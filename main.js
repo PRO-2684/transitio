@@ -4,6 +4,7 @@ const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
+const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
 const log = isDebug ? (...args) => console.log("\x1b[36m%s\x1b[0m", "[Transitio]", ...args) : () => { };
 let devMode = false;
 let watcher = null;
@@ -86,7 +87,9 @@ function listCSS(dir) {
         for (const f of dirFiles) {
             const stat = fs.lstatSync(dir + "/" + f);
             if (stat.isDirectory()) {
-                walk(dir + "/" + f, files);
+                if (!ignoredFolders.has(f)) {
+                    walk(dir + "/" + f, files);
+                }
             } else if (f.endsWith(".css")) {
                 files.push(normalize(dir + "/" + f));
             } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
