@@ -5,7 +5,7 @@ const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
-const log = isDebug ? (...args) => console.log("\x1b[36m%s\x1b[0m", "[Transitio]", ...args) : () => { };
+const log = isDebug ? console.log.bind(console, "\x1b[36m%s\x1b[0m", "[Transitio]") : () => { };
 let devMode = false;
 let watcher = null;
 
