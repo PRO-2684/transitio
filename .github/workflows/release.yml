@@ -23,7 +23,7 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "Version: $version"
           previous_version=$(git show HEAD^:manifest.json | sed -n 's/.*"version": "\(.*\)",/\1/p')
-          echo "previous-version=previous_version$" >> "$GITHUB_OUTPUT"
+          echo "previous-version=$previous_version" >> "$GITHUB_OUTPUT"
           echo "Previous version: $previous_version"
 
       - name: "Zip release files" # Only if the version has been updated
