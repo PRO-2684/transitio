@@ -2,8 +2,8 @@ name: "tagged-release"
 
 on:
   push:
-    paths:
-      - 'manifest.json'
+    tags:
+      - "v*"
 
 jobs:
   tagged-release:
@@ -14,17 +14,7 @@ jobs:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
         with:
-          fetch-depth: 2 # Ensure we can get the previous version
-
-      - name: "Read versions from manifest"
-        id: read-versions
-        run: |
-          version=$(sed -n 's/.*"version": "\(.*\)",/\1/p' manifest.json)
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Version: $version"
-          previous_version=$(git show HEAD^:manifest.json | sed -n 's/.*"version": "\(.*\)",/\1/p')
-          echo "previous-version=$previous_version" >> "$GITHUB_OUTPUT"
-          echo "Previous version: $previous_version"
+          fetch-depth: 16 # Ensure we can generate changelogs
 
       - name: "Zip release files" # Only if the version has been updated
         if: ${{ steps.read-versions.outputs.version != steps.read-versions.outputs.previous-version }}
