@@ -87,8 +87,8 @@ plugins (所有的插件目录)
 | avatar-float | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) |
 | compact-at-list | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) |
 | demo-mode | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) |
-| hide-level | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
 | hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
+| hide-level | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
 | hide-self | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-self) |
 | highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
 | image-viewer | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
