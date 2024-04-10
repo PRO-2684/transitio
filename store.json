@@ -42,6 +42,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#hide-items"
     },
     {
+        "name": "hide-level",
+        "save_name": "hide-level.css",
+        "description": "隐藏群内等级",
+        "download": "https://github.com/SoudayoWwww/transitio-hide-level/blob/main/hide-level.css",
+        "details": "https://github.com/SoudayoWwww/transitio-hide-level#hide-level"
+    },
+    {
         "name": "hide-self",
         "save_name": "hide-self.css",
         "description": "隐藏自己的头像和昵称",
