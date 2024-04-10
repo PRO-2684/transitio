@@ -35,18 +35,18 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#demo-mode"
     },
     {
-        "name": "hide-level",
-        "save_name": "hide-level.css",
-        "description": "隐藏群内等级",
-        "download": "https://github.com/SoudayoWwww/transitio-hide-level/blob/main/hide-level.css",
-        "details": "https://github.com/SoudayoWwww/transitio-hide-level#hide-level"
-    },
-    {
         "name": "hide-items",
         "save_name": "hide-items.css",
         "description": "隐藏一些元素",
         "download": "https://github.com/PRO-2684/Transitio-user-css/raw/main/hide-items.css",
         "details": "https://github.com/PRO-2684/Transitio-user-css/#hide-items"
+    },
+    {
+        "name": "hide-level",
+        "save_name": "hide-level.css",
+        "description": "隐藏群内等级",
+        "download": "https://github.com/SoudayoWwww/transitio-hide-level/blob/main/hide-level.css",
+        "details": "https://github.com/SoudayoWwww/transitio-hide-level#hide-level"
     },
     {
         "name": "hide-self",
