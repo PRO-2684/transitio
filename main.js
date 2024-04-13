@@ -54,16 +54,6 @@ ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
     log("queryIsDebug", isDebug);
     return isDebug;
 });
-if (LiteLoader.plugins.pluginStore) {
-    ipcMain.handle("LiteLoader.transitio.isSnippetInstall", (event, file) => {
-        return fs.existsSync(path.join(stylePath, file));
-    });
-    ipcMain.handle("LiteLoader.transitio.isSnippetRestart", (event, file) => {
-        log("isSnippetRestart", file);
-        updateStyle(file);
-        return false;
-    });
-}
 
 // 防抖
 function debounce(fn, time) {

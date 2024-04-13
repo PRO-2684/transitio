@@ -205,20 +205,6 @@ async function onSettingWindowCreated(view) {
         }
         link.addEventListener("click", openURL);
     });
-    if (pluginStore?.createBrowserWindow) {
-        log("PluginStore detected");
-        const link = $("#transitio-snippets");
-        link.removeEventListener("click", openURL);
-        link.textContent = "侧载插件商店";
-        link.title = "打开 Transitio 侧载插件商店，或者 Ctrl + Click 打开默认的用户 CSS 片段列表";
-        link.addEventListener("click", (e) => {
-            if (e.ctrlKey) {
-                openURL.call(link);
-            } else {
-                pluginStore.createBrowserWindow("transitio");
-            }
-        });
-    }
 }
 
 export {
