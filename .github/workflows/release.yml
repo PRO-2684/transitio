@@ -17,14 +17,12 @@ jobs:
           fetch-depth: 16 # Ensure we can generate changelogs
 
       - name: "Zip release files" # Only if the version has been updated
-        if: ${{ steps.read-versions.outputs.version != steps.read-versions.outputs.previous-version }}
         run: |
           echo "Creating a release zip file..."
           zip -r transitio-release.zip icons/ main.js manifest.json preload.js renderer.js settings.html
           echo "Done!"
 
       - name: "Create Release"
-        if: ${{ steps.read-versions.outputs.version != steps.read-versions.outputs.previous-version }}
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
