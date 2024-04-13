@@ -71,27 +71,34 @@ function normalize(path) {
     return path.replace(":\\", "://").replaceAll("\\", "/");
 }
 
+// 列出 CSS 文件，或指向 CSS 文件的快捷方式
 function listCSS(dir) {
-    function walk(dir, files = []) {
+    const files = [];
+    function walk(dir) {
         const dirFiles = fs.readdirSync(dir);
         for (const f of dirFiles) {
             const stat = fs.lstatSync(dir + "/" + f);
             if (stat.isDirectory()) {
                 if (!ignoredFolders.has(f)) {
-                    walk(dir + "/" + f, files);
+                    walk(dir + "/" + f);
                 }
             } else if (f.endsWith(".css")) {
                 files.push(normalize(dir + "/" + f));
             } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-                const { target } = shell.readShortcutLink(dir + "/" + f);
-                if (target.endsWith(".css")) {
-                    files.push(normalize(target));
+                const linkPath = dir + "/" + f;
+                try {
+                    const { target } = shell.readShortcutLink(linkPath);
+                    if (target.endsWith(".css")) {
+                        files.push(normalize(linkPath));
+                    }
+                } catch (e) {
+                    log("Failed to read shortcut", linkPath);
                 }
             }
         }
-        return files;
     }
-    return walk(dir);
+    walk(dir);
+    return files;
 }
 
 // 获取 CSS 文件的首行注释
@@ -106,6 +113,10 @@ function getDesc(css) {
 
 // 获取 CSS 文件内容
 function getStyle(absPath) {
+    if (absPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
+        const { target } = shell.readShortcutLink(absPath);
+        absPath = target;
+    }
     try {
         return fs.readFileSync(absPath, "utf-8");
     } catch (err) {
@@ -155,7 +166,7 @@ function importStyle(fname, content) {
     const filePath = path.join(stylePath, fname);
     fs.writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
-        updateStyle(fname);
+        updateStyle(filePath);
     }
 }
 
@@ -175,6 +186,11 @@ function onStyleChange(eventType, filename) {
 // 监听配置修改
 function onConfigChange(event, absPath, enable) {
     log("onConfigChange", absPath, enable);
+    let linkPath = absPath;
+    if (absPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
+        const { target } = shell.readShortcutLink(absPath);
+        absPath = target;
+    }
     let content = getStyle(absPath);
     let comment = getDesc(content);
     const current = (comment === null) || !comment.endsWith("[Disabled]");
@@ -192,7 +208,7 @@ function onConfigChange(event, absPath, enable) {
     content = `/* ${comment} */\n` + content;
     fs.writeFileSync(absPath, content, "utf-8");
     if (!devMode) {
-        updateStyle(absPath);
+        updateStyle(linkPath);
     }
 }
 
