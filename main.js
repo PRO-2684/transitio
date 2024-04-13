@@ -127,6 +127,7 @@ function getStyle(absPath) {
 
 // 样式更改
 function updateStyle(absPath, webContent) {
+    absPath = normalize(absPath);
     const content = getStyle(absPath);
     if (!content) return;
     let comment = getDesc(content) || "";
