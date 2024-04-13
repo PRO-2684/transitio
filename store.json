@@ -35,6 +35,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#demo-mode"
     },
     {
+        "name": "font-color",
+        "save_name": "font-color.css",
+        "description": "自定义 QQNT 一些文字的颜色",
+        "download": "https://github.com/nogodnodevil/Transitio--font-color/raw/main/font-color.css",
+        "details": "https://github.com/nogodnodevil/Transitio--font-color"
+    },
+    {
         "name": "hide-items",
         "save_name": "hide-items.css",
         "description": "隐藏一些元素",

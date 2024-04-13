@@ -63,6 +63,14 @@ plugins (所有的插件目录)
     - 鼠标悬停在样式上时，会展示 "在文件夹中显示" 按钮。
 - 更新样式：重新导入即可。
 
+## 🔗 URI Scheme
+
+- Base: `llqqnt://transitio/`
+- `reload`: 重载所有 CSS 代码片段
+- `dev`: 开发者模式
+    - `on`: 开启
+    - `off`: 关闭
+
 ## 💻 调试
 
 - 开发者模式：若您想要调试**您的 CSS 片段**，可以在插件设置界面打开*开发者模式*，此时插件会监控 `data/transitio/styles/` 文件夹，当发生更改时，会自动重载。
@@ -87,6 +95,7 @@ plugins (所有的插件目录)
 | avatar-float | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) |
 | compact-at-list | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) |
 | demo-mode | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) |
+| font-color | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 | [GitHub](https://github.com/nogodnodevil/Transitio--font-color) |
 | hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
 | hide-level | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
 | hide-self | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-self) |
