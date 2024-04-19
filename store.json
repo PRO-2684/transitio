@@ -105,6 +105,13 @@
         "details": "https://github.com/PRO-2684/Transitio-user-css/#link-color"
     },
     {
+        "name": "ng-mask",
+        "save_name": "ng-mask.css",
+        "description": "隐藏更新提示框",
+        "download": "https://github.com/KelsAstell/Transitio-ng-mask/blob/main/ng-mask.css",
+        "details": "https://github.com/KelsAstell/Transitio-ng-mask"
+    },
+    {
         "name": "no-update-dialog",
         "save_name": "no-update-dialog.css",
         "description": "隐藏更新提示框",
