@@ -95,7 +95,7 @@ plugins (所有的插件目录)
 | input-placeholder | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) |
 | message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio-css#message-img-transparent) |
 | link-color | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#link-color) |
-| ng-mask | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#ng-mask) |
+| ng-mask | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） | [GitHub](https://github.com/KelsAstell/Transitio-ng-mask) |
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
