@@ -88,6 +88,7 @@ plugins (所有的插件目录)
 | font-color | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 | [GitHub](https://github.com/nogodnodevil/Transitio--font-color) |
 | hide-items | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
 | hide-level | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
+| hide-lock | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) |
 | hide-self | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-self) |
 | highlight-at | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
 | image-viewer | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
@@ -95,6 +96,7 @@ plugins (所有的插件目录)
 | input-placeholder | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) |
 | message-img-transparent | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio-css#message-img-transparent) |
 | link-color | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#link-color) |
+| lite-tools-recall-enhancement | [Shapaper233](https://github.com/Shapaper233) | 给 lite-tools 的撤回消息加上红色增强描边 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement) |
 | ng-mask | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） | [GitHub](https://github.com/KelsAstell/Transitio-ng-mask) |
 | no-update-dialog | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
 | no-update-dot | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
