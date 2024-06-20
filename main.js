@@ -138,10 +138,10 @@ function updateStyle(absPath, webContent) {
     }
     log("updateStyle", absPath, comment, enabled);
     if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", [absPath, content, enabled, comment]);
+        webContent.send("LiteLoader.transitio.updateStyle", {path: absPath, css: content, enabled, comment});
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", [absPath, content, enabled, comment]);
+            webContent.send("LiteLoader.transitio.updateStyle", {path: absPath, css: content, enabled, comment});
         });
     }
 }

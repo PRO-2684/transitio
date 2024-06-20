@@ -25,7 +25,7 @@ function cssHelper(path, css, enabled, comment) {
 }
 
 transitio.onUpdateStyle((event, args) => {
-    cssHelper(...args);
+    cssHelper(args.path, args.css, args.enabled, args.comment);
 });
 transitio.onResetStyle(() => {
     const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
@@ -82,7 +82,7 @@ async function onSettingWindowCreated(view) {
         return switch_;
     }
     transitio.onUpdateStyle((event, args) => {
-        const [path, css, enabled, comment] = args;
+        const {path, enabled, comment} = args;
         const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path);
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
