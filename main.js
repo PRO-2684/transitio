@@ -28,6 +28,22 @@ ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
 ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
     importStyle(fname, content);
 });
+ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
+    log("removeStyle", absPath);
+    fs.unlinkSync(absPath);
+    delete stylesConfig[absPath];
+    if (!devMode) {
+        const msg = {
+            path: absPath, enabled: false, css: "/* Removed */", meta: {
+                name: " [已删除] ",
+                description: "[此样式已被删除]",
+            }
+        };
+        webContents.getAllWebContents().forEach((webContent) => {
+            webContent.send("LiteLoader.transitio.updateStyle", msg);
+        });
+    }
+});
 ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
     log("open", type, uri);
     switch (type) {
@@ -113,9 +129,26 @@ let stylesConfig = new Proxy({}, {
     },
     set(target, prop, value) {
         this.cache[prop] = value;
-        log("Calling debounced config.set");
-        debouncedSet("transitio", { "styles": this.cache });
+        log("Calling debounced config.set after set");
+        try {
+            debouncedSet("transitio", { "styles": this.cache });
+        } catch (e) {
+            log("debouncedSet error", e);
+        }
         return true;
+    },
+    deleteProperty(target, prop) {
+        if (prop in this.cache) {
+            delete this.cache[prop];
+            console.log("Calling debounced config.set after delete");
+            try {
+                debouncedSet("transitio", { "styles": this.cache });
+            } catch (e) {
+                log("debouncedSet error", e);
+            }
+            return true;
+        }
+        return false;
     }
 });
 

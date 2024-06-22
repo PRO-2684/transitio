@@ -30,12 +30,20 @@
     }
 
     /* 各个 CSS 片段 */
-    .transitio setting-item.is-loading {
-        cursor: progress;
+    .transitio setting-item {
+        &.is-loading {
+            cursor: progress;
 
-        > setting-switch,
-        > input,
-        > setting-button {
+            > setting-switch,
+            > input,
+            > setting-button {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+        }
+
+        &[data-deleted] {
+            filter: grayscale(1);
             pointer-events: none;
             opacity: 0.6;
         }
@@ -86,6 +94,7 @@
         color: var(--icon_secondary);
         opacity: 0;
         transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
 
         &:hover {
             color: var(--theme-color);

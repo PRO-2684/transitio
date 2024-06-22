@@ -58,11 +58,18 @@ async function onSettingWindowCreated(view) {
         left.appendChild(itemDesc);
         const right = item.appendChild(document.createElement("div"));
         right.classList.add("transitio-menu");
-        const i = right.appendChild(document.createElement("i"));
-        i.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6.75H11.5986L11.3759 6.41602L9.82126 4.08398C9.68216 3.87533 9.44798 3.75 9.19722 3.75H3.5C3.08579 3.75 2.75 4.08579 2.75 4.5V19.5C2.75 19.9142 3.08579 20.25 3.5 20.25H20.5C20.9142 20.25 21.25 19.9142 21.25 19.5V7.5C21.25 7.08579 20.9142 6.75 20.5 6.75H12Z" stroke="currentColor" stroke-width="1.5"></path></svg>';
-        i.classList.add("q-icon", "transitio-more");
-        i.title = "在文件夹中显示";
-        i.addEventListener("click", () => {
+        const remove = right.appendChild(document.createElement("i"));
+        remove.textContent = "🗑️";
+        remove.classList.add("q-icon", "transitio-more");
+        remove.title = "删除此样式";
+        remove.addEventListener("click", () => {
+            transitio.removeStyle(path);
+        });
+        const showInFolder = right.appendChild(document.createElement("i"));
+        showInFolder.textContent = "📂";
+        showInFolder.classList.add("q-icon", "transitio-more");
+        showInFolder.title = "在文件夹中显示";
+        showInFolder.addEventListener("click", () => {
             transitio.open("show", path);
         });
         const switch_ = right.appendChild(document.createElement("setting-switch"));
@@ -75,13 +82,20 @@ async function onSettingWindowCreated(view) {
         return switch_;
     }
     transitio.onUpdateStyle((event, args) => {
-        const {path, meta, enabled} = args;
+        const { path, meta, enabled } = args;
+        const isDeleted = meta.name === " [已删除] ";
         const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path, meta);
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
-        const span = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text[data-type="secondary"]`);
-        span.textContent = meta.description || "此文件没有描述";
-        span.title = span.textContent;
+        const itemName = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text`);
+        itemName.textContent = meta.name;
+        const itemDesc = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text[data-type="secondary"]`);
+        itemDesc.textContent = meta.description || "此文件没有描述";
+        itemDesc.title = itemDesc.textContent;
+        if (isDeleted) {
+            const item = $(`setting-item[${configDataAttr}="${path}"]`);
+            item.toggleAttribute("data-deleted", true);
+        }
         log("onUpdateStyle", path, enabled);
     });
     transitio.onResetStyle(() => {
