@@ -186,7 +186,12 @@ function updateStyle(absPath, webContent) {
     const meta = extractUserStyleMetadata(css);
     meta.name ??= path.basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
-    log("updateStyle", absPath, meta);
+    meta.preprocessor ??= "transitio";
+    if (meta.preprocessor !== "transitio") {
+        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
+        return;
+    }
+    log("updateStyle", absPath);
     const msg = { path: absPath, enabled, css, meta };
     if (webContent) {
         webContent.send("LiteLoader.transitio.updateStyle", msg);
