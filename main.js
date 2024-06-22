@@ -101,6 +101,24 @@ function listCSS(dir) {
     return files;
 }
 
+const debouncedSet = debounce(LiteLoader.api.config.set, 1000); // Adjust debounce time as needed
+let stylesConfig = new Proxy({}, {
+    cache: null,
+    get(target, prop) {
+        if (!this.cache) {
+            log("Calling config.get");
+            this.cache = LiteLoader.api.config.get("transitio", { "styles": {} }).styles;
+        }
+        return this.cache[prop];
+    },
+    set(target, prop, value) {
+        this.cache[prop] = value;
+        log("Calling debounced config.set");
+        debouncedSet("transitio", { "styles": this.cache });
+        return true;
+    }
+});
+
 // 获取 CSS 文件的首行注释
 function getDesc(css) {
     const firstLine = css.split("\n")[0].trim();
@@ -109,6 +127,40 @@ function getDesc(css) {
     } else {
         return null;
     }
+}
+
+// 解析 CSS 文件的元数据
+function extractUserStyleMetadata(css) {
+    const result = {};
+    // Regular expression to match the UserStyle block with flexibility for multiple "=" and spaces
+    const userStyleRegex = /\/\*\s*=+\s*UserStyle\s*=+\s*([\s\S]*?)\s*=+\s*\/UserStyle\s*=+\s*\*\//;
+    const match = css.match(userStyleRegex);
+
+    if (match) { // If the UserStyle block is found
+        const content = match[1]; // Extract the content within the UserStyle block
+        const lines = content.split('\n'); // Split the content by newline
+
+        lines.forEach(line => {
+            // Regular expression to match "@name value" pattern
+            const matchLine = line.trim().match(/^@([^ \t]+)\s+(.+)$/);
+            if (matchLine) {
+                const name = matchLine[1]; // Extract the name
+                const value = matchLine[2]; // Extract the value
+                result[name] = value; // Store in the result object
+            }
+        });
+    } else { // Fall back to the old method
+        let comment = getDesc(css) || "";
+        let disabled = false;
+        if (comment.endsWith("[Disabled]")) {
+            comment = comment.slice(0, -10).trim();
+            disabled = true;
+        }
+        result["description"] = comment;
+        result["disabled"] = disabled;
+    }
+
+    return result;
 }
 
 // 获取 CSS 文件内容
@@ -128,20 +180,19 @@ function getStyle(absPath) {
 // 样式更改
 function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
-    const content = getStyle(absPath);
-    if (!content) return;
-    let comment = getDesc(content) || "";
-    let enabled = true;
-    if (comment.endsWith("[Disabled]")) {
-        comment = comment.slice(0, -10).trim();
-        enabled = false;
-    }
-    log("updateStyle", absPath, comment, enabled);
+    const css = getStyle(absPath);
+    if (!css) return;
+    const enabled = stylesConfig[absPath] ?? (stylesConfig[absPath] = true);
+    const meta = extractUserStyleMetadata(css);
+    meta.name ??= path.basename(absPath, ".css");
+    meta.description ??= "此文件没有描述";
+    log("updateStyle", absPath, meta);
+    const msg = { path: absPath, enabled, css, meta };
     if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", {path: absPath, css: content, enabled, comment});
+        webContent.send("LiteLoader.transitio.updateStyle", msg);
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", {path: absPath, css: content, enabled, comment});
+            webContent.send("LiteLoader.transitio.updateStyle", msg);
         });
     }
 }
@@ -156,7 +207,8 @@ async function reloadStyle(webContent) {
             webContent.send("LiteLoader.transitio.resetStyle");
         });
     }
-    for (const absPath of listCSS(stylePath)) {
+    const styles = listCSS(stylePath);
+    for (const absPath of styles) {
         updateStyle(absPath, webContent);
     }
 }
@@ -187,29 +239,11 @@ function onStyleChange(eventType, filename) {
 // 监听配置修改
 function onConfigChange(event, absPath, enable) {
     log("onConfigChange", absPath, enable);
-    let linkPath = absPath;
-    if (absPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-        const { target } = shell.readShortcutLink(absPath);
-        absPath = target;
-    }
-    let content = getStyle(absPath);
-    let comment = getDesc(content);
-    const current = (comment === null) || !comment.endsWith("[Disabled]");
-    if (current === enable) return;
-    if (comment === null) {
-        comment = "";
-    } else {
-        content = content.split("\n").slice(1).join("\n");
-    }
-    if (enable) {
-        comment = comment.slice(0, -11);
-    } else {
-        comment += " [Disabled]";
-    }
-    content = `/* ${comment} */\n` + content;
-    fs.writeFileSync(absPath, content, "utf-8");
+    stylesConfig[absPath] = enable;
+    log("onConfigChange2", devMode);
     if (!devMode) {
-        updateStyle(linkPath);
+        log("onConfigChange3", absPath, enable);
+        updateStyle(absPath);
     }
 }
 

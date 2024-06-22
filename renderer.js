@@ -15,17 +15,17 @@ function injectCSS(path, css) {
     document.head.appendChild(style);
     return style;
 }
-function cssHelper(path, css, enabled, comment) {
+function cssHelper(path, css, enabled, description) {
     const current = $(`style[${styleDataAttr}="${path}"]`);
     if (current) {
-        current.textContent = enabled ? css : `/* ${comment || "此文件没有描述"} */`;
+        current.textContent = enabled ? css : `/* ${description || "此文件没有描述"} */`;
     } else {
-        injectCSS(path, enabled ? css : `/* ${comment || "此文件没有描述"} */`);
+        injectCSS(path, enabled ? css : `/* ${description || "此文件没有描述"} */`);
     }
 }
 
 transitio.onUpdateStyle((event, args) => {
-    cssHelper(args.path, args.css, args.enabled, args.comment);
+    cssHelper(args.path, args.css, args.enabled, args.meta.description);
 });
 transitio.onResetStyle(() => {
     const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
@@ -45,20 +45,13 @@ async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
-    function stem(path) { // Get the stem of a path
-        // Assuming the path is separated by slash
-        const parts = path.split("/");
-        const last = parts.pop();
-        const name = last.split(".").slice(0, -1).join(".");
-        return name;
-    }
-    function addItem(path) { // Add a list item with name and description, returns the switch
+    function addItem(path, meta) { // Add a list item with name and description, returns the switch
         const item = container.appendChild(document.createElement("setting-item"));
         item.setAttribute("data-direction", "row");
         item.setAttribute(configDataAttr, path);
         const left = item.appendChild(document.createElement("div"));
         const itemName = left.appendChild(document.createElement("setting-text"));
-        itemName.textContent = stem(path);
+        itemName.textContent = meta.name;
         itemName.title = path;
         const itemDesc = document.createElement("setting-text");
         itemDesc.setAttribute("data-type", "secondary");
@@ -82,12 +75,12 @@ async function onSettingWindowCreated(view) {
         return switch_;
     }
     transitio.onUpdateStyle((event, args) => {
-        const {path, enabled, comment} = args;
-        const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path);
+        const {path, meta, enabled} = args;
+        const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path, meta);
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
         const span = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text[data-type="secondary"]`);
-        span.textContent = comment || "此文件没有描述";
+        span.textContent = meta.description || "此文件没有描述";
         span.title = span.textContent;
         log("onUpdateStyle", path, enabled);
     });
