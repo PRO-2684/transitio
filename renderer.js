@@ -90,7 +90,8 @@ async function onSettingWindowCreated(view) {
         const isDeleted = meta.name === " [已删除] ";
         const item = $(`setting-item[${configDataAttr}="${path}"]`) || addItem(path);
         const itemName = item.querySelector("setting-text");
-        itemName.textContent = meta.name;
+        const optionalVersion = meta.version ? ` (v${meta.version})` : "";
+        itemName.textContent = meta.name + optionalVersion;
         itemName.title = path;
         const itemDesc = item.querySelector("setting-text[data-type='secondary']");
         itemDesc.textContent = meta.description || "此文件没有描述";
