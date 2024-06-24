@@ -45,55 +45,60 @@ async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
-    function addItem(path, meta) { // Add a list item with name and description, returns the switch
+    function addItem(path) { // Add a list item with name and description, returns the switch
         const item = container.appendChild(document.createElement("setting-item"));
         item.setAttribute("data-direction", "row");
         item.setAttribute(configDataAttr, path);
         const left = item.appendChild(document.createElement("div"));
         const itemName = left.appendChild(document.createElement("setting-text"));
-        itemName.textContent = meta.name;
-        itemName.title = path;
         const itemDesc = document.createElement("setting-text");
         itemDesc.setAttribute("data-type", "secondary");
         left.appendChild(itemDesc);
         const right = item.appendChild(document.createElement("div"));
         right.classList.add("transitio-menu");
-        const remove = right.appendChild(document.createElement("i"));
+        const remove = right.appendChild(document.createElement("span"));
         remove.textContent = "🗑️";
-        remove.classList.add("q-icon", "transitio-more");
+        remove.classList.add("transitio-more");
         remove.title = "删除此样式";
         remove.addEventListener("click", () => {
-            transitio.removeStyle(path);
+            if (!item.hasAttribute("data-deleted")) {
+                transitio.removeStyle(path);
+            }
         });
-        const showInFolder = right.appendChild(document.createElement("i"));
+        const showInFolder = right.appendChild(document.createElement("span"));
         showInFolder.textContent = "📂";
-        showInFolder.classList.add("q-icon", "transitio-more");
+        showInFolder.classList.add("transitio-more");
         showInFolder.title = "在文件夹中显示";
         showInFolder.addEventListener("click", () => {
-            transitio.open("show", path);
+            if (!item.hasAttribute("data-deleted")) {
+                transitio.open("show", path);
+            }
         });
         const switch_ = right.appendChild(document.createElement("setting-switch"));
         switch_.setAttribute(switchDataAttr, path);
         switch_.title = "启用/禁用此样式";
         switch_.addEventListener("click", () => {
-            switch_.parentNode.classList.toggle("is-loading", true);
-            transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
+            if (!item.hasAttribute("data-deleted")) {
+                switch_.parentNode.classList.toggle("is-loading", true);
+                transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
+            }
         });
-        return switch_;
+        return item;
     }
     transitio.onUpdateStyle((event, args) => {
         const { path, meta, enabled } = args;
         const isDeleted = meta.name === " [已删除] ";
-        const switch_ = $(`setting-switch[${switchDataAttr}="${path}"]`) || addItem(path, meta);
-        switch_.toggleAttribute("is-active", enabled);
-        switch_.parentNode.classList.toggle("is-loading", false);
-        const itemName = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text`);
+        const item = $(`setting-item[${configDataAttr}="${path}"]`) || addItem(path);
+        const itemName = item.querySelector("setting-text");
         itemName.textContent = meta.name;
-        const itemDesc = $(`setting-item[${configDataAttr}="${path}"] > div > setting-text[data-type="secondary"]`);
+        itemName.title = path;
+        const itemDesc = item.querySelector("setting-text[data-type='secondary']");
         itemDesc.textContent = meta.description || "此文件没有描述";
         itemDesc.title = itemDesc.textContent;
+        const switch_ = item.querySelector(`setting-switch[${switchDataAttr}="${path}"]`);
+        switch_.toggleAttribute("is-active", enabled);
+        switch_.parentNode.classList.toggle("is-loading", false);
         if (isDeleted) {
-            const item = $(`setting-item[${configDataAttr}="${path}"]`);
             item.toggleAttribute("data-deleted", true);
         }
         log("onUpdateStyle", path, enabled);
