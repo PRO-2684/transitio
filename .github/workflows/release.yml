@@ -27,7 +27,5 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          automatic_release_tag: "v${{ steps.read-versions.outputs.version }}"
-          title: "v${{ steps.read-versions.outputs.version }}"
           files: |
             transitio-release.zip
