@@ -93,19 +93,18 @@
 
     /* 悬浮显示的按钮 */
     .transitio .transitio-more {
-        color: var(--icon_secondary);
         opacity: 0;
         transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
         font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
-
-        &:hover {
-            color: var(--theme-color);
-            transform: scale(1.2);
-        }
     }
 
     .transitio setting-item:not([data-deleted]):hover .transitio-more {
-        opacity: 1;
+        opacity: 0.6;
+
+        &:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
     }
 
     /* Logo */

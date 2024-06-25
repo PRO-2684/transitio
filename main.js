@@ -73,7 +73,7 @@ ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
 
 // 防抖
 function debounce(fn, time) {
-    const timer = null;
+    let timer = null;
     return function (...args) {
         timer && clearTimeout(timer);
         timer = setTimeout(() => {
@@ -117,13 +117,13 @@ function listCSS(dir) {
     return files;
 }
 
-const debouncedSet = debounce(LiteLoader.api.config.set, 1000); // Adjust debounce time as needed
-let stylesConfig = new Proxy({}, {
+const debouncedSet = debounce(LiteLoader.api.config.set, 1000);
+const stylesConfig = new Proxy({}, {
     cache: null,
     get(target, prop) {
         if (!this.cache) {
             log("Calling config.get");
-            this.cache = LiteLoader.api.config.get("transitio", { "styles": {} }).styles;
+            this.cache = LiteLoader.api.config.get("transitio", { styles: {} }).styles;
         }
         return this.cache[prop];
     },
@@ -131,7 +131,7 @@ let stylesConfig = new Proxy({}, {
         this.cache[prop] = value;
         log("Calling debounced config.set after set");
         try {
-            debouncedSet("transitio", { "styles": this.cache });
+            debouncedSet("transitio", { styles: this.cache });
         } catch (e) {
             log("debouncedSet error", e);
         }
@@ -142,7 +142,7 @@ let stylesConfig = new Proxy({}, {
             delete this.cache[prop];
             console.log("Calling debounced config.set after delete");
             try {
-                debouncedSet("transitio", { "styles": this.cache });
+                debouncedSet("transitio", { styles: this.cache });
             } catch (e) {
                 log("debouncedSet error", e);
             }
@@ -183,14 +183,8 @@ function extractUserStyleMetadata(css) {
             }
         });
     } else { // Fall back to the old method
-        let comment = getDesc(css) || "";
-        let disabled = false;
-        if (comment.endsWith("[Disabled]")) {
-            comment = comment.slice(0, -10).trim();
-            disabled = true;
-        }
+        const comment = getDesc(css) || "";
         result["description"] = comment;
-        result["disabled"] = disabled;
     }
 
     return result;
@@ -278,9 +272,7 @@ function onStyleChange(eventType, filename) {
 function onConfigChange(event, absPath, enable) {
     log("onConfigChange", absPath, enable);
     stylesConfig[absPath] = enable;
-    log("onConfigChange2", devMode);
     if (!devMode) {
-        log("onConfigChange3", absPath, enable);
         updateStyle(absPath);
     }
 }
