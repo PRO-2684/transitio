@@ -11,6 +11,7 @@ let watcher = null;
 
 const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
+const debouncedSet = debounce(LiteLoader.api.config.set, updateInterval);
 
 // 创建 styles 目录 (如果不存在)
 if (!fs.existsSync(stylePath)) {
@@ -118,8 +119,6 @@ function listCSS(dir) {
     return files;
 }
 
-const debouncedSet = debounce(LiteLoader.api.config.set, 1000);
-
 function updateConfig() {
     log("Calling updateConfig");
     debouncedSet("transitio", config);
@@ -203,49 +202,45 @@ function getStyle(absPath) {
 function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     log("updateStyle", absPath);
-    try {
-        const css = getStyle(absPath);
-        if (!css) return;
-        // 初始化样式配置
-        if (typeof config.styles[absPath] !== "object") {
-            config.styles[absPath] = {
-                enabled: Boolean(config.styles[absPath] ?? true),
-                variables: {}
-            };
+    const css = getStyle(absPath);
+    if (!css) return;
+    // 初始化样式配置
+    if (typeof config.styles[absPath] !== "object") {
+        config.styles[absPath] = {
+            enabled: Boolean(config.styles[absPath] ?? true),
+            variables: {}
+        };
+        updateConfig();
+    }
+    // 读取基本样式配置
+    const enabled = config.styles[absPath].enabled;
+    const meta = extractUserStyleMetadata(css);
+    meta.name ??= path.basename(absPath, ".css");
+    meta.description ??= "此文件没有描述";
+    meta.preprocessor ??= "transitio";
+    if (meta.preprocessor !== "transitio") {
+        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
+        return;
+    }
+    // 读取用户定义的变量，删除不存在的变量
+    const udfVariables = config.styles[absPath].variables;
+    for (const [varName, varValue] of Object.entries(udfVariables)) {
+        if (varName in meta.variables) {
+            meta.variables[varName].value = varValue;
+        } else {
+            log(`Variable "${varName}" not found in ${absPath}`);
+            delete config.styles[absPath].variables[varName];
             updateConfig();
         }
-        // 读取基本样式配置
-        const enabled = config.styles[absPath].enabled;
-        const meta = extractUserStyleMetadata(css);
-        meta.name ??= path.basename(absPath, ".css");
-        meta.description ??= "此文件没有描述";
-        meta.preprocessor ??= "transitio";
-        if (meta.preprocessor !== "transitio") {
-            log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
-            return;
-        }
-        // 读取用户定义的变量，删除不存在的变量
-        const udfVariables = config.styles[absPath].variables;
-        for (const [varName, varValue] of Object.entries(udfVariables)) {
-            if (varName in meta.variables) {
-                meta.variables[varName].value = varValue;
-            } else {
-                log(`Variable "${varName}" not found in ${absPath}`);
-                delete config.styles[absPath].variables[varName];
-                updateConfig();
-            }
-        }
-        // 向渲染进程发送消息
-        const msg = { path: absPath, enabled, css, meta };
-        if (webContent) {
+    }
+    // 向渲染进程发送消息
+    const msg = { path: absPath, enabled, css, meta };
+    if (webContent) {
+        webContent.send("LiteLoader.transitio.updateStyle", msg);
+    } else {
+        webContents.getAllWebContents().forEach((webContent) => {
             webContent.send("LiteLoader.transitio.updateStyle", msg);
-        } else {
-            webContents.getAllWebContents().forEach((webContent) => {
-                webContent.send("LiteLoader.transitio.updateStyle", msg);
-            });
-        }
-    } catch (err) {
-        log("updateStyle", absPath, err);
+        });
     }
 }
 
@@ -290,9 +285,13 @@ function onStyleChange(eventType, filename) {
 }
 
 // 监听配置修改
-function onConfigChange(event, absPath, enable) {
-    log("onConfigChange", absPath, enable);
-    config.styles[absPath].enabled = enable;
+function onConfigChange(event, absPath, arg) {
+    log("onConfigChange", absPath, arg);
+    if (typeof arg === "boolean") {
+        config.styles[absPath].enabled = arg;
+    } else if (typeof arg === "object") {
+        Object.assign(config.styles[absPath].variables, arg);
+    }
     updateConfig();
     if (!devMode) {
         updateStyle(absPath);

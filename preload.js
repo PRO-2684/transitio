@@ -4,9 +4,9 @@ contextBridge.exposeInMainWorld("transitio", {
     rendererReady: () => ipcRenderer.send(
         "LiteLoader.transitio.rendererReady"
     ),
-    configChange: (path, enable) => ipcRenderer.send(
+    configChange: (path, arg) => ipcRenderer.send(
         "LiteLoader.transitio.configChange",
-        path, enable
+        path, arg
     ),
     devMode: (enable) => ipcRenderer.send(
         "LiteLoader.transitio.devMode",
