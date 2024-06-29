@@ -184,11 +184,14 @@ function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     const css = getStyle(absPath);
     if (!css) return;
-    if (config.styles[absPath] === undefined) {
-        config.styles[absPath] = true;
+    if (typeof config.styles[absPath] !== "object") {
+        config.styles[absPath] = {
+            enabled: Boolean(config.styles[absPath]) ?? true,
+            variables: {}
+        };
         updateConfig();
     }
-    const enabled = config.styles[absPath];
+    const enabled = config.styles[absPath].enabled;
     const meta = extractUserStyleMetadata(css);
     meta.name ??= path.basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
@@ -250,7 +253,7 @@ function onStyleChange(eventType, filename) {
 // 监听配置修改
 function onConfigChange(event, absPath, enable) {
     log("onConfigChange", absPath, enable);
-    config.styles[absPath] = enable;
+    config.styles[absPath].enabled = enable;
     updateConfig();
     if (!devMode) {
         updateStyle(absPath);
