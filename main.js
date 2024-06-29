@@ -121,7 +121,7 @@ function listCSS(dir) {
 const debouncedSet = debounce(LiteLoader.api.config.set, 1000);
 
 function updateConfig() {
-    log("Calling debounced config.set after updateConfig");
+    log("Calling updateConfig");
     debouncedSet("transitio", config);
 }
 
@@ -137,9 +137,21 @@ function getDesc(css) {
     }
 }
 
+// 解析单行定义的的变量
+function processVar(value) {
+    // Regular expression to match "@var <type> <name> <label> <default-value>" pattern
+    const varMatch = value.match(/^(\S+)\s+(\S+)\s+"([^"]+)"\s+"([^"]+)"$/);
+    if (varMatch) {
+        const [_, varType, varName, varLabel, varDefaultValue] = varMatch;
+        return [varName, { "type": varType, "label": varLabel, "default-value": varDefaultValue, "value": varDefaultValue }];
+    } else {
+        return null;
+    }
+}
+
 // 解析 CSS 文件的元数据
 function extractUserStyleMetadata(css) {
-    const result = {};
+    const result = { variables: {} };
     // Regular expression to match the UserStyle block with flexibility for multiple "=" and spaces
     const userStyleRegex = /\/\*\s*=+\s*UserStyle\s*=+\s*([\s\S]*?)\s*=+\s*\/UserStyle\s*=+\s*\*\//;
     const match = css.match(userStyleRegex);
@@ -150,11 +162,19 @@ function extractUserStyleMetadata(css) {
 
         lines.forEach(line => {
             // Regular expression to match "@name value" pattern
-            const matchLine = line.trim().match(/^@([^ \t]+)\s+(.+)$/);
+            const matchLine = line.trim().match(/^@(\S+)\s+(.+)$/);
             if (matchLine) {
                 const name = matchLine[1]; // Extract the name
                 const value = matchLine[2]; // Extract the value
-                result[name] = value; // Store in the result object
+                if (name === "var") {
+                    const varData = processVar(value);
+                    if (varData) {
+                        const [varName, varObj] = varData;
+                        result.variables[varName] = varObj;
+                    }
+                } else {
+                    result[name] = value; // Store in the result object
+                }
             }
         });
     } else { // Fall back to the old method
@@ -182,36 +202,54 @@ function getStyle(absPath) {
 // 样式更改
 function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
-    const css = getStyle(absPath);
-    if (!css) return;
-    if (typeof config.styles[absPath] !== "object") {
-        config.styles[absPath] = {
-            enabled: Boolean(config.styles[absPath] ?? true),
-            variables: {}
-        };
-        updateConfig();
-    }
-    const enabled = config.styles[absPath].enabled;
-    const meta = extractUserStyleMetadata(css);
-    meta.name ??= path.basename(absPath, ".css");
-    meta.description ??= "此文件没有描述";
-    meta.preprocessor ??= "transitio";
-    if (meta.preprocessor !== "transitio") {
-        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
-        return;
-    }
     log("updateStyle", absPath);
-    const msg = { path: absPath, enabled, css, meta };
-    if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", msg);
-    } else {
-        webContents.getAllWebContents().forEach((webContent) => {
+    try {
+        const css = getStyle(absPath);
+        if (!css) return;
+        // 初始化样式配置
+        if (typeof config.styles[absPath] !== "object") {
+            config.styles[absPath] = {
+                enabled: Boolean(config.styles[absPath] ?? true),
+                variables: {}
+            };
+            updateConfig();
+        }
+        // 读取基本样式配置
+        const enabled = config.styles[absPath].enabled;
+        const meta = extractUserStyleMetadata(css);
+        meta.name ??= path.basename(absPath, ".css");
+        meta.description ??= "此文件没有描述";
+        meta.preprocessor ??= "transitio";
+        if (meta.preprocessor !== "transitio") {
+            log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
+            return;
+        }
+        // 读取用户定义的变量，删除不存在的变量
+        const udfVariables = config.styles[absPath].variables;
+        for (const [varName, varValue] of Object.entries(udfVariables)) {
+            if (varName in meta.variables) {
+                meta.variables[varName].value = varValue;
+            } else {
+                log(`Variable "${varName}" not found in ${absPath}`);
+                delete config.styles[absPath].variables[varName];
+                updateConfig();
+            }
+        }
+        // 向渲染进程发送消息
+        const msg = { path: absPath, enabled, css, meta };
+        if (webContent) {
             webContent.send("LiteLoader.transitio.updateStyle", msg);
-        });
+        } else {
+            webContents.getAllWebContents().forEach((webContent) => {
+                webContent.send("LiteLoader.transitio.updateStyle", msg);
+            });
+        }
+    } catch (err) {
+        log("updateStyle", absPath, err);
     }
 }
 
-// 重置样式
+// 重载样式
 async function reloadStyle(webContent) {
     log("reloadStyle");
     if (webContent) {
@@ -221,6 +259,7 @@ async function reloadStyle(webContent) {
             webContent.send("LiteLoader.transitio.resetStyle");
         });
     }
+    config = LiteLoader.api.config.get("transitio", { styles: {} });
     const styles = listCSS(stylePath);
     for (const absPath of styles) {
         updateStyle(absPath, webContent);

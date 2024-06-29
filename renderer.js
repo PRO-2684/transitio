@@ -5,9 +5,30 @@ const $ = document.querySelector.bind(document);
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
 let isDebug = false;
-let log = () => { }; // Dummy function
+function log(...args) {
+    if (isDebug) {
+        console.log("[Transitio]", ...args);
+    }
+}
 
 // Helper function for css
+function applyVariables(css, variables) {
+    // Regular expression to match the variable pattern `var(--name)`
+    const varRegex = /var\(--([^)]+)\)/g;
+    return css.replace(varRegex, (match, varName) => {
+        const varObj = variables[varName];
+        if (!varObj) {
+            return match;
+        }
+        const value = varObj.value ?? varObj["default-value"];
+        if (varObj.type === "text") {
+            const escapedValue = CSS.escape(value);
+            return `"${escapedValue}"`;
+        } else {
+            return value;
+        }
+    });
+}
 function injectCSS(path, css) {
     const style = document.createElement("style");
     style.setAttribute(styleDataAttr, path);
@@ -15,17 +36,19 @@ function injectCSS(path, css) {
     document.head.appendChild(style);
     return style;
 }
-function cssHelper(path, css, enabled, description) {
+function cssHelper(path, css, enabled, meta) {
     const current = $(`style[${styleDataAttr}="${path}"]`);
+    log("Applying variables to", path, meta.variables)
+    const processedCSS = enabled ? applyVariables(css, meta.variables) : `/* ${meta.description || "此文件没有描述"} */`;
     if (current) {
-        current.textContent = enabled ? css : `/* ${description || "此文件没有描述"} */`;
+        current.textContent = processedCSS;
     } else {
-        injectCSS(path, enabled ? css : `/* ${description || "此文件没有描述"} */`);
+        injectCSS(path, processedCSS);
     }
 }
 
 transitio.onUpdateStyle((event, args) => {
-    cssHelper(args.path, args.css, args.enabled, args.meta.description);
+    cssHelper(args.path, args.css, args.enabled, args.meta);
 });
 transitio.onResetStyle(() => {
     const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
@@ -35,10 +58,6 @@ transitio.onResetStyle(() => {
 });
 transitio.rendererReady();
 isDebug = await transitio.queryIsDebug();
-if (isDebug) {
-    log = console.log.bind(console, "[Transitio]");
-}
-
 async function onSettingWindowCreated(view) {
     log(pluginPath);
     const r = await fetch(`local:///${pluginPath}/settings.html`);
