@@ -186,7 +186,7 @@ function updateStyle(absPath, webContent) {
     if (!css) return;
     if (typeof config.styles[absPath] !== "object") {
         config.styles[absPath] = {
-            enabled: Boolean(config.styles[absPath]) ?? true,
+            enabled: Boolean(config.styles[absPath] ?? true),
             variables: {}
         };
         updateConfig();
