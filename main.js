@@ -31,7 +31,8 @@ ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
 ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
     log("removeStyle", absPath);
     fs.unlinkSync(absPath);
-    delete stylesConfig[absPath];
+    delete config.styles[absPath];
+    updateConfig();
     if (!devMode) {
         const msg = {
             path: absPath, enabled: false, css: "/* Removed */", meta: {
@@ -118,39 +119,13 @@ function listCSS(dir) {
 }
 
 const debouncedSet = debounce(LiteLoader.api.config.set, 1000);
-const stylesConfig = new Proxy({}, {
-    cache: null,
-    get(target, prop) {
-        if (!this.cache) {
-            log("Calling config.get");
-            this.cache = LiteLoader.api.config.get("transitio", { styles: {} }).styles;
-        }
-        return this.cache[prop];
-    },
-    set(target, prop, value) {
-        this.cache[prop] = value;
-        log("Calling debounced config.set after set");
-        try {
-            debouncedSet("transitio", { styles: this.cache });
-        } catch (e) {
-            log("debouncedSet error", e);
-        }
-        return true;
-    },
-    deleteProperty(target, prop) {
-        if (prop in this.cache) {
-            delete this.cache[prop];
-            console.log("Calling debounced config.set after delete");
-            try {
-                debouncedSet("transitio", { styles: this.cache });
-            } catch (e) {
-                log("debouncedSet error", e);
-            }
-            return true;
-        }
-        return false;
-    }
-});
+
+function updateConfig() {
+    log("Calling debounced config.set after updateConfig");
+    debouncedSet("transitio", config);
+}
+
+let config = LiteLoader.api.config.get("transitio", { styles: {} });
 
 // 获取 CSS 文件的首行注释
 function getDesc(css) {
@@ -209,7 +184,11 @@ function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     const css = getStyle(absPath);
     if (!css) return;
-    const enabled = stylesConfig[absPath] ?? (stylesConfig[absPath] = true);
+    if (config.styles[absPath] === undefined) {
+        config.styles[absPath] = true;
+        updateConfig();
+    }
+    const enabled = config.styles[absPath];
     const meta = extractUserStyleMetadata(css);
     meta.name ??= path.basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
@@ -271,7 +250,8 @@ function onStyleChange(eventType, filename) {
 // 监听配置修改
 function onConfigChange(event, absPath, enable) {
     log("onConfigChange", absPath, enable);
-    stylesConfig[absPath] = enable;
+    config.styles[absPath] = enable;
+    updateConfig();
     if (!devMode) {
         updateStyle(absPath);
     }
