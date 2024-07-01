@@ -75,7 +75,6 @@ plugins (所有的插件目录)
 
 | 文件名 | 用户样式 | 作者 | 说明 | 链接 |
 | --- | --- | --- | --- | --- |
-| all-in-one | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 大杂烩 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#all-in-one) |
 | auto-fold-chat-input-area | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) |
 | avatar-float | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) |
 | compact-at-list | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) |

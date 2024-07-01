@@ -176,7 +176,7 @@ async function onSettingWindowCreated(view) {
                     varInput.placeholder = defaultValue;
                     varInput.title = `默认值: ${defaultValue}, 范围: [${isFinite(min) ? min : "-∞"}, ${isFinite(max) ? max : "+∞"}], 步长: ${step ?? "1"}`;
                     varInput.min = isFinite(min) ? min : null;
-                    varInput.max = isFinite(max) ? min : null;
+                    varInput.max = isFinite(max) ? max : null;
                     varInput.step = step ?? "1";
                     if (varObj.value !== varObj["default-value"]) {
                         varInput.value = varObj.value;
