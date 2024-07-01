@@ -39,6 +39,9 @@ ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
             path: absPath, enabled: false, css: "/* Removed */", meta: {
                 name: " [已删除] ",
                 description: "[此样式已被删除]",
+                enabled: false,
+                preprocessor: "transitio",
+                variables: {}
             }
         };
         webContents.getAllWebContents().forEach((webContent) => {
