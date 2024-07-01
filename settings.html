@@ -101,20 +101,32 @@
     /* 悬浮显示的按钮 */
     .transitio .transitio-more {
         opacity: 0;
-        transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        transition-property: color, opacity, scale, transform;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-in-out;
         font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
     }
 
-    .transitio details > summary:hover .transitio-more {
-        opacity: 0.6;
+    .transitio details {
+        > summary {
+            &:hover .transitio-more {
+                opacity: 0.6;
 
-        &:not([disabled]):hover {
-            transform: scale(1.2);
-            opacity: 1;
+                &:not([disabled]):hover {
+                    scale: 1.2;
+                    opacity: 1;
+                }
+
+                &[disabled] {
+                    cursor: not-allowed;
+                }
+            }
         }
 
-        &[disabled] {
-            cursor: not-allowed;
+        &[open] > summary .transitio-more.transitio-configure {
+            scale: 1.2;
+            transform: rotate(360deg);
+            opacity: 1;
         }
     }
 
@@ -150,7 +162,8 @@
         opacity: 0.5;
     }
 
-    /* 动画 - Adapted from https://codepen.io/averyhw/pen/xyxKjO/ */
+    /* 动画 */
+    /* Magic wand - Adapted from https://codepen.io/averyhw/pen/xyxKjO/ */
     @keyframes magic {
         0% { transform: rotate(0deg) translateX(0px) rotate(0deg) scale(1); transform-origin: 50% 50%; }
         15% { transform: rotate(0deg) translateX(20px) rotate(0deg) scale(1); transform-origin: 50% 50%; }

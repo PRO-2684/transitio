@@ -85,7 +85,7 @@ async function onSettingWindowCreated(view) {
         right.classList.add("transitio-menu");
         const remove = right.appendChild(document.createElement("span"));
         remove.textContent = "🗑️";
-        remove.classList.add("transitio-more");
+        remove.classList.add("transitio-more", "transitio-remove");
         remove.title = "删除此样式";
         remove.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted")) {
@@ -94,7 +94,7 @@ async function onSettingWindowCreated(view) {
         });
         const showInFolder = right.appendChild(document.createElement("span"));
         showInFolder.textContent = "📂";
-        showInFolder.classList.add("transitio-more");
+        showInFolder.classList.add("transitio-more", "transitio-folder");
         showInFolder.title = "在文件夹中显示";
         showInFolder.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted")) {
@@ -103,7 +103,7 @@ async function onSettingWindowCreated(view) {
         });
         const configureBtn = right.appendChild(document.createElement("span"));
         configureBtn.textContent = "⚙️";
-        configureBtn.classList.add("transitio-more");
+        configureBtn.classList.add("transitio-more", "transitio-configure");
         configureBtn.title = "配置变量";
         configureBtn.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted") && !configureBtn.hasAttribute("disabled")) {
@@ -146,10 +146,12 @@ async function onSettingWindowCreated(view) {
                 variable.remove();
             }
         }
-        const configureBtn = item.querySelector("span[title='配置变量']");
+        const configureBtn = item.querySelector("span.transitio-configure");
         const noVariables = Object.keys(meta.variables).length === 0;
         configureBtn.toggleAttribute("disabled", noVariables);
-        details.toggleAttribute("open", !noVariables); // Close the details if there are no variables
+        if (noVariables) { // Close the details if there are no variables
+            details.toggleAttribute("open", false);
+        }
         for (const [name, varObj] of Object.entries(meta.variables)) {
             const varItem = details.appendChild(document.createElement("setting-item"));
             varItem.setAttribute("data-direction", "row");
@@ -166,9 +168,9 @@ async function onSettingWindowCreated(view) {
         log("onUpdateStyle", path, enabled);
     });
     transitio.onResetStyle(() => {
-        const items = view.querySelectorAll(`[${configDataAttr}]`);
-        items.forEach((item) => {
-            item.remove();
+        const details = view.querySelectorAll(`[${configDataAttr}]`);
+        details.forEach((detail) => {
+            detail.remove();
         });
     });
     function devMode() {
