@@ -1,5 +1,15 @@
 <style id="-transitio-style-settings">
     /* 设置界面用到的 CSS */
+    /* Color scheme */
+    body {
+        &.q-theme-tokens-light[q-theme="light"] .transitio {
+            color-scheme: light;
+        }
+        &.q-theme-tokens-dark[q-theme="dark"] .transitio {
+            color-scheme: dark;
+        }
+    }
+
     /* 文件选择框 */
     .transitio input[type="file"] {
         border-color: var(--fill_standard_primary);
@@ -125,7 +135,7 @@
 
         &[open] > summary .transitio-more.transitio-configure {
             scale: 1.2;
-            transform: rotate(360deg);
+            transform: rotate(180deg);
             opacity: 1;
         }
     }
