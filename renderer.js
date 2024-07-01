@@ -62,12 +62,17 @@ async function onSettingWindowCreated(view) {
     log(pluginPath);
     const r = await fetch(`local:///${pluginPath}/settings.html`);
     const $ = view.querySelector.bind(view);
+    const detailsName = "transitio-setting-details";
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
     function addItem(path) { // Add a list item with name and description, returns the switch
-        const item = container.appendChild(document.createElement("setting-item"));
+        const details = container.appendChild(document.createElement("details"));
+        details.setAttribute(configDataAttr, path);
+        details.name = detailsName;
+        const summary = details.appendChild(document.createElement("summary"));
+        // Summary part
+        const item = summary.appendChild(document.createElement("setting-item"));
         item.setAttribute("data-direction", "row");
-        item.setAttribute(configDataAttr, path);
         const left = item.appendChild(document.createElement("div"));
         const itemName = left.appendChild(document.createElement("setting-text"));
         const itemDesc = document.createElement("setting-text");
@@ -93,6 +98,13 @@ async function onSettingWindowCreated(view) {
                 transitio.open("show", path);
             }
         });
+        const configureBtn = right.appendChild(document.createElement("span"));
+        configureBtn.textContent = "⚙️";
+        configureBtn.classList.add("transitio-more");
+        configureBtn.title = "配置变量";
+        configureBtn.addEventListener("click", () => {
+            // TODO: Implement this
+        });
         const switch_ = right.appendChild(document.createElement("setting-switch"));
         switch_.setAttribute(switchDataAttr, path);
         switch_.title = "启用/禁用此样式";
@@ -102,12 +114,15 @@ async function onSettingWindowCreated(view) {
                 transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
             }
         });
-        return item;
+        // TODO: Details part
+        return details;
     }
     transitio.onUpdateStyle((event, args) => {
         const { path, meta, enabled } = args;
         const isDeleted = meta.name === " [已删除] ";
-        const item = $(`setting-item[${configDataAttr}="${path}"]`) || addItem(path);
+        const details = $(`details[${configDataAttr}="${path}"]`) || addItem(path);
+        // Summary part
+        const item = details.querySelector("setting-item");
         const itemName = item.querySelector("setting-text");
         const optionalVersion = meta.version ? ` (v${meta.version})` : "";
         itemName.textContent = meta.name + optionalVersion;
@@ -119,8 +134,9 @@ async function onSettingWindowCreated(view) {
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
         if (isDeleted) {
-            item.toggleAttribute("data-deleted", true);
+            details.toggleAttribute("data-deleted", true);
         }
+        // TODO: Details part
         log("onUpdateStyle", path, enabled);
     });
     transitio.onResetStyle(() => {

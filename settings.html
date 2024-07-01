@@ -30,24 +30,26 @@
     }
 
     /* 各个 CSS 片段 */
-    .transitio setting-item {
+    .transitio details {
+        > summary {
+            list-style: none;
+        }
+
         &.is-loading {
             cursor: progress;
+            opacity: 0.6;
 
-            > setting-switch,
-            > input,
-            > setting-button {
+            > * {
                 pointer-events: none;
-                opacity: 0.6;
             }
         }
 
         &[data-deleted] {
+            cursor: not-allowed;
             filter: grayscale(1);
             opacity: 0.6;
-            cursor: not-allowed;
 
-            & > * {
+            > * {
                 pointer-events: none;
             }
         }
@@ -98,7 +100,7 @@
         font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
     }
 
-    .transitio setting-item:not([data-deleted]):hover .transitio-more {
+    .transitio details:not([data-deleted]):hover .transitio-more {
         opacity: 0.6;
 
         &:hover {
