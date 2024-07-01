@@ -168,27 +168,34 @@ async function onSettingWindowCreated(view) {
                     varInput.type = "color";
                     varInput.placeholder = varObj["default-value"];
                     varInput.title = `默认值: ${varObj["default-value"]}`;
-                    varInput.value = varObj.value ?? varObj["default-value"];
+                    varInput.value = varObj.value;
                     break;
                 case "number": {
                     varInput.type = "number";
                     const [defaultValue, min, max, step] = varObj["default-value"].split(",").map(parseFloat);
                     varInput.placeholder = defaultValue;
                     varInput.title = `默认值: ${defaultValue}, 范围: [${isFinite(min) ? min : "-∞"}, ${isFinite(max) ? max : "+∞"}], 步长: ${step ?? "1"}`;
-                    varInput.value = varObj.value ?? defaultValue;
                     varInput.min = isFinite(min) ? min : null;
                     varInput.max = isFinite(max) ? min : null;
                     varInput.step = step ?? "1";
+                    if (varObj.value !== varObj["default-value"]) {
+                        varInput.value = varObj.value;
+                    } else {
+                        varInput.value = defaultValue;
+                    }
                     break;
                 }
                 default:
                     varInput.type = "text";
                     varInput.placeholder = varObj["default-value"];
                     varInput.title = `默认值: ${varObj["default-value"]}`;
-                    varInput.value = varObj.value ?? varObj["default-value"];
+                    varInput.value = varObj.value;
             }
+            varInput.toggleAttribute("required", true);
             varInput.addEventListener("change", () => {
-                transitio.configChange(path, { [name]: varInput.value });
+                if (varInput.reportValidity()) {
+                    transitio.configChange(path, { [name]: varInput.value });
+                }
             });
         }
         log("onUpdateStyle", path, enabled);
