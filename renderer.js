@@ -63,6 +63,9 @@ async function onSettingWindowCreated(view) {
     const r = await fetch(`local:///${pluginPath}/settings.html`);
     const $ = view.querySelector.bind(view);
     const detailsName = "transitio-setting-details";
+    const varTypeToInputType = {
+        "color": "color",
+    };
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
     function addItem(path) { // Add a list item with name and description, returns the switch
@@ -141,7 +144,7 @@ async function onSettingWindowCreated(view) {
             details.toggleAttribute("data-deleted", true);
         }
         // Details part
-        for (const variable of details.children) { // Remove all existing variables
+        for (const variable of Array.from(details.children)) { // Remove all existing variables
             if (variable.tagName === "SETTING-ITEM") {
                 variable.remove();
             }
@@ -159,7 +162,7 @@ async function onSettingWindowCreated(view) {
             const varInput = varItem.appendChild(document.createElement("input"));
             varName.textContent = varObj.label;
             varName.title = name;
-            varInput.type = "text";
+            varInput.type = varTypeToInputType[varObj.type] ?? "text";
             varInput.value = varObj.value ?? varObj["default-value"];
             varInput.addEventListener("change", () => {
                 transitio.configChange(path, { [name]: varInput.value });
