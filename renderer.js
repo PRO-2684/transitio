@@ -21,11 +21,15 @@ function applyVariables(css, variables) {
             return match;
         }
         const value = varObj.value ?? varObj["default-value"];
-        if (varObj.type === "text") {
-            const escapedValue = CSS.escape(value);
-            return `"${escapedValue}"`;
-        } else {
-            return value;
+        switch (varObj.type) {
+            case "text":
+                return `"${CSS.escape(value)}"`;
+            case "number": {
+                const float = parseFloat(value);
+                return isNaN(float) ? match : float.toString();
+            }
+            default:
+                return value;
         }
     });
 }
@@ -63,9 +67,6 @@ async function onSettingWindowCreated(view) {
     const r = await fetch(`local:///${pluginPath}/settings.html`);
     const $ = view.querySelector.bind(view);
     const detailsName = "transitio-setting-details";
-    const varTypeToInputType = {
-        "color": "color",
-    };
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
     function addItem(path) { // Add a list item with name and description, returns the switch
@@ -162,8 +163,30 @@ async function onSettingWindowCreated(view) {
             const varInput = varItem.appendChild(document.createElement("input"));
             varName.textContent = varObj.label;
             varName.title = name;
-            varInput.type = varTypeToInputType[varObj.type] ?? "text";
-            varInput.value = varObj.value ?? varObj["default-value"];
+            switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
+                case "color":
+                    varInput.type = "color";
+                    varInput.placeholder = varObj["default-value"];
+                    varInput.title = `默认值: ${varObj["default-value"]}`;
+                    varInput.value = varObj.value ?? varObj["default-value"];
+                    break;
+                case "number": {
+                    varInput.type = "number";
+                    const [defaultValue, min, max, step] = varObj["default-value"].split(",").map(parseFloat);
+                    varInput.placeholder = defaultValue;
+                    varInput.title = `默认值: ${defaultValue}, 范围: [${isFinite(min) ? min : "-∞"}, ${isFinite(max) ? max : "+∞"}], 步长: ${step ?? "1"}`;
+                    varInput.value = varObj.value ?? defaultValue;
+                    varInput.min = isFinite(min) ? min : null;
+                    varInput.max = isFinite(max) ? min : null;
+                    varInput.step = step ?? "1";
+                    break;
+                }
+                default:
+                    varInput.type = "text";
+                    varInput.placeholder = varObj["default-value"];
+                    varInput.title = `默认值: ${varObj["default-value"]}`;
+                    varInput.value = varObj.value ?? varObj["default-value"];
+            }
             varInput.addEventListener("change", () => {
                 transitio.configChange(path, { [name]: varInput.value });
             });
