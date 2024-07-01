@@ -33,6 +33,11 @@
     .transitio details {
         > summary {
             list-style: none;
+            outline: none;
+        }
+
+        > setting-item {
+            padding-left: 1em;
         }
 
         &.is-loading {
@@ -100,12 +105,16 @@
         font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
     }
 
-    .transitio details:not([data-deleted]):hover .transitio-more {
+    .transitio details > summary:hover .transitio-more {
         opacity: 0.6;
 
-        &:hover {
+        &:not([disabled]):hover {
             transform: scale(1.2);
             opacity: 1;
+        }
+
+        &[disabled] {
+            cursor: not-allowed;
         }
     }
 

@@ -70,6 +70,9 @@ async function onSettingWindowCreated(view) {
         details.setAttribute(configDataAttr, path);
         details.name = detailsName;
         const summary = details.appendChild(document.createElement("summary"));
+        summary.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent opening the details when clicking the summary
+        });
         // Summary part
         const item = summary.appendChild(document.createElement("setting-item"));
         item.setAttribute("data-direction", "row");
@@ -85,7 +88,7 @@ async function onSettingWindowCreated(view) {
         remove.classList.add("transitio-more");
         remove.title = "删除此样式";
         remove.addEventListener("click", () => {
-            if (!item.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute("data-deleted")) {
                 transitio.removeStyle(path);
             }
         });
@@ -94,7 +97,7 @@ async function onSettingWindowCreated(view) {
         showInFolder.classList.add("transitio-more");
         showInFolder.title = "在文件夹中显示";
         showInFolder.addEventListener("click", () => {
-            if (!item.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute("data-deleted")) {
                 transitio.open("show", path);
             }
         });
@@ -103,18 +106,19 @@ async function onSettingWindowCreated(view) {
         configureBtn.classList.add("transitio-more");
         configureBtn.title = "配置变量";
         configureBtn.addEventListener("click", () => {
-            // TODO: Implement this
+            if (!details.hasAttribute("data-deleted") && !configureBtn.hasAttribute("disabled")) {
+                details.toggleAttribute("open");
+            }
         });
         const switch_ = right.appendChild(document.createElement("setting-switch"));
         switch_.setAttribute(switchDataAttr, path);
         switch_.title = "启用/禁用此样式";
         switch_.addEventListener("click", () => {
-            if (!item.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute("data-deleted")) {
                 switch_.parentNode.classList.toggle("is-loading", true);
                 transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
             }
         });
-        // TODO: Details part
         return details;
     }
     transitio.onUpdateStyle((event, args) => {
@@ -136,7 +140,29 @@ async function onSettingWindowCreated(view) {
         if (isDeleted) {
             details.toggleAttribute("data-deleted", true);
         }
-        // TODO: Details part
+        // Details part
+        for (const variable of details.children) { // Remove all existing variables
+            if (variable.tagName === "SETTING-ITEM") {
+                variable.remove();
+            }
+        }
+        const configureBtn = item.querySelector("span[title='配置变量']");
+        const noVariables = Object.keys(meta.variables).length === 0;
+        configureBtn.toggleAttribute("disabled", noVariables);
+        details.toggleAttribute("open", !noVariables); // Close the details if there are no variables
+        for (const [name, varObj] of Object.entries(meta.variables)) {
+            const varItem = details.appendChild(document.createElement("setting-item"));
+            varItem.setAttribute("data-direction", "row");
+            const varName = varItem.appendChild(document.createElement("setting-text"));
+            const varInput = varItem.appendChild(document.createElement("input"));
+            varName.textContent = varObj.label;
+            varName.title = name;
+            varInput.type = "text";
+            varInput.value = varObj.value ?? varObj["default-value"];
+            varInput.addEventListener("change", () => {
+                transitio.configChange(path, { [name]: varInput.value });
+            });
+        }
         log("onUpdateStyle", path, enabled);
     });
     transitio.onResetStyle(() => {
