@@ -80,6 +80,7 @@ plugins (所有的插件目录)
 | compact-at-list | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) |
 | demo-mode | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) |
 | font-color | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 | [GitHub](https://github.com/nogodnodevil/Transitio--font-color) |
+| hide-emoticon-response | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) |
 | hide-items | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
 | hide-level | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
 | hide-lock | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) |
