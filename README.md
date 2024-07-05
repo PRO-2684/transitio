@@ -97,6 +97,7 @@ plugins (所有的插件目录)
 | no-update-dot | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
 | qqface-fine-tune | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
 | SimSun-font | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) |
+| Smooth QQ | 🔴 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 | [GitHub](https://github.com/MapleRecall/Transitio-user-css#smooth-qq) |
 | transition | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
 | transparent | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
 | wechat-theme | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 | [GitHub](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) |
