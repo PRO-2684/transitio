@@ -94,6 +94,12 @@ async function onSettingWindowCreated(view) {
             more.title = title;
             return more;
         }
+        const homepage = addTransitioMore("🔗", "打开样式主页", "transitio-homepage");
+        homepage.addEventListener("click", () => {
+            if (!details.hasAttribute("data-deleted") && !homepage.hasAttribute("disabled")) {
+                transitio.open("link", homepage.getAttribute("data-homepage-url"));
+            }
+        });
         const remove = addTransitioMore("🗑️", "删除此样式", "transitio-remove");
         remove.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted")) {
@@ -127,7 +133,7 @@ async function onSettingWindowCreated(view) {
         const { path, meta, enabled } = args;
         const isDeleted = meta.name === " [已删除] ";
         const details = $(`details[${configDataAttr}="${path}"]`) || addItem(path);
-        // Summary part
+        // Summary part - Name and Description
         const item = details.querySelector("setting-item");
         const itemName = item.querySelector("setting-text");
         const optionalVersion = meta.version ? ` (v${meta.version})` : "";
@@ -136,6 +142,19 @@ async function onSettingWindowCreated(view) {
         const itemDesc = item.querySelector("setting-text[data-type='secondary']");
         itemDesc.textContent = meta.description || "此文件没有描述";
         itemDesc.title = itemDesc.textContent;
+        // Summary part - More
+        const homepage = item.querySelector("span.transitio-homepage");
+        const url = meta.homepageURL;
+        if (url && (url.startsWith("https://") || url.startsWith("http://"))) {
+            homepage.setAttribute("data-homepage-url", url);
+            homepage.toggleAttribute("disabled", false);
+        } else {
+            homepage.removeAttribute("data-homepage-url");
+            homepage.toggleAttribute("disabled", true);
+        }
+        const configureBtn = item.querySelector("span.transitio-configure");
+        const noVariables = Object.keys(meta.variables).length === 0;
+        configureBtn.toggleAttribute("disabled", noVariables);
         const switch_ = item.querySelector(`setting-switch[${switchDataAttr}="${path}"]`);
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
@@ -143,14 +162,11 @@ async function onSettingWindowCreated(view) {
             details.toggleAttribute("data-deleted", true);
         }
         // Details part
-        for (const variable of Array.from(details.children)) { // Remove all existing variables
-            if (variable.tagName === "SETTING-ITEM") {
-                variable.remove();
+        for (const el of Array.from(details.children)) { // Remove all existing variables
+            if (el.tagName === "SETTING-ITEM") {
+                el.remove();
             }
         }
-        const configureBtn = item.querySelector("span.transitio-configure");
-        const noVariables = Object.keys(meta.variables).length === 0;
-        configureBtn.toggleAttribute("disabled", noVariables);
         if (noVariables) { // Close the details if there are no variables
             details.toggleAttribute("open", false);
         }
