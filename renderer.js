@@ -87,28 +87,26 @@ async function onSettingWindowCreated(view) {
         left.appendChild(itemDesc);
         const right = item.appendChild(document.createElement("div"));
         right.classList.add("transitio-menu");
-        const remove = right.appendChild(document.createElement("span"));
-        remove.textContent = "🗑️";
-        remove.classList.add("transitio-more", "transitio-remove");
-        remove.title = "删除此样式";
+        function addTransitioMore(icon, title, className) {
+            const more = right.appendChild(document.createElement("span"));
+            more.textContent = icon;
+            more.classList.add("transitio-more", className);
+            more.title = title;
+            return more;
+        }
+        const remove = addTransitioMore("🗑️", "删除此样式", "transitio-remove");
         remove.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted")) {
                 transitio.removeStyle(path);
             }
         });
-        const showInFolder = right.appendChild(document.createElement("span"));
-        showInFolder.textContent = "📂";
-        showInFolder.classList.add("transitio-more", "transitio-folder");
-        showInFolder.title = "在文件夹中显示";
+        const showInFolder = addTransitioMore("📂", "在文件夹中显示", "transitio-folder");
         showInFolder.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted")) {
                 transitio.open("show", path);
             }
         });
-        const configureBtn = right.appendChild(document.createElement("span"));
-        configureBtn.textContent = "⚙️";
-        configureBtn.classList.add("transitio-more", "transitio-configure");
-        configureBtn.title = "配置变量";
+        const configureBtn = addTransitioMore("⚙️", "配置变量", "transitio-configure");
         configureBtn.addEventListener("click", () => {
             if (!details.hasAttribute("data-deleted") && !configureBtn.hasAttribute("disabled")) {
                 details.toggleAttribute("open");
