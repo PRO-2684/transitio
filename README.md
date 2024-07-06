@@ -73,31 +73,31 @@ plugins (所有的插件目录)
 >
 > 若你有愿意分享的样式，欢迎[提交 PR 或 Issue](https://github.com/PRO-2684/transitio/issues/4) 来将它们添加到这里。编写样式前推荐先阅读 [Wiki](https://github.com/PRO-2684/transitio/wiki)。
 
-| 文件名 | 用户样式 | 作者 | 说明 | 链接 |
-| --- | --- | --- | --- | --- |
-| auto-fold-chat-input-area | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 | [GitHub](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) |
-| avatar-float | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) |
-| compact-at-list | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) |
-| demo-mode | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) |
-| font-color | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 | [GitHub](https://github.com/nogodnodevil/Transitio--font-color) |
-| hide-emoticon-response | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) |
-| hide-items | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-items) |
-| hide-level | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 | [GitHub](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) |
-| hide-lock | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) |
-| hide-self | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#hide-self) |
-| highlight-at | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) |
-| image-viewer | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) |
-| ImageSize | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 | [GitHub](https://github.com/zhuoxin-lzk/transitio-ImageSize) |
-| input-placeholder | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) |
-| message-img-transparent | 🔴 | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 | [GitHub](https://github.com/lamprose/transitio-css#message-img-transparent) |
-| link-color | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#link-color) |
-| lite-tools-recall-enhancement | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 lite-tools 的撤回消息加上红色增强描边 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement) |
-| ng-mask | 🔴 | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） | [GitHub](https://github.com/KelsAstell/Transitio-ng-mask) |
-| no-update-dialog | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) |
-| no-update-dot | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) |
-| qqface-fine-tune | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) |
-| SimSun-font | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 | [GitHub](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) |
-| Smooth QQ | 🔴 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 | [GitHub](https://github.com/MapleRecall/Transitio-user-css#smooth-qq) |
-| transition | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transition) |
-| transparent | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 | [GitHub](https://github.com/PRO-2684/Transitio-user-css/#transparent) |
-| wechat-theme | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 | [GitHub](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) |
+| 名称 | 用户样式 | 作者 | 说明 |
+| --- | --- | --- | --- |
+| [auto-fold-chat-input-area](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 |
+| [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
+| [compact-at-list](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 |
+| [demo-mode](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS |
+| [font-color](https://github.com/nogodnodevil/Transitio--font-color) | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 |
+| [hide-emoticon-response](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 |
+| [hide-items](https://github.com/PRO-2684/Transitio-user-css/#hide-items) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 |
+| [hide-level](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 |
+| [hide-lock](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") |
+| [hide-self](https://github.com/PRO-2684/Transitio-user-css/#hide-self) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 |
+| [highlight-at](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 |
+| [image-viewer](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 |
+| [ImageSize](https://github.com/zhuoxin-lzk/transitio-ImageSize) | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 |
+| [input-placeholder](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） |
+| [message-img-transparent](https://github.com/lamprose/transitio-css#message-img-transparent) | 🔴 | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 |
+| [link-color](https://github.com/PRO-2684/Transitio-user-css/#link-color) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 |
+| [lite-tools-recall-enhancement](https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 lite-tools 的撤回消息加上红色增强描边 |
+| [ng-mask](https://github.com/KelsAstell/Transitio-ng-mask) | 🔴 | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） |
+| [no-update-dialog](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 |
+| [no-update-dot](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 |
+| [qqface-fine-tune](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 |
+| [SimSun-font](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 |
+| [Smooth QQ](https://github.com/MapleRecall/Transitio-user-css#smooth-qq) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 |
+| [transition](https://github.com/PRO-2684/Transitio-user-css/#transition) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 |
+| [transparent](https://github.com/PRO-2684/Transitio-user-css/#transparent) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 |
+| [wechat-theme](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 |
