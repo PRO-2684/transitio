@@ -96,8 +96,10 @@ plugins (所有的插件目录)
 | [no-update-dialog](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 |
 | [no-update-dot](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 |
 | [qqface-fine-tune](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 |
+| [q-tag-enhancement](https://github.com/PRO-2684/Transitio-user-css/#q-tag-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 qq 的各种头衔添加对应颜色的高光 |
 | [SimSun-font](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 |
 | [Smooth QQ](https://github.com/MapleRecall/Transitio-user-css#smooth-qq) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 |
 | [transition](https://github.com/PRO-2684/Transitio-user-css/#transition) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 |
 | [transparent](https://github.com/PRO-2684/Transitio-user-css/#transparent) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 |
+| [variable-fonts-fix](https://github.com/PRO-2684/Transitio-user-css/#variable-fonts-fix) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给可变字体添加一定的字宽 |
 | [wechat-theme](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 |
