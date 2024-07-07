@@ -296,9 +296,7 @@ function onConfigChange(event, absPath, arg) {
         Object.assign(config.styles[absPath].variables, arg);
     }
     updateConfig();
-    if (!devMode) {
-        updateStyle(absPath);
-    }
+    updateStyle(absPath);
 }
 
 // 监听开发者模式开关
