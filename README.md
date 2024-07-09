@@ -103,3 +103,7 @@ plugins (所有的插件目录)
 | [transparent](https://github.com/PRO-2684/Transitio-user-css/#transparent) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 |
 | [variable-fonts-fix](https://github.com/PRO-2684/Transitio-user-css/#variable-fonts-fix) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给可变字体添加一定的字宽 |
 | [wechat-theme](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 |
+
+## ⭐ Star History
+
+[![Stargazers over time](https://starchart.cc/PRO-2684/transitio.svg?variant=adaptive)](https://starchart.cc/PRO-2684/transitio)
