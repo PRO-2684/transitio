@@ -77,6 +77,7 @@ plugins (所有的插件目录)
 | --- | --- | --- | --- |
 | [auto-fold-chat-input-area](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 |
 | [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
+| [customize-more-menu](https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏主界面更多菜单中的项目 |
 | [compact-at-list](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 |
 | [demo-mode](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS |
 | [font-color](https://github.com/nogodnodevil/Transitio--font-color) | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 |
