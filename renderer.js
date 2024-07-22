@@ -28,7 +28,12 @@ function applyVariables(css, variables) {
                 const float = parseFloat(value);
                 return isNaN(float) ? match : float.toString();
             }
+            case "percentage": {
+                const int = parseInt(value);
+                return isNaN(int) ? match : `${int}%`;
+            }
             default:
+                // color/colour, raw
                 return value;
         }
     });
@@ -179,6 +184,7 @@ async function onSettingWindowCreated(view) {
             varName.title = name;
             switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
                 case "color":
+                case "colour":
                     varInput.type = "color";
                     varInput.placeholder = varObj["default-value"];
                     varInput.title = `默认值: ${varObj["default-value"]}`;
@@ -199,7 +205,23 @@ async function onSettingWindowCreated(view) {
                     }
                     break;
                 }
+                case "percentage": {
+                    varInput.type = "number";
+                    const [defaultValue, min, max, step] = varObj["default-value"].split(",").map(parseFloat);
+                    varInput.placeholder = defaultValue;
+                    varInput.title = `默认值: ${defaultValue}%, 范围: [${isFinite(min) ? min : "-∞"}%, ${isFinite(max) ? max : "+∞"}%], 步长: ${step ?? "1"}%`;
+                    varInput.min = isFinite(min) ? min : 0;
+                    varInput.max = isFinite(max) ? max : 100;
+                    varInput.step = step ?? "1";
+                    if (varObj.value !== varObj["default-value"]) {
+                        varInput.value = varObj.value;
+                    } else {
+                        varInput.value = defaultValue;
+                    }
+                    break;
+                }
                 default:
+                    // text, raw
                     varInput.type = "text";
                     varInput.placeholder = varObj["default-value"];
                     varInput.title = `默认值: ${varObj["default-value"]}`;
