@@ -28,6 +28,7 @@ function applyVariables(css, variables) {
                 const float = parseFloat(value);
                 return isNaN(float) ? match : float.toString();
             }
+            case "percent":
             case "percentage": {
                 const int = parseInt(value);
                 return isNaN(int) ? match : `${int}%`;
@@ -205,6 +206,7 @@ async function onSettingWindowCreated(view) {
                     }
                     break;
                 }
+                case "percent":
                 case "percentage": {
                     varInput.type = "number";
                     const [defaultValue, min, max, step] = varObj["default-value"].split(",").map(parseFloat);
