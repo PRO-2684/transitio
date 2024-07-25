@@ -141,11 +141,11 @@ function getDesc(css) {
 
 // 解析单行定义的的变量
 function processVar(value) {
-    // Regular expression to match "@var <type> <name> <label> <default-value>" pattern
-    const varMatch = value.match(/^(\S+)\s+(\S+)\s+"([^"]+)"\s+"([^"]+)"$/);
+    // Regular expression to match `@var <type> <name> "<label>" <args[]>/<default-value>` pattern
+    const varMatch = value.match(/^(\S+)\s+(\S+)\s+"([^"]+)"\s+(.*)$/);
     if (varMatch) {
-        const [_, varType, varName, varLabel, varDefaultValue] = varMatch;
-        return [varName, { "type": varType, "label": varLabel, "default-value": varDefaultValue, "value": varDefaultValue }];
+        const [_, varType, varName, varLabel, varArgs] = varMatch;
+        return [varName, { "type": varType, "label": varLabel, "args": varArgs, "value": null }];
     } else {
         return null;
     }
