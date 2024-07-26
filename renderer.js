@@ -12,14 +12,6 @@ function log(...args) {
 }
 
 // Helper function for css
-function parseVarArgs(args) {
-    const data = JSON.parse(args);
-    if (data instanceof Array) {
-        return data;
-    } else {
-        return [data];
-    }
-}
 function applyVariables(css, variables) {
     // Regular expression to match the variable pattern `var(--name)`
     const varRegex = /var\(--([^)]+)\)/g;
@@ -28,8 +20,7 @@ function applyVariables(css, variables) {
         if (!varObj) {
             return match;
         }
-        const varArgs = parseVarArgs(varObj.args);
-        const value = varObj.value ?? varArgs[0]; // FIXME
+        const value = varObj.value ?? varObj.args[0];
         switch (varObj.type) {
             case "text":
                 return `"${CSS.escape(value)}"`;
@@ -187,8 +178,7 @@ async function onSettingWindowCreated(view) {
             const varInput = varItem.appendChild(document.createElement("input"));
             varName.textContent = varObj.label;
             varName.title = name;
-            const varArgs = parseVarArgs(varObj.args);
-            const defaultValue = varArgs[0];
+            const defaultValue = varObj.args[0];
             switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
                 case "color":
                 case "colour":
@@ -198,7 +188,7 @@ async function onSettingWindowCreated(view) {
                     break;
                 case "number": {
                     varInput.type = "number";
-                    const [_, min, max, step] = varArgs;
+                    const [_, min, max, step] = varObj.args;
                     varInput.placeholder = defaultValue;
                     varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
                     varInput.min = min;
@@ -209,7 +199,7 @@ async function onSettingWindowCreated(view) {
                 case "percent":
                 case "percentage": {
                     varInput.type = "number";
-                    const [_, min, max, step] = varArgs;
+                    const [_, min, max, step] = varObj.args;
                     varInput.placeholder = defaultValue;
                     const effectiveMin = (min === undefined) ? 0 : min;
                     const effectiveMax = (max === undefined) ? 100 : max;

@@ -139,13 +139,22 @@ function getDesc(css) {
     }
 }
 
-// 解析单行定义的的变量
+// 解析变量的参数
+function parseVarArgs(args) {
+    const data = JSON.parse(args);
+    if (data instanceof Array) {
+        return data;
+    } else {
+        return [data];
+    }
+}
+// 解析单行定义的变量
 function processVar(value) {
     // Regular expression to match `@var <type> <name> "<label>" <args[]>/<default-value>` pattern
     const varMatch = value.match(/^(\S+)\s+(\S+)\s+"([^"]+)"\s+(.*)$/);
     if (varMatch) {
         const [_, varType, varName, varLabel, varArgs] = varMatch;
-        return [varName, { "type": varType, "label": varLabel, "args": varArgs, "value": null }];
+        return [varName, { "type": varType, "label": varLabel, "args": parseVarArgs(varArgs), "value": null }];
     } else {
         return null;
     }
