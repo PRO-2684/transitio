@@ -12,6 +12,37 @@ function log(...args) {
 }
 
 // Helper function for css
+function getSelectDefaultValue(varArgs) {
+    // varArgs: [default-index, option1, option2, ...]
+    //   option: [value, label] or value
+    const defaultIndex = varArgs[0];
+    const defaultOption = varArgs[defaultIndex + 1];
+    if (Array.isArray(defaultOption)) {
+        return defaultOption[0];
+    } else {
+        return defaultOption;
+    }
+}
+function constructVarValue(varObj) {
+    const value = varObj.value ?? varObj.args[0];
+    switch (varObj.type) {
+        case "text":
+            return `"${CSS.escape(value)}"`;
+        case "number":
+            return isNaN(value) ? value : value.toString();
+        case "percent":
+        case "percentage":
+            return isNaN(value) ? value : `${value}%`;
+        case "select": {
+            // varObj.args: [default-index, option1, option2, ...]
+            //   option: [value, label] or value
+            // varObj.value: value
+            return varObj.value ?? getSelectDefaultValue(varObj.args);
+        }
+        default: // color/colour, raw
+            return value.toString();
+    }
+}
 function applyVariables(css, variables) {
     // Regular expression to match the variable pattern `var(--name)`
     const varRegex = /var\(--([^)]+)\)/g;
@@ -20,18 +51,7 @@ function applyVariables(css, variables) {
         if (!varObj) {
             return match;
         }
-        const value = varObj.value ?? varObj.args[0];
-        switch (varObj.type) {
-            case "text":
-                return `"${CSS.escape(value)}"`;
-            case "number":
-                return isNaN(value) ? match : value.toString();
-            case "percent":
-            case "percentage":
-                return isNaN(value) ? match : `${value}%`;
-            default: // color/colour, raw
-                return value.toString();
-        }
+        return constructVarValue(varObj);
     });
 }
 function injectCSS(path, css) {
@@ -70,7 +90,8 @@ async function onSettingWindowCreated(view) {
     const detailsName = "transitio-setting-details";
     view.innerHTML = await r.text();
     const container = $("setting-section.snippets > setting-panel > setting-list");
-    function addItem(path) { // Add a list item with name and description, returns the switch
+    // Helper functions for the setting window
+    function addItem(path) { // Add a item representing the user CSS with name and description, returns the added details element
         const details = container.appendChild(document.createElement("details"));
         details.setAttribute(configDataAttr, path);
         details.name = detailsName;
@@ -130,6 +151,69 @@ async function onSettingWindowCreated(view) {
         });
         return details;
     }
+    function constructVarInput(varObj) { // Construct the element used for inputting variables
+        let varInput;
+        let defaultValue = varObj.args[0];
+        switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
+            case "color":
+            case "colour":
+                varInput = document.createElement("input");
+                varInput.type = "color";
+                varInput.placeholder = defaultValue;
+                varInput.title = `默认值: ${defaultValue}`;
+                break;
+            case "number": {
+                varInput = document.createElement("input");
+                varInput.type = "number";
+                const [_, min, max, step] = varObj.args;
+                varInput.placeholder = defaultValue;
+                varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
+                varInput.min = min;
+                varInput.max = max;
+                varInput.step = step ?? 1;
+                break;
+            }
+            case "percent":
+            case "percentage": {
+                varInput = document.createElement("input");
+                varInput.type = "number";
+                const [_, min, max, step] = varObj.args;
+                varInput.placeholder = defaultValue;
+                const effectiveMin = (min === undefined) ? 0 : min;
+                const effectiveMax = (max === undefined) ? 100 : max;
+                varInput.title = `默认值: ${defaultValue}%, 范围: [${effectiveMin ?? "-∞"}%, ${effectiveMax ?? "+∞"}%], 步长: ${step ?? "1"}%`;
+                varInput.min = effectiveMin;
+                varInput.max = effectiveMax;
+                varInput.step = step ?? "1";
+                break;
+            }
+            case "select": {
+                varInput = document.createElement("select");
+                defaultValue = getSelectDefaultValue(varObj.args);
+                varInput.title = `默认值: ${defaultValue}`;
+                // const defaultIndex = varObj.args[0];
+                for (let i = 1; i < varObj.args.length; i++) {
+                    const option = varObj.args[i];
+                    const value = Array.isArray(option) ? option[0] : option;
+                    const label = Array.isArray(option) ? option[1] : option;
+                    const optionElement = document.createElement("option");
+                    optionElement.value = value;
+                    optionElement.textContent = label;
+                    varInput.appendChild(optionElement);
+                }
+                break;
+            }
+            default:
+                // text, raw
+                varInput = document.createElement("input");
+                varInput.type = "text";
+                varInput.placeholder = defaultValue;
+                varInput.title = `默认值: ${defaultValue}`;
+        }
+        varInput.value = varObj.value ?? defaultValue;
+        varInput.toggleAttribute("required", true);
+        return varInput;
+    }
     transitio.onUpdateStyle((event, args) => {
         const { path, meta, enabled } = args;
         const isDeleted = meta.name === " [已删除] ";
@@ -175,48 +259,9 @@ async function onSettingWindowCreated(view) {
             const varItem = details.appendChild(document.createElement("setting-item"));
             varItem.setAttribute("data-direction", "row");
             const varName = varItem.appendChild(document.createElement("setting-text"));
-            const varInput = varItem.appendChild(document.createElement("input"));
             varName.textContent = varObj.label;
             varName.title = name;
-            const defaultValue = varObj.args[0];
-            switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
-                case "color":
-                case "colour":
-                    varInput.type = "color";
-                    varInput.placeholder = defaultValue;
-                    varInput.title = `默认值: ${defaultValue}`;
-                    break;
-                case "number": {
-                    varInput.type = "number";
-                    const [_, min, max, step] = varObj.args;
-                    varInput.placeholder = defaultValue;
-                    varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
-                    varInput.min = min;
-                    varInput.max = max;
-                    varInput.step = step ?? 1;
-                    break;
-                }
-                case "percent":
-                case "percentage": {
-                    varInput.type = "number";
-                    const [_, min, max, step] = varObj.args;
-                    varInput.placeholder = defaultValue;
-                    const effectiveMin = (min === undefined) ? 0 : min;
-                    const effectiveMax = (max === undefined) ? 100 : max;
-                    varInput.title = `默认值: ${defaultValue}%, 范围: [${effectiveMin ?? "-∞"}%, ${effectiveMax ?? "+∞"}%], 步长: ${step ?? "1"}%`;
-                    varInput.min = effectiveMin;
-                    varInput.max = effectiveMax;
-                    varInput.step = step ?? "1";
-                    break;
-                }
-                default:
-                    // text, raw
-                    varInput.type = "text";
-                    varInput.placeholder = defaultValue;
-                    varInput.title = `默认值: ${defaultValue}`;
-            }
-            varInput.value = varObj.value ?? defaultValue;
-            varInput.toggleAttribute("required", true);
+            const varInput = varItem.appendChild(constructVarInput(varObj));
             varInput.addEventListener("change", () => {
                 if (varInput.reportValidity()) {
                     transitio.configChange(path, { [name]: varInput.value });
