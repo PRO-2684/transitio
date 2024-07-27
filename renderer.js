@@ -33,6 +33,11 @@ function constructVarValue(varObj) {
         case "percent":
         case "percentage":
             return isNaN(value) ? value : `${value}%`;
+        case "checkbox":
+            // varObj.args: [default-index/boolean, option1, option2, ...]
+            //   option: value
+            // varObj.value: default-index/boolean
+            return value ? varObj.args[2] : varObj.args[1];
         case "select": {
             // varObj.args: [default-index, option1, option2, ...]
             //   option: [value, label] or value
@@ -151,6 +156,28 @@ async function onSettingWindowCreated(view) {
         });
         return details;
     }
+    function getValueFromInput(varInput) {
+        switch (varInput.type) {
+            case "number":
+            case "percent":
+            case "percentage":
+                return parseFloat(varInput.value);
+            case "checkbox":
+                return varInput.checked;
+            default: // text, color/colour, select, raw
+                return varInput.value;
+        }
+    }
+    function setValueToInput(varInput, value) {
+        switch (varInput.type) {
+            case "checkbox":
+                varInput.checked = value;
+                break;
+            default: // text, color/colour, number, percent/percentage, select, raw
+                varInput.value = value;
+                break;
+        }
+    }
     function constructVarInput(varObj) { // Construct the element used for inputting variables
         let varInput;
         let defaultValue = varObj.args[0];
@@ -161,6 +188,7 @@ async function onSettingWindowCreated(view) {
                 varInput.type = "color";
                 varInput.placeholder = defaultValue;
                 varInput.title = `默认值: ${defaultValue}`;
+                varInput.toggleAttribute("required", true);
                 break;
             case "number": {
                 varInput = document.createElement("input");
@@ -171,6 +199,7 @@ async function onSettingWindowCreated(view) {
                 varInput.min = min;
                 varInput.max = max;
                 varInput.step = step ?? 1;
+                varInput.toggleAttribute("required", true);
                 break;
             }
             case "percent":
@@ -185,13 +214,20 @@ async function onSettingWindowCreated(view) {
                 varInput.min = effectiveMin;
                 varInput.max = effectiveMax;
                 varInput.step = step ?? "1";
+                varInput.toggleAttribute("required", true);
+                break;
+            }
+            case "checkbox": {
+                varInput = document.createElement("input");
+                varInput.type = "checkbox";
+                defaultValue = Boolean(defaultValue);
+                varInput.title = `默认值: ${defaultValue}`;
                 break;
             }
             case "select": {
                 varInput = document.createElement("select");
                 defaultValue = getSelectDefaultValue(varObj.args);
                 varInput.title = `默认值: ${defaultValue}`;
-                // const defaultIndex = varObj.args[0];
                 for (let i = 1; i < varObj.args.length; i++) {
                     const option = varObj.args[i];
                     const value = Array.isArray(option) ? option[0] : option;
@@ -209,9 +245,9 @@ async function onSettingWindowCreated(view) {
                 varInput.type = "text";
                 varInput.placeholder = defaultValue;
                 varInput.title = `默认值: ${defaultValue}`;
+                varInput.toggleAttribute("required", true);
         }
-        varInput.value = varObj.value ?? defaultValue;
-        varInput.toggleAttribute("required", true);
+        setValueToInput(varInput, varObj.value ?? defaultValue);
         return varInput;
     }
     transitio.onUpdateStyle((event, args) => {
@@ -264,7 +300,7 @@ async function onSettingWindowCreated(view) {
             const varInput = varItem.appendChild(constructVarInput(varObj));
             varInput.addEventListener("change", () => {
                 if (varInput.reportValidity()) {
-                    transitio.configChange(path, { [name]: varInput.value });
+                    transitio.configChange(path, { [name]: getValueFromInput(varInput) });
                 }
             });
         }
