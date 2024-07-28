@@ -105,6 +105,7 @@ plugins (所有的插件目录)
 | [transition](https://github.com/PRO-2684/Transitio-user-css/#transition) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 |
 | [transparent](https://github.com/PRO-2684/Transitio-user-css/#transparent) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 |
 | [variable-fonts-fix](https://github.com/PRO-2684/Transitio-user-css/#variable-fonts-fix) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给可变字体添加一定的字宽 |
+| [vue-highlight](https://github.com/PRO-2684/Transitio-user-css/#vue-highlight) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮 Vue components，用于开发目的 |
 | [wechat-theme](https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/) | 🔴 | [festoney8](https://github.com/festoney8) | 高仿微信风格主题 |
 
 ## ⭐ Star History
