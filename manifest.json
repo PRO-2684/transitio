@@ -5,7 +5,7 @@
     "name": "Transitio",
     "slug": "transitio",
     "description": "🪄 自定义 CSS 片段加载器",
-    "version": "1.3.5",
+    "version": "1.4.0",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
     "authors": [
@@ -18,7 +18,7 @@
         "repo": "PRO-2684/transitio",
         "branch": "main",
         "release": {
-            "tag": "v1.3.5",
+            "tag": "v1.4.0",
             "file": "transitio-release.zip"
         }
     },
