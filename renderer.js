@@ -363,22 +363,53 @@ async function onSettingWindowCreated(view) {
     const inputTags = ["INPUT", "SELECT", "TEXTAREA"];
     const search = $("#transitio-search");
     const listToSearch = $("setting-section.snippets > setting-panel > setting-list");
-    function getSummaryText(detail) { // Get a brief summary for searching
+    const highlight = new Highlight();
+    CSS.highlights.set("transitio-search-highlight", highlight);
+    function doHighlight(textNode, start, end) { // Highlight a range of text in given Element
+        const range = new Range();
+        range.setStart(textNode, start);
+        range.setEnd(textNode, end);
+        highlight.add(range);
+    }
+    function searchAndHighlight(el, keyword) { // Search the keyword and highlight the matched text, returns if a match is found
+        if (!el) return false;
+        const textContent = el.textContent.toLowerCase();
+        let isMatch = false;
+        let startIndex = 0;
+        let index;
+        while ((index = textContent.indexOf(keyword, startIndex)) !== -1) {
+            doHighlight(el.firstChild, index, index + keyword.length);
+            isMatch = true;
+            startIndex = index + keyword.length;
+        }
+        return isMatch;
+    }
+    function searchAllAndHighlight(detail, keywords) { // Match the keywords and highlight the matched text, returns if all keywords are found
         const settingItem = detail.querySelector("summary > setting-item");
-        const name = settingItem.querySelector("setting-text").textContent;
-        const desc = settingItem.querySelector("setting-text[data-type='secondary']").textContent;
-        return `${name}\n${desc}`.toLowerCase();
+        const nameEl = settingItem.querySelector("setting-text");
+        const descEl = settingItem.querySelector("setting-text[data-type='secondary']");
+        let matches = 0;
+        for (const keyword of keywords) {
+            const nameMatch = searchAndHighlight(nameEl, keyword);
+            const descMatch = searchAndHighlight(descEl, keyword);
+            if (nameMatch || descMatch) {
+                matches++;
+            }
+        }
+        return matches === keywords.size;
     }
     function doSearch() { // Main function for searching
         log("Search", search.value);
+        highlight.clear(); // Clear previous highlights
         const items = listToSearch.querySelectorAll("details");
-        const searchWords = search.value.toLowerCase() // Convert to lowercase
-            .split(" ") // Split by space
-            .map(word => word.trim()) // Remove leading and trailing spaces
-            .filter(word => word.length > 0); // Remove empty strings
+        const searchWords = new Set( // Use Set to remove duplicates
+            search.value.toLowerCase() // Convert to lowercase
+                .split(" ") // Split by space
+                .map(word => word.trim()) // Remove leading and trailing spaces
+                .filter(word => word.length > 0) // Remove empty strings
+        );
         items.forEach((detail) => { // Iterate through all `details`
-            const summaryText = getSummaryText(detail);
-            const isMatch = searchWords.every(word => summaryText.includes(word)); // Check if all words are included
+            const isMatch = searchAllAndHighlight(detail, searchWords);
             detail.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
         });
     }
