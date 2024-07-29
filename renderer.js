@@ -1,6 +1,4 @@
 const styleDataAttr = "data-transitio-style";
-const configDataAttr = "data-transitio-config";
-const switchDataAttr = "data-transitio-switch";
 const $ = document.querySelector.bind(document);
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
@@ -89,6 +87,10 @@ transitio.onResetStyle(() => {
 transitio.rendererReady();
 isDebug = await transitio.queryIsDebug();
 async function onSettingWindowCreated(view) {
+    const configDataAttr = "data-transitio-config";
+    const switchDataAttr = "data-transitio-switch";
+    const deletedDataAttr = "data-deleted";
+    const searchHiddenDataAttr = "data-search-hidden";
     log(pluginPath);
     const r = await fetch(`local:///${pluginPath}/settings.html`);
     const $ = view.querySelector.bind(view);
@@ -123,25 +125,25 @@ async function onSettingWindowCreated(view) {
         }
         const homepage = addTransitioMore("🔗", "打开样式主页", "transitio-homepage");
         homepage.addEventListener("click", () => {
-            if (!details.hasAttribute("data-deleted") && !homepage.hasAttribute("disabled")) {
+            if (!details.hasAttribute(deletedDataAttr) && !homepage.hasAttribute("disabled")) {
                 transitio.open("link", homepage.getAttribute("data-homepage-url"));
             }
         });
         const remove = addTransitioMore("🗑️", "删除此样式", "transitio-remove");
         remove.addEventListener("click", () => {
-            if (!details.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute(deletedDataAttr)) {
                 transitio.removeStyle(path);
             }
         });
         const showInFolder = addTransitioMore("📂", "在文件夹中显示", "transitio-folder");
         showInFolder.addEventListener("click", () => {
-            if (!details.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute(deletedDataAttr)) {
                 transitio.open("show", path);
             }
         });
         const configureBtn = addTransitioMore("⚙️", "配置变量", "transitio-configure");
         configureBtn.addEventListener("click", () => {
-            if (!details.hasAttribute("data-deleted") && !configureBtn.hasAttribute("disabled")) {
+            if (!details.hasAttribute(deletedDataAttr) && !configureBtn.hasAttribute("disabled")) {
                 details.toggleAttribute("open");
             }
         });
@@ -149,7 +151,7 @@ async function onSettingWindowCreated(view) {
         switch_.setAttribute(switchDataAttr, path);
         switch_.title = "启用/禁用此样式";
         switch_.addEventListener("click", () => {
-            if (!details.hasAttribute("data-deleted")) {
+            if (!details.hasAttribute(deletedDataAttr)) {
                 switch_.parentNode.classList.toggle("is-loading", true);
                 transitio.configChange(path, switch_.toggleAttribute("is-active")); // Update the UI immediately, so it would be more smooth
             }
@@ -250,6 +252,7 @@ async function onSettingWindowCreated(view) {
         setValueToInput(varInput, varObj.value ?? defaultValue);
         return varInput;
     }
+    // Update the setting window
     transitio.onUpdateStyle((event, args) => {
         const { path, meta, enabled } = args;
         const isDeleted = meta.name === " [已删除] ";
@@ -280,7 +283,7 @@ async function onSettingWindowCreated(view) {
         switch_.toggleAttribute("is-active", enabled);
         switch_.parentNode.classList.toggle("is-loading", false);
         if (isDeleted) {
-            details.toggleAttribute("data-deleted", true);
+            details.toggleAttribute(deletedDataAttr, true);
         }
         // Details part
         for (const el of Array.from(details.children)) { // Remove all existing variables
@@ -356,17 +359,61 @@ async function onSettingWindowCreated(view) {
         }
     }
     transitio.rendererReady(); // We don't have to create a new function for this 😉
+    // Search
+    const inputTags = ["INPUT", "SELECT", "TEXTAREA"];
+    const search = $("#transitio-search");
+    const listToSearch = $("setting-section.snippets > setting-panel > setting-list");
+    function getSummaryText(detail) { // Get a brief summary for searching
+        const settingItem = detail.querySelector("summary > setting-item");
+        const name = settingItem.querySelector("setting-text").textContent;
+        const desc = settingItem.querySelector("setting-text[data-type='secondary']").textContent;
+        const path = detail.getAttribute(configDataAttr);
+        return `${name}\n${desc}\n${path}`.toLowerCase();
+    }
+    function doSearch() { // Main function for searching
+        log("Search", search.value);
+        const items = listToSearch.querySelectorAll("details");
+        const searchWords = search.value.toLowerCase() // Convert to lowercase
+            .split(" ") // Split by space
+            .map(word => word.trim()) // Remove leading and trailing spaces
+            .filter(word => word.length > 0); // Remove empty strings
+        items.forEach((detail) => { // Iterate through all `details`
+            const summaryText = getSummaryText(detail);
+            const isMatch = searchWords.every(word => summaryText.includes(word)); // Check if all words are included
+            detail.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
+        });
+    }
+    document.addEventListener("keydown", (e) => {
+        if (!view.checkVisibility()) return; // The setting window is not visible
+        if (document.activeElement === search) { // The search bar is focused
+            // Escape closes the window
+            if (e.key === "Enter") { // Search
+                search.scrollIntoView();
+            }
+        } else if (!inputTags.includes(document.activeElement.tagName)) { // Not focusing on some other input element
+            // Focus on the search bar when "Enter" or "Ctrl + F" is pressed
+            if (e.key === "Enter" || (e.ctrlKey && e.key === "f")) {
+                e.preventDefault();
+                search.focus();
+                search.scrollIntoView();
+            }
+        }
+    });
+    search.addEventListener("change", doSearch);
+    // Dev mode
     const dev = $("#transitio-dev");
     dev.addEventListener("click", devMode);
     transitio.queryDevMode().then(enabled => {
         log("queryDevMode", enabled);
         dev.toggleAttribute("is-active", enabled);
     });
+    // Debug mode
     if (isDebug) {
         const debug = $("#transitio-debug");
         debug.style.color = "red";
         debug.title = "Debug 模式已激活";
     }
+    // Buttons
     $("#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
     $("#transitio-open-folder").addEventListener("click", () => {
         openURI("path", `${dataPath}/styles`); // Relative to the data directory
