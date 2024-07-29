@@ -367,8 +367,7 @@ async function onSettingWindowCreated(view) {
         const settingItem = detail.querySelector("summary > setting-item");
         const name = settingItem.querySelector("setting-text").textContent;
         const desc = settingItem.querySelector("setting-text[data-type='secondary']").textContent;
-        const path = detail.getAttribute(configDataAttr);
-        return `${name}\n${desc}\n${path}`.toLowerCase();
+        return `${name}\n${desc}`.toLowerCase();
     }
     function doSearch() { // Main function for searching
         log("Search", search.value);
