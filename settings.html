@@ -12,6 +12,31 @@
 
     /* 文件选择框 */
     .transitio input {
+        &[type="file"] {
+            border-color: var(--fill_standard_primary);
+            border-style: dashed;
+            border-radius: 0.5em;
+            padding: 0.5em;
+            transition: border-color 0.2s ease-in-out;
+            &:focus, &:hover {
+                border-color: var(--text_secondary);
+            }
+            &::file-selector-button {
+                background-color: transparent;
+                border-radius: 8px;
+                color: var(--text_primary);
+                border: 1px solid;
+                border-color: var(--fill_standard_primary);
+                height: 2em;
+                transition: background-color 0.2s ease-in-out;
+            }
+            &::file-selector-button:hover {
+                background-color: var(--overlay_hover);
+            }
+        }
+        &[type="checkbox"] {
+            appearance: auto;
+        }
         &[type="number"], &[type="search"] {
             border: 1px solid gray;
             border-radius: 0.5em;
@@ -22,36 +47,6 @@
             padding-top: 0.1em;
             padding-bottom: 0.1em;
             scroll-margin-top: 3em; /* Prevent overlapping with logo */
-        }
-        &[type="file"] {
-            border-color: var(--fill_standard_primary);
-            border-style: dashed;
-            border-radius: 0.5em;
-            padding: 0.5em;
-            transition: border-color 0.2s ease-in-out;
-
-            &:focus,
-            &:hover {
-                border: dashed var(--text_secondary) !important;
-            }
-
-            &::file-selector-button {
-                background-color: transparent;
-                border-radius: 8px;
-                color: var(--text_primary);
-                border: 1px solid;
-                border-color: var(--fill_standard_primary);
-                height: 2em;
-                transition: background-color 0.2s ease-in-out;
-
-            }
-
-            &::file-selector-button:hover {
-                background-color: var(--overlay_hover);
-            }
-        }
-        &[type="checkbox"] {
-            appearance: auto;
         }
         &:invalid {
             border-color: red;
