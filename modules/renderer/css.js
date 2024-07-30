@@ -101,9 +101,5 @@ function cssHelper(path, css, enabled, meta) {
 export {
     styleDataAttr,
     getSelectDefaultValue,
-    // constructVarValue,
-    // applyVariables,
-    // injectCSS,
     cssHelper
 };
-
