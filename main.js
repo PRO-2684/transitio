@@ -1,11 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
+const { extractUserStyleMetadata } = require("./modules/main/parser");
+const { listCSS } = require("./modules/main/walker");
+const { normalize, debounce, simpleLog, dummyLog } = require("./modules/main/utils");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
-const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
-const log = isDebug ? console.log.bind(console, "\x1b[38;2;116;169;246m%s\x1b[0m", "[Transitio]") : () => { };
+const log = isDebug ? simpleLog : dummyLog;
 let devMode = false;
 let watcher = null;
 
@@ -76,134 +78,12 @@ ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
     return isDebug;
 });
 
-// 防抖
-function debounce(fn, time) {
-    let timer = null;
-    return function (...args) {
-        timer && clearTimeout(timer);
-        timer = setTimeout(() => {
-            fn.apply(this, args);
-        }, time);
-    }
-}
-
-// 标准化路径 (Unix style)
-function normalize(path) {
-    return path.replace(":\\", "://").replaceAll("\\", "/");
-}
-
-// 列出 CSS 文件，或指向 CSS 文件的快捷方式
-function listCSS(dir) {
-    const files = [];
-    function walk(dir) {
-        const dirFiles = fs.readdirSync(dir);
-        for (const f of dirFiles) {
-            const stat = fs.lstatSync(dir + "/" + f);
-            if (stat.isDirectory()) {
-                if (!ignoredFolders.has(f)) {
-                    walk(dir + "/" + f);
-                }
-            } else if (f.endsWith(".css")) {
-                files.push(normalize(dir + "/" + f));
-            } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-                const linkPath = dir + "/" + f;
-                try {
-                    const { target } = shell.readShortcutLink(linkPath);
-                    if (target.endsWith(".css")) {
-                        files.push(normalize(linkPath));
-                    }
-                } catch (e) {
-                    log("Failed to read shortcut", linkPath);
-                }
-            }
-        }
-    }
-    walk(dir);
-    return files;
-}
-
 function updateConfig() {
     log("Calling updateConfig");
     debouncedSet("transitio", config);
 }
 
 let config = LiteLoader.api.config.get("transitio", { styles: {} });
-
-// 获取 CSS 文件的首行注释
-function getDesc(css) {
-    const firstLine = css.split("\n")[0].trim();
-    if (firstLine.startsWith("/*") && firstLine.endsWith("*/")) {
-        return firstLine.slice(2, -2).trim();
-    } else {
-        return null;
-    }
-}
-
-// 解析变量的参数
-function parseVarArgs(args) {
-    try {
-        const data = JSON.parse(args);
-        if (data instanceof Array) {
-            return data;
-        } else {
-            return [data];
-        }
-    } catch (e) {
-        log("Error at parseVarArgs:", args, e);
-        return null;
-    }
-}
-// 解析单行定义的变量
-function processVar(value) {
-    // Regular expression to match `@var <type> <name> "<label>" <args[]>/<default-value>` pattern
-    const varMatch = value.match(/^(\S+)\s+(\S+)\s+"([^"]+)"\s+(.*)$/);
-    if (varMatch) {
-        const [_, varType, varName, varLabel, rawVarArgs] = varMatch;
-        const varArgs = parseVarArgs(rawVarArgs);
-        if (!varArgs) {
-            return null;
-        }
-        return [varName, { "type": varType, "label": varLabel, "args": varArgs, "value": null }];
-    } else {
-        return null;
-    }
-}
-
-// 解析 CSS 文件的元数据
-function extractUserStyleMetadata(css) {
-    const result = { variables: {} };
-    // Regular expression to match the UserStyle block with flexibility for multiple "=" and spaces
-    const userStyleRegex = /\/\*\s*=+\s*UserStyle\s*=+\s*([\s\S]*?)\s*=+\s*\/UserStyle\s*=+\s*\*\//;
-    const match = css.match(userStyleRegex);
-
-    if (match) { // If the UserStyle block is found
-        const content = match[1]; // Extract the content within the UserStyle block
-        const lines = content.split('\n'); // Split the content by newline
-
-        lines.forEach(line => {
-            // Regular expression to match "@name value" pattern
-            const matchLine = line.trim().match(/^@(\S+)\s+(.+)$/);
-            if (matchLine) {
-                const name = matchLine[1]; // Extract the name
-                const value = matchLine[2]; // Extract the value
-                if (name === "var") {
-                    const varData = processVar(value);
-                    if (varData) {
-                        const [varName, varObj] = varData;
-                        result.variables[varName] = varObj;
-                    }
-                } else {
-                    result[name] = value; // Store in the result object
-                }
-            }
-        });
-    } else { // Fall back to the old method
-        const comment = getDesc(css) || "";
-        result["description"] = comment;
-    }
-
-    return result;
-}
 
 // 获取 CSS 文件内容
 function getStyle(absPath) {
