@@ -15,12 +15,12 @@ const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
 const debouncedSet = debounce(LiteLoader.api.config.set, updateInterval);
 
-// 创建 styles 目录 (如果不存在)
+// Create `styles` directory if not exists
 if (!fs.existsSync(stylePath)) {
     log(`${stylePath} does not exist, creating...`);
     fs.mkdirSync(stylePath, { recursive: true });
 }
-// 监听
+// IPC events
 ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     reloadStyle(window.webContents);
@@ -85,7 +85,7 @@ function updateConfig() {
 
 let config = LiteLoader.api.config.get("transitio", { styles: {} });
 
-// 获取 CSS 文件内容
+// Get CSS content
 function getStyle(absPath) {
     if (absPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
         const { target } = shell.readShortcutLink(absPath);
@@ -99,13 +99,13 @@ function getStyle(absPath) {
     }
 }
 
-// 样式更改
+// Send updated style to renderer
 function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     log("updateStyle", absPath);
     const css = getStyle(absPath);
     if (!css) return;
-    // 初始化样式配置
+    // Initialize style configuration
     if (typeof config.styles[absPath] !== "object") {
         config.styles[absPath] = {
             enabled: Boolean(config.styles[absPath] ?? true),
@@ -113,7 +113,7 @@ function updateStyle(absPath, webContent) {
         };
         updateConfig();
     }
-    // 读取基本样式配置
+    // Read metadata
     const enabled = config.styles[absPath].enabled;
     const meta = extractUserStyleMetadata(css);
     meta.name ??= path.basename(absPath, ".css");
@@ -123,7 +123,7 @@ function updateStyle(absPath, webContent) {
         log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
         return;
     }
-    // 读取用户定义的变量，删除不存在的变量
+    // Read variables config, delete non-existent ones
     const udfVariables = config.styles[absPath].variables;
     for (const [varName, varValue] of Object.entries(udfVariables)) {
         if (varName in meta.variables) {
@@ -134,7 +134,7 @@ function updateStyle(absPath, webContent) {
             updateConfig();
         }
     }
-    // 向渲染进程发送消息
+    // Send message to renderer
     const msg = { path: absPath, enabled, css, meta };
     if (webContent) {
         webContent.send("LiteLoader.transitio.updateStyle", msg);
@@ -145,7 +145,7 @@ function updateStyle(absPath, webContent) {
     }
 }
 
-// 重载样式
+// Reload all styles
 async function reloadStyle(webContent) {
     log("reloadStyle");
     if (webContent) {
@@ -162,7 +162,7 @@ async function reloadStyle(webContent) {
     }
 }
 
-// 导入样式
+// Import style from renderer
 function importStyle(fname, content) {
     log("importStyle", fname);
     const filePath = path.join(stylePath, fname);
@@ -172,20 +172,21 @@ function importStyle(fname, content) {
     }
 }
 
-// 监听 `styles` 目录修改
+// Reload styles when file changes
 function onStyleChange(eventType, filename) {
     log("onStyleChange", eventType, filename);
-    // 理想情况下
+    // Ideally, we should only update the changed style:
     // if (eventType === "change" && filename) {
     //     updateStyle(filename.slice(0, -4));
     // } else {
     //     resetStyle();
     // }
-    // 由于特性，重命名文件不会触发 rename，反而会触发 change 事件，不好区分
-    reloadStyle(); // 开摆，直接重置所有样式 (反正是开发者模式才会用到)
+    // However, Electron's fs.watch is not reliable enough.
+    // Renaming a file will trigger a `change` event instead of `rename`, making it hard to distinguish.
+    reloadStyle(); // For now, just reload all styles. (Any way, only in dev mode)
 }
 
-// 监听配置修改
+// Listen to config modification (from renderer)
 function onConfigChange(event, absPath, arg) {
     log("onConfigChange", absPath, arg);
     if (typeof arg === "boolean") {
@@ -197,7 +198,7 @@ function onConfigChange(event, absPath, arg) {
     updateStyle(absPath);
 }
 
-// 监听开发者模式开关
+// Listen to dev mode switch (from renderer)
 function onDevMode(event, enable) {
     log("onDevMode", enable);
     devMode = enable;
@@ -211,7 +212,7 @@ function onDevMode(event, enable) {
     }
 }
 
-// 监听目录更改
+// Listen to `styles` directory
 function watchStyleChange() {
     return fs.watch(stylePath, "utf-8",
         debounce(onStyleChange, updateInterval)
