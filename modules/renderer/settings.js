@@ -14,8 +14,6 @@ const configDataAttr = "data-transitio-config";
 const switchDataAttr = "data-transitio-switch";
 /** Attribute of `<details>` that indicates the CSS is deleted */
 const deletedDataAttr = "data-deleted";
-/** Attribute of `<details>` that indicates the CSS is hidden by search */
-const searchHiddenDataAttr = "data-search-hidden";
 /** The `name` attribute of the details element */
 const detailsName = "transitio-setting-details";
 /** The expiration time of the last focused variable */
