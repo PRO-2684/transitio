@@ -18,6 +18,10 @@ const deletedDataAttr = "data-deleted";
 const searchHiddenDataAttr = "data-search-hidden";
 /** The `name` attribute of the details element */
 const detailsName = "transitio-setting-details";
+/** The expiration time of the last focused variable */
+const lastFocusedExpire = 1000;
+/** Last focused style path, variable name and expiration time */
+let lastFocused = [null, null, 0];
 
 /** Function to parse the value from the input/select element.
  * @param {Element} varInput The input/select element.
@@ -333,6 +337,7 @@ function transitioSettingsUpdateStyle(container, args) {
     if (noVariables) { // Close the details if there are no variables
         details.toggleAttribute("open", false);
     }
+    const isLastFocusedStyle = lastFocused[0] === path;
     for (const [name, varObj] of Object.entries(meta.variables)) {
         const varItem = details.appendChild(document.createElement("setting-item"));
         varItem.setAttribute("data-direction", "row");
@@ -342,9 +347,14 @@ function transitioSettingsUpdateStyle(container, args) {
         const varInput = varItem.appendChild(constructVarInput(varObj));
         varInput.addEventListener("change", () => {
             if (varInput.reportValidity()) {
+                lastFocused = [path, name, Date.now() + lastFocusedExpire]; // Remember the last focused variable
                 transitio.configChange(path, { [name]: getValueFromInput(varInput) });
             }
         });
+        if (isLastFocusedStyle && lastFocused[1] === name && lastFocused[2] > Date.now()) {
+            varInput.focus(); // Restore the focus
+            lastFocused = [null, null, 0]; // Clear the last focused variable
+        }
     }
     log("onUpdateStyle", path, enabled);
 }
