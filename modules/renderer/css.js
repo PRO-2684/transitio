@@ -98,8 +98,18 @@ function cssHelper(path, css, enabled, meta) {
     }
 }
 
+/**
+ * Remove all styles injected by transitio.
+ */
+function removeAllStyles() {
+    const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
+    styles.forEach((style) => {
+        style.remove();
+    });
+}
+
 export {
-    styleDataAttr,
     getSelectDefaultValue,
-    cssHelper
+    cssHelper,
+    removeAllStyles
 };

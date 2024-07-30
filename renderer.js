@@ -1,15 +1,10 @@
-import { styleDataAttr, cssHelper } from "./modules/renderer/css.js";
+import { cssHelper, removeAllStyles } from "./modules/renderer/css.js";
 import { initTransitioSettings, transitioSettingsUpdateStyle, transitioSettingsResetStyle } from "./modules/renderer/settings.js";
 
 transitio.onUpdateStyle((event, args) => {
     cssHelper(args.path, args.css, args.enabled, args.meta);
 });
-transitio.onResetStyle(() => {
-    const styles = document.querySelectorAll(`style[${styleDataAttr}]`);
-    styles.forEach((style) => {
-        style.remove();
-    });
-});
+transitio.onResetStyle(removeAllStyles);
 transitio.rendererReady();
 
 /**
