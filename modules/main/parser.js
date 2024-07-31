@@ -13,7 +13,6 @@ function getDesc(css) {
         return null;
     }
 }
-
 /**
  * Parse arguments of `@var` line.
  * @param {string} args The arguments string.
@@ -32,7 +31,6 @@ function parseVarArgs(args) {
         return null;
     }
 }
-
 /**
  * Parse `@var` line.
  * @param {string} value The value of the `@var` line.
@@ -52,7 +50,6 @@ function processVar(value) {
         return null;
     }
 }
-
 /**
  * Parse the UserStyle metadata from the CSS content.
  * @param {string} css The CSS content.

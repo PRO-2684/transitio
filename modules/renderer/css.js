@@ -1,7 +1,9 @@
 // Description: Utilities related to CSS.
 import { log } from "./debug.js";
+
 /** Attribute name for the style element to store the path of the CSS file. */
 const styleDataAttr = "data-transitio-style";
+
 /**
  * Get the default value of a select variable, given the arguments.
  * @param {Array} varArgs Arguments for the select variable.
@@ -95,7 +97,6 @@ function cssHelper(path, css, enabled, meta) {
         injectCSS(path, processedCSS);
     }
 }
-
 /**
  * Remove all styles injected by transitio.
  */
@@ -106,8 +107,4 @@ function removeAllStyles() {
     });
 }
 
-export {
-    getSelectDefaultValue,
-    cssHelper,
-    removeAllStyles
-};
+export { getSelectDefaultValue, cssHelper, removeAllStyles };

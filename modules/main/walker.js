@@ -2,6 +2,8 @@
 const { normalize } = require("./utils");
 const fs = require("fs");
 const { shell } = require("electron");
+
+/** Folders to ignore. */
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
 
 /**

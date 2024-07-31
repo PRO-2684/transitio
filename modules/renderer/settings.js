@@ -63,10 +63,10 @@ function addTransitioMore(right, args) {
     more.title = args.title;
     return more;
 }
-/** Function to add a item representing the user CSS with name and description.
+/** Function to add a item representing the UserStyle with name and description.
  * @param {string} path The path of the CSS file.
  * @param {Element} container The container to add the item.
- * @returns {Element} The added details element.
+ * @returns {Element} The added `details` element.
  */
 function addItem(path, container) {
     const details = container.appendChild(document.createElement("details"));
@@ -198,7 +198,7 @@ function constructVarInput(varObj) {
     return varInput;
 }
 /** Function to setup the easter egg at the settings view.
- * @param {HTMLElement} logo - The logo element.
+ * @param {HTMLElement} logo The logo element.
  * @returns {void}
  */
 function setupEasterEgg(logo) {
@@ -234,13 +234,11 @@ function setupEasterEgg(logo) {
         });
     });
 }
-
 /** Function to initialize the settings view.
  * @param {Element} view The settings view element.
  * @returns {Promise<Element>} The container to add the items.
  */
 async function initTransitioSettings(view) {
-    log(pluginPath);
     const r = await fetch(`local:///${pluginPath}/settings.html`);
     const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
@@ -324,7 +322,6 @@ async function initTransitioSettings(view) {
     const container = $("setting-section.snippets > setting-panel > setting-list");
     return container;
 }
-
 /** Function to handle `updateStyle` event on settings view.
  * @param {Element} container The settings container.
  * @param {Object} args The arguments of the event.
@@ -390,7 +387,7 @@ function transitioSettingsUpdateStyle(container, args) {
             lastFocused = [null, null, 0]; // Clear the last focused variable
         }
     }
-    log("onUpdateStyle", path, enabled);
+    log("transitioSettingsUpdateStyle", path, enabled);
 }
 /** Function to handle `resetStyle` event on settings view.
  * @param {Element} container The settings container.

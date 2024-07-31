@@ -1,5 +1,8 @@
 // Description: Debugging utilities for the renderer.
 let isDebug = false;
+transitio.queryIsDebug().then((result) => {
+    isDebug = result;
+});
 
 /**
  * Log to console if debug mode is enabled.
@@ -10,11 +13,6 @@ function log(...args) {
         console.log("[Transitio]", ...args);
     }
 }
-
-transitio.queryIsDebug().then((result) => {
-    isDebug = result;
-});
-
 /**
  * Show debug hint on settings page.
  * @param {Element} view View element.

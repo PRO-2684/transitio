@@ -67,7 +67,6 @@ function doSearch(highlight, text, container) { // Main function for searching
         detail.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
     });
 }
-
 /** Setup the search bar for the settings view.
  * @param {HTMLElement} view The settings view.
  * @returns {void}
