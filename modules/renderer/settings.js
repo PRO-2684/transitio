@@ -3,21 +3,21 @@ import { log, showDebugHint } from "./debug.js";
 import { getSelectDefaultValue } from "./css.js";
 import { setupSearch } from "./search.js";
 
-/** Transitio plugin path */
+/** Transitio plugin path. */
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
-/** Transitio data path */
+/** Transitio data path. */
 const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
-/** Attribute of `<details>` that stores the CSS path */
+/** Attribute of `<details>` that stores the CSS path. */
 const configDataAttr = "data-transitio-config";
-/** Attribute of `<setting-switch>` that stores the CSS path */
+/** Attribute of `<setting-switch>` that stores the CSS path. */
 const switchDataAttr = "data-transitio-switch";
-/** Attribute of `<details>` that indicates the CSS is deleted */
+/** Attribute of `<details>` that indicates the CSS is deleted. */
 const deletedDataAttr = "data-deleted";
-/** The `name` attribute of the details element */
+/** The `name` attribute of the details element. */
 const detailsName = "transitio-setting-details";
-/** The expiration time of the last focused variable */
+/** The expiration time of the last focused variable. */
 const lastFocusedExpire = 1000;
-/** Last focused style path, variable name and expiration time */
+/** Last focused style path, variable name and expiration time. */
 let lastFocused = [null, null, 0];
 
 /** Function to parse the value from the input/select element.

@@ -1,9 +1,9 @@
 // Description: Transitio's parser module for UserStyle metadata extraction.
 
 /**
- * Get the description from the first line of the CSS content
- * @param {string} css The CSS content
- * @returns {string|null} The description or null if not found
+ * Get the description from the first line of the CSS content. (will be deprecated)
+ * @param {string} css The CSS content.
+ * @returns {string|null} The description or null if not found.
  */
 function getDesc(css) {
     const firstLine = css.split("\n")[0].trim();
@@ -15,9 +15,9 @@ function getDesc(css) {
 }
 
 /**
- * Parse arguments of `@var` line
- * @param {string} args The arguments string
- * @returns {Array|Object|null} The parsed arguments
+ * Parse arguments of `@var` line.
+ * @param {string} args The arguments string.
+ * @returns {Array|Object|null} The parsed arguments.
  */
 function parseVarArgs(args) {
     try {
@@ -34,9 +34,9 @@ function parseVarArgs(args) {
 }
 
 /**
- * Parse `@var` line
- * @param {string} value The value of the `@var` line
- * @returns {Array|null} The parsed variable data
+ * Parse `@var` line.
+ * @param {string} value The value of the `@var` line.
+ * @returns {Array|null} The parsed variable data.
  */
 function processVar(value) {
     // Regular expression to match `@var <type> <name> "<label>" <args[]>/<default-value>` pattern
@@ -54,9 +54,9 @@ function processVar(value) {
 }
 
 /**
- * Parse the UserStyle metadata from the CSS content
- * @param {string} css The CSS content
- * @returns {Object} The UserStyle metadata
+ * Parse the UserStyle metadata from the CSS content.
+ * @param {string} css The CSS content.
+ * @returns {Object} The UserStyle metadata.
  */
 function extractUserStyleMetadata(css) {
     const result = { variables: {} };

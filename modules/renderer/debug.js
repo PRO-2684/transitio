@@ -3,7 +3,7 @@ let isDebug = false;
 
 /**
  * Log to console if debug mode is enabled.
- * @param  {...any} args Arguments to log
+ * @param  {...any} args Arguments to log.
  */
 function log(...args) {
     if (isDebug) {
@@ -17,7 +17,7 @@ transitio.queryIsDebug().then((result) => {
 
 /**
  * Show debug hint on settings page.
- * @param {Element} view View element
+ * @param {Element} view View element.
  */
 function showDebugHint(view) {
     if (isDebug) {

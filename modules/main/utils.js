@@ -13,7 +13,7 @@ function normalize(path) {
  * Debounces a function.
  * @param {Function} fn Function to debounce.
  * @param {number} time Debounce time.
- * @returns {Function} Debounced function
+ * @returns {Function} Debounced function.
  */
 function debounce(fn, time) {
     let timer = null;
@@ -26,16 +26,16 @@ function debounce(fn, time) {
 }
 
 /**
- * Logs to the console with colored prefix
- * @param {...any} args The arguments to log
+ * Logs to the console with colored prefix.
+ * @param {...any} args The arguments to log.
  */
 function simpleLog(...args) {
     console.log("\x1b[38;2;116;169;246m%s\x1b[0m", "[Transitio]", ...args);
 }
 
 /**
- * Logs nothing
- * @param {...any} args The arguments to log
+ * Logs nothing.
+ * @param {...any} args The arguments to log.
  */
 function dummyLog(...args) {}
 

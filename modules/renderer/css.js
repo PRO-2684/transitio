@@ -1,8 +1,6 @@
 // Description: Utilities related to CSS.
 import { log } from "./debug.js";
-/**
- * Attribute name for the style element to store the path of the CSS file.
- */
+/** Attribute name for the style element to store the path of the CSS file. */
 const styleDataAttr = "data-transitio-style";
 /**
  * Get the default value of a select variable, given the arguments.
