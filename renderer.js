@@ -22,6 +22,4 @@ async function onSettingWindowCreated(view) {
     transitio.rendererReady(); // Call again to ensure the settings view gets the styles data.
 }
 
-export {
-    onSettingWindowCreated
-}
+export { onSettingWindowCreated };
