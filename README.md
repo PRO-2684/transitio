@@ -91,12 +91,11 @@ plugins (所有的插件目录)
 | [image-viewer](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 |
 | [ImageSize](https://github.com/zhuoxin-lzk/transitio-ImageSize) | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 |
 | [input-placeholder](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） |
-| [message-img-transparent](https://github.com/lamprose/transitio-css#message-img-transparent) | 🔴 | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 |
 | [link-color](https://github.com/PRO-2684/Transitio-user-css/#link-color) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 |
 | [lite-tools-recall-enhancement](https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 lite-tools 的撤回消息加上红色增强描边 |
+| [message-img-transparent](https://github.com/lamprose/transitio-css#message-img-transparent) | 🔴 | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 |
 | [ng-mask](https://github.com/KelsAstell/Transitio-ng-mask) | 🔴 | [KelsAstell](https://github.com/KelsAstell) | 图片模糊（鼠标悬停查看） |
-| [no-update-dialog](https://github.com/PRO-2684/Transitio-user-css/#no-update-dialog) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框 |
-| [no-update-dot](https://github.com/PRO-2684/Transitio-user-css/#no-update-dot) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新小红点 |
+| [no-update](https://github.com/PRO-2684/Transitio-user-css/#no-update) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏更新提示框以及小红点 |
 | [Private Plus](https://github.com/MapleRecall/Transitio-user-css#2-private-plus) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | CSS版本高级隐私模式，优雅，实用。 |
 | [qqface-fine-tune](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 |
 | [q-tag-enhancement](https://github.com/PRO-2684/Transitio-user-css/#q-tag-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 qq 的各种头衔添加对应颜色的高光 |
