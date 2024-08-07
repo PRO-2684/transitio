@@ -77,7 +77,7 @@ function injectCSS(path, css) {
     const style = document.createElement("style");
     style.setAttribute(styleDataAttr, path);
     style.textContent = css;
-    document.head.appendChild(style);
+    document.documentElement.append(style);
     return style;
 }
 /**
