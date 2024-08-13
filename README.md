@@ -82,11 +82,11 @@ plugins (所有的插件目录)
 | [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
 | [avatar-the-bubbles](https://gist.github.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a) | 🟢 | [BingZi-233](https://github.com/BingZi-233) | 头像描边 |
 | [bubble-bg-color](https://gist.github.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5) | 🟢 | [EmptyDreams](https://github.com/EmptyDreams) | 修改自己发送的聊天气泡的背景色 |
+| [Chat_list_animation](https://github.com/naahi-i/LiteLoaderQQNT--Transitio--Chat_list_animation) | 🟢 | [naahi-i](https://github.com/naahi-i) | 改进会话列表的动效，包含两个效果 |
 | [customize-more-menu](https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏主界面更多菜单中的项目 |
 | [compact-at-list](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 |
 | [chat-the-bubbles](https://gist.github.com/BingZi-233/0193165fa053f6d9e61140180d9a5995) | 🟢 | [BingZi-233](https://github.com/BingZi-233) | 气泡描边 |
 | [demo-mode](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS |
-| [Elastic Option](https://github.com/naahi-i/LiteLoaderQQNT-Transitio-Elastic-Option) | 🟢 | [naahi-i](https://github.com/naahi-i) | 使qqnt的会话列表按钮更有弹性 |
 | [font-color](https://github.com/nogodnodevil/Transitio--font-color) | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 |
 | [hide-emoticon-response](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 |
 | [hide-items](https://github.com/PRO-2684/Transitio-user-css/#hide-items) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 |
