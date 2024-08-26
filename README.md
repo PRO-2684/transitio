@@ -108,6 +108,7 @@ plugins (所有的插件目录)
 | [Sidebar Management](https://github.com/YF-Eternal/Sidebar-Management) | 🟢 | [YF-Eternal](https://github.com/YF-Eternal) | 自定义隐藏侧边栏的选项 |
 | [SimSun-font](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 |
 | [Smooth QQ](https://github.com/MapleRecall/Transitio-user-css#1-smooth-qq) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 |
+| [sr_ui_extra](https://github.com/yhzcake/Transitio-user-css/#sr_ui_extra) | 🟢 | [yhz_cake](https://github.com/yhzcake) | 针对安装[仿星穹铁道短信UI](https://github.com/SyrieYume/starrail_ui)与其他主题冲突及部分特性进行修改 |
 | [Teams](https://github.com/MapleRecall/Transitio-user-css#3-teams) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | `© Microsoft Teams` 主题 |
 | [transition](https://github.com/PRO-2684/Transitio-user-css/#transition) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加过渡动画 |
 | [transparent](https://github.com/PRO-2684/Transitio-user-css/#transparent) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 透明化部分元素 |
