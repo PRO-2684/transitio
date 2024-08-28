@@ -82,6 +82,7 @@ plugins (所有的插件目录)
 | [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
 | [bubble-bg-color](https://gist.github.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5) | 🟢 | [EmptyDreams](https://github.com/EmptyDreams) | 修改自己发送的聊天气泡的背景色 |
 | [customize-more-menu](https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏主界面更多菜单中的项目 |
+| [customize-settings](https://github.com/PRO-2684/Transitio-user-css/#customize-settings) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏 QQNT 原生设置界面选项，默认隐藏“超级调色盘” |
 | [compact-at-list](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 |
 | [demo-mode](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS |
 | [font-color](https://github.com/nogodnodevil/Transitio--font-color) | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 |
