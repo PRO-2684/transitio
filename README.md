@@ -106,6 +106,7 @@ plugins (所有的插件目录)
 | [qqface-fine-tune](https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | QQ 表情微调 |
 | [q-tag-enhancement](https://github.com/PRO-2684/Transitio-user-css/#q-tag-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 qq 的各种头衔添加对应颜色的高光 |
 | [rainbow-name](https://github.com/PRO-2684/Transitio-user-css/#rainbow-name) | 🟢 | [InfSein](https://github.com/InfSein) | 让自己的名字变为彩虹色 |
+| [rounded-corners](https://github.com/zhulinyv/rounded-corners) | 🟢 | [zhulinyv](https://github.com/zhulinyv) | 圆角会话列表 |
 | [Sidebar Management](https://github.com/YF-Eternal/Sidebar-Management) | 🟢 | [YF-Eternal](https://github.com/YF-Eternal) | 自定义隐藏侧边栏的选项 |
 | [SimSun-font](https://github.com/shiquda/Transitio-user-css/#SimSun-font.css) | 🔴 | [shiquda](https://github.com/shiquda) | 使用宋体字体 |
 | [Smooth QQ](https://github.com/MapleRecall/Transitio-user-css#1-smooth-qq) | 🟢 | [MapleRecall](https://github.com/MapleRecall) | 顺滑QQ，给新消息、菜单、交互等加入动画 |
