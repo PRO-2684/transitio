@@ -92,9 +92,11 @@ plugins (所有的插件目录)
 | [hide-emoticon-response](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 |
 | [hide-items](https://github.com/PRO-2684/Transitio-user-css/#hide-items) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 |
 | [hide-level](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 |
-| [Hide certain features in the settings](https://github.com/YatFanLan/Hide-certain-features-in-the-settings) | 🔴 | [YatFanLan](https://github.com/YatFanLan) | 隐藏设置中的某些功能(隐藏安全设置,隐藏软件更新) |
+| [Hide certain features in the settings](https://github.com/YatFanLan/Hide-certain-features-in-the-settings) | 🔴 |[YatFanLan](https://github.com/YatFanLan) | 隐藏设置中的某些功能(隐藏安全设置,隐藏软件更新)|
+| [Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window](https://github.com/YatFanLan/Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window) | 🔴 |[YatFanLan](https://github.com/YatFanLan) | 隐藏我的手机聊天窗口中右上角的导入手机相册功能|
 | [hide-lock](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") |
 | [hide-self](https://github.com/PRO-2684/Transitio-user-css/#hide-self) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 |
+| [ Hide-the-QQ-Space-option-on-the-Friends-Information-screen](https://github.com/YatFanLan/Hide-the-QQ-Space-option-on-the-Friends-Information-screen) | 🟢 | [YatFanLan](https://github.com/YatFanLan) |  隐藏好友信息界面的QQ空间选项|
 | [highlight-at](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 |
 | [image-viewer](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 |
 | [ImageSize](https://github.com/zhuoxin-lzk/transitio-ImageSize) | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 |
