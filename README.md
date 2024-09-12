@@ -81,6 +81,7 @@ plugins (所有的插件目录)
 | [auto-fold-chat-input-area](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 |
 | [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
 | [avatar-the-bubbles](https://gist.github.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a) | 🟢 | [BingZi-233](https://github.com/BingZi-233) | 头像描边 |
+| [Adjust group option width in friend info interface](https://github.com/YatFanLan/Adjust-group-option-width-in-friend-info-interface) | 🟢 | [YatFanLan](https://github.com/YatFanLan) | 调整好友界面的分组选项宽度|
 | [bubble-bg-color](https://gist.github.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5) | 🟢 | [EmptyDreams](https://github.com/EmptyDreams) | 修改自己发送的聊天气泡的背景色 |
 | [customize-more-menu](https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏主界面更多菜单中的项目 |
 | [customize-settings](https://github.com/PRO-2684/Transitio-user-css/#customize-settings) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏 QQNT 原生设置界面选项，默认隐藏“超级调色盘” |
@@ -91,8 +92,11 @@ plugins (所有的插件目录)
 | [hide-emoticon-response](https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response) | 🟢 | [InfSein](https://github.com/InfSein) | 移除右键消息上的表情回应 |
 | [hide-items](https://github.com/PRO-2684/Transitio-user-css/#hide-items) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏一些元素 |
 | [hide-level](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 |
+| [Hide certain features in the settings](https://github.com/YatFanLan/Hide-certain-features-in-the-settings) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏设置中的某些功能(隐藏安全设置,隐藏软件更新)|
+| [Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window](https://github.com/YatFanLan/Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏我的手机聊天窗口中右上角的导入手机相册功能|
 | [hide-lock](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") |
 | [hide-self](https://github.com/PRO-2684/Transitio-user-css/#hide-self) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 |
+| [ Hide-the-QQ-Space-option-on-the-Friends-Information-screen](https://github.com/YatFanLan/Hide-the-QQ-Space-option-on-the-Friends-Information-screen) | 🟢 | [YatFanLan](https://github.com/YatFanLan) |  隐藏好友信息界面的QQ空间选项|
 | [highlight-at](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 |
 | [image-viewer](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 |
 | [ImageSize](https://github.com/zhuoxin-lzk/transitio-ImageSize) | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 |
