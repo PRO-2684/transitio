@@ -78,6 +78,7 @@ plugins (所有的插件目录)
 
 | 名称 | 用户样式 | 作者 | 说明 |
 | --- | --- | --- | --- |
+| [admin-s-green-hat](https://github.com/sileence114/ntqq_user_script/blob/main/README.md#admin-s-green-hat) | 🟢 | [sileence114](https://github.com/sileence114) | 让管理员戴回绿帽（将管理员头衔颜色重新改为绿色） |
 | [auto-fold-chat-input-area](https://github.com/lamprose/transitio-css#auto-fold-chat-input-area) | 🔴 | [lamprose](https://github.com/lamprose) | 消息输入框默认折叠有文字输入时展开 |
 | [avatar-float](https://github.com/PRO-2684/Transitio-user-css/#avatar-float) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 头像浮动 |
 | [avatar-the-bubbles](https://gist.github.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a) | 🟢 | [BingZi-233](https://github.com/BingZi-233) | 头像描边 |
@@ -96,11 +97,12 @@ plugins (所有的插件目录)
 | [Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window](https://github.com/YatFanLan/Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏我的手机聊天窗口中右上角的导入手机相册功能|
 | [hide-lock](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") |
 | [hide-self](https://github.com/PRO-2684/Transitio-user-css/#hide-self) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 |
-| [ Hide-the-QQ-Space-option-on-the-Friends-Information-screen](https://github.com/YatFanLan/Hide-the-QQ-Space-option-on-the-Friends-Information-screen) | 🟢 | [YatFanLan](https://github.com/YatFanLan) |  隐藏好友信息界面的QQ空间选项|
+| [Hide-the-QQ-Space-option-on-the-Friends-Information-screen](https://github.com/YatFanLan/Hide-the-QQ-Space-option-on-the-Friends-Information-screen) | 🟢 | [YatFanLan](https://github.com/YatFanLan) |  隐藏好友信息界面的QQ空间选项|
 | [highlight-at](https://github.com/PRO-2684/Transitio-user-css/#highlight-at) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 高亮艾特 |
 | [image-viewer](https://github.com/PRO-2684/Transitio-user-css/#image-viewer) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 媒体查看器透明度修改 |
 | [ImageSize](https://github.com/zhuoxin-lzk/transitio-ImageSize) | 🔴 | [zhuoxin-lzk](https://github.com/zhuoxin-lzk) | 限制图片和表情显示大小 |
 | [input-placeholder](https://github.com/PRO-2684/Transitio-user-css/#input-placeholder) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 添加输入框提示（占位符） |
+| [less-spacing](https://github.com/sileence114/ntqq_user_script/blob/main/README.md#less-spacing) | 🟢 | [sileence114](https://github.com/sileence114) | 减少元素间距 |
 | [link-color](https://github.com/PRO-2684/Transitio-user-css/#link-color) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 链接动态颜色：悬浮/按下时显示相应颜色。 |
 | [lite-tools-recall-enhancement](https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 给 lite-tools 的撤回消息加上红色增强描边 |
 | [message-img-transparent](https://github.com/lamprose/transitio-css#message-img-transparent) | 🔴 | [lamprose](https://github.com/lamprose) | 包含图片消息背景透明 |
