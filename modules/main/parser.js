@@ -28,7 +28,6 @@ function parseVarArgs(args) {
             return [data];
         }
     } catch (e) {
-        log("Error at parseVarArgs:", args, e);
         return null;
     }
 }
@@ -66,10 +65,14 @@ function extractUserStyleMetadata(css) {
         const content = match[1]; // Extract the content within the UserStyle block
         const isTransitio = content.match(/@preprocessor\s+transitio\s*$/m);
         if (!isTransitio) {
-            return usercssMeta.parse(match[0], {
-                mandatoryKeys: ["name"],
-                // unknownKey: "assign"
-            }).metadata;
+            try {
+                return usercssMeta.parse(match[0].replaceAll("\r", ""), {
+                    mandatoryKeys: ["name"],
+                    // unknownKey: "assign"
+                }).metadata;
+            } catch (e) {
+                return result;
+            }
         } else {
             const lines = content.split('\n'); // Split the content by newline
             lines.forEach(line => {

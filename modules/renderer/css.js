@@ -1,5 +1,4 @@
 // Description: Utilities related to CSS.
-import { log } from "./debug.js";
 
 /** Attribute name for the style element to store the path of the CSS file. */
 const styleDataAttr = "data-transitio-style";

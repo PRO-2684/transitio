@@ -45,7 +45,7 @@ function dummyLog(...args) { }
 async function renderStylus(path, content, vars) {
     const varDef = Object.keys(vars).map(key => {
         const variable = vars[key];
-        let value = variable.value;
+        let value = variable.value ?? variable.default;
         if (variable.type === "select") {
             // Map from option name to value
             value = variable.options.find(opt => opt.name === value)?.value;

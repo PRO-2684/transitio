@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const { extractUserStyleMetadata } = require("./modules/main/parser");
-const { listCSS } = require("./modules/main/walker");
+const { listStyles } = require("./modules/main/walker");
 const { normalize, debounce, simpleLog, dummyLog, renderStylus } = require("./modules/main/utils");
 
 const isDebug = process.argv.includes("--transitio-debug");
@@ -104,7 +104,7 @@ function getStyle(absPath) {
 async function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     log("updateStyle", absPath);
-    const css = getStyle(absPath);
+    let css = getStyle(absPath);
     if (!css) return;
     // Initialize style configuration
     if (typeof config.styles[absPath] !== "object") {
@@ -160,7 +160,7 @@ async function reloadStyle(webContent) {
         });
     }
     config = LiteLoader.api.config.get("transitio", { styles: {} });
-    const styles = listCSS(stylePath);
+    const styles = listStyles(stylePath);
     for (const absPath of styles) {
         updateStyle(absPath, webContent);
     }
