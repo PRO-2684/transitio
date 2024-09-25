@@ -4,7 +4,7 @@
     "type": "theme",
     "name": "Transitio",
     "slug": "transitio",
-    "description": "🪄 自定义 CSS 片段加载器",
+    "description": "🪄 自定义用户样式加载器",
     "version": "1.5.0",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
