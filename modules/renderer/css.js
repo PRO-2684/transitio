@@ -1,6 +1,6 @@
-// Description: Utilities related to CSS.
+// Description: Utilities related to styles.
 
-/** Attribute name for the style element to store the path of the CSS file. */
+/** Attribute name for the style element to store the path of the style file. */
 const styleDataAttr = "data-transitio-style";
 
 /**
@@ -20,7 +20,7 @@ function getSelectDefaultValue(varArgs) {
     }
 }
 /**
- * Construct the value of a variable, to be applied into the CSS.
+ * Construct the value of a variable, to be applied into the style. (transitio preprocessor)
  * @param {Object} varObj Variable object.
  * @returns {String} The value of the variable.
  */

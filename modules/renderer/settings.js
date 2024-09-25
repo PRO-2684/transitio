@@ -7,11 +7,11 @@ import { setupSearch } from "./search.js";
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 /** Transitio data path. */
 const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
-/** Attribute of `<details>` that stores the CSS path. */
+/** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
-/** Attribute of `<setting-switch>` that stores the CSS path. */
+/** Attribute of `<setting-switch>` that stores the style path. */
 const switchDataAttr = "data-transitio-switch";
-/** Attribute of `<details>` that indicates the CSS is deleted. */
+/** Attribute of `<details>` that indicates the style is deleted. */
 const deletedDataAttr = "data-deleted";
 /** The `name` attribute of the details element. */
 const detailsName = "transitio-setting-details";
@@ -19,6 +19,8 @@ const detailsName = "transitio-setting-details";
 const lastFocusedExpire = 1000;
 /** Last focused style path, variable name and expiration time. */
 let lastFocused = [null, null, 0];
+/** Supported extensions for style files. */
+const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
 
 /** Function to parse the value from the input/select element.
  * @param {Element} varInput The input/select element.
@@ -65,7 +67,7 @@ function addTransitioMore(right, args) {
     return more;
 }
 /** Function to add a item representing the UserStyle with name and description.
- * @param {string} path The path of the CSS file.
+ * @param {string} path The path of the style file.
  * @param {Element} container The container to add the item.
  * @returns {Element} The added `details` element.
  */
@@ -312,13 +314,21 @@ async function initTransitioSettings(view) {
         const url = this.getAttribute("data-transitio-url");
         openURI("link", url);
     }
-    async function importCSS() {
+    function hasValidExtension(name) {
+        for (const ext of supportedExtensions) {
+            if (name.endsWith(ext)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    async function importStyle() {
         if (this.files.length == 0) return; // No file selected
         this.parentNode.classList.toggle("is-loading", true);
         let cnt = 0;
         const promises = [];
         for (const file of this.files) {
-            if (!file.name.endsWith(".css")) {
+            if (!hasValidExtension(file.name)) {
                 log("Ignored", file.name);
                 continue;
             }
@@ -338,9 +348,9 @@ async function initTransitioSettings(view) {
         this.parentNode.classList.toggle("is-loading", false);
         log("Imported", cnt, "files");
         if (cnt > 0) {
-            alert(`成功导入 ${cnt} 个 CSS 文件`);
+            alert(`成功导入 ${cnt} 个用户样式`);
         } else {
-            alert("没有导入任何 CSS 文件");
+            alert("没有导入任何用户样式`);");
         }
     }
     // Search
@@ -359,7 +369,9 @@ async function initTransitioSettings(view) {
     $("#transitio-open-folder").addEventListener("click", () => {
         openURI("path", `${dataPath}/styles`); // Relative to the data directory
     });
-    $("#transitio-import").addEventListener("change", importCSS);
+    const importBtn = $("#transitio-import");
+    importBtn.accept = supportedExtensions.join(",");
+    importBtn.addEventListener("change", importStyle);
     // About - Version
     $("#transitio-version").textContent = LiteLoader.plugins.transitio.manifest.version;
     // About - Backgroud image

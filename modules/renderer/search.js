@@ -1,7 +1,7 @@
 // Description: Search module for settings view.
 import { log } from "./debug.js";
 
-/** Attribute of `<details>` that indicates the CSS is hidden by search */
+/** Attribute of `<details>` that indicates the style is hidden by search */
 const searchHiddenDataAttr = "data-search-hidden";
 
 /** Search `keyword` in the `el` and highlight the matched text.

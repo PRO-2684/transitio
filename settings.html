@@ -53,7 +53,7 @@
         }
     }
 
-    /* 各个 CSS 片段 */
+    /* 各个用户样式 */
     .transitio details {
         > summary {
             list-style: none;
@@ -217,18 +217,17 @@
     </setting-panel>
 </setting-section>
 <input autofocus type="search" id="transitio-search" title="键入内容以搜索..." placeholder="🔍 Search...">
-<setting-section data-title="CSS 片段列表" class="snippets">
+<setting-section data-title="用户样式列表" class="snippets">
     <setting-panel>
         <setting-list data-direction="column">
             <setting-item data-direction="row">
                 <div>
-                    <setting-text id="transitio-reload" title="双击以立即重载样式">导入 CSS...</setting-text>
-                    <setting-text data-type="secondary">导入自定义的 CSS 片段，或查看<span class="transitio-link"
+                    <setting-text id="transitio-reload" title="双击以立即重载样式">导入用户样式...</setting-text>
+                    <setting-text data-type="secondary">导入自定义的用户样式，或查看<span class="transitio-link"
                             id="transitio-snippets" style="font-style: italic;"
-                            data-transitio-url="https://github.com/PRO-2684/transitio#-用户-css-片段">用户 CSS
-                            片段列表</span></setting-text>
+                            data-transitio-url="https://github.com/PRO-2684/transitio#-用户样式列表">用户样式列表</span></setting-text>
                 </div>
-                <input id="transitio-import" type="file" accept=".css, .styl" multiple />
+                <input id="transitio-import" type="file" accept="text/css" multiple />
             </setting-item>
         </setting-list>
     </setting-panel>

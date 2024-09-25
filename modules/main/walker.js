@@ -1,21 +1,21 @@
-// Description: Walks a directory and returns a list of CSS files or a shortcut to a CSS file.
+// Description: Walks a directory and returns a list of style files or a shortcut to a style file.
 const { normalize } = require("./utils");
 const fs = require("fs");
 const { shell } = require("electron");
 
 /** Folders to ignore. */
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
-/** Valid suffixes for style files. */
-const validSuffixes = new Set([".css", ".styl"]);
+/** Supported extensions for style files. */
+const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
 
 /**
- * Whether the file name has a valid suffix.
+ * Whether the file name has a supported extension.
  * @param {string} name File name.
- * @returns {boolean} Whether the file name has a valid suffix.
+ * @returns {boolean} Whether the file name has a supported extension.
  */
-function hasValidSuffix(name) {
-    for (const suffix of validSuffixes) {
-        if (name.endsWith(suffix)) {
+function hasValidExtension(name) {
+    for (const ext of supportedExtensions) {
+        if (name.endsWith(ext)) {
             return true;
         }
     }
@@ -37,13 +37,13 @@ function listStyles(dir) {
                 if (!ignoredFolders.has(f)) {
                     walk(dir + "/" + f);
                 }
-            } else if (hasValidSuffix(f)) {
+            } else if (hasValidExtension(f)) {
                 files.push(normalize(dir + "/" + f));
             } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
                 const linkPath = dir + "/" + f;
                 try {
                     const { target } = shell.readShortcutLink(linkPath);
-                    if (hasValidSuffix(target)) {
+                    if (hasValidExtension(target)) {
                         files.push(normalize(linkPath));
                     }
                 } catch (e) {
