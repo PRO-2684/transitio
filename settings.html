@@ -36,6 +36,8 @@
         }
         &[type="checkbox"] {
             appearance: auto;
+            width: 1.2em;
+            height: 1.2em;
         }
         &[type="number"], &[type="search"] {
             border: 1px solid gray;
@@ -67,7 +69,7 @@
             }
             > setting-item > div > setting-text[data-type="primary"] {
                 &::after {
-                    content: "@" attr(data-preprocessor);
+                    content: "#" attr(data-preprocessor);
                     text-transform: capitalize;
                     font-size: smaller;
                     border-radius: 4px;
@@ -86,8 +88,16 @@
                 }
             }
         }
-        > setting-item {
-            padding-left: 1em;
+        > label {
+            display: list-item;
+            margin-left: 1.5em;
+            padding: 0.5em 0;
+            > input, > select {
+                float: right;
+            }
+        }
+        &[open] > summary {
+            border-bottom: 1px dashed var(--fill_standard_secondary);
         }
         &.is-loading { /* Loading snippets */
             cursor: progress;

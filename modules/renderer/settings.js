@@ -403,7 +403,7 @@ function transitioSettingsUpdateStyle(container, args) {
     const details = container.querySelector(`details[${configDataAttr}="${path}"]`) || addItem(path, container);
     // Summary part - Name and Description
     const item = details.querySelector("setting-item");
-    const itemName = item.querySelector("setting-text");
+    const itemName = item.querySelector("setting-text[data-type='primary']");
     const optionalVersion = meta.version ? ` (v${meta.version})` : "";
     itemName.textContent = meta.name + optionalVersion;
     itemName.title = path;
@@ -432,7 +432,7 @@ function transitioSettingsUpdateStyle(container, args) {
     }
     // Details part
     for (const el of Array.from(details.children)) { // Remove all existing variables
-        if (el.tagName === "SETTING-ITEM") {
+        if (el.tagName !== "SUMMARY") {
             el.remove();
         }
     }
@@ -441,18 +441,16 @@ function transitioSettingsUpdateStyle(container, args) {
     }
     const isLastFocusedStyle = lastFocused[0] === path;
     for (const [name, varObj] of Object.entries(meta.vars)) {
-        const varItem = details.appendChild(document.createElement("setting-item"));
-        varItem.setAttribute("data-direction", "row");
-        const varName = varItem.appendChild(document.createElement("setting-text"));
-        varName.textContent = varObj.label;
-        varName.title = name;
+        const varItem = details.appendChild(document.createElement("label"));
+        varItem.textContent = varObj.label;
+        varItem.title = name;
         const varInput = varItem.appendChild(meta.preprocessor === "transitio" ? constructVarInputTransitio(varObj) : constructVarInput(varObj));
         varInput.addEventListener("change", () => {
             if (varInput.reportValidity()) {
                 lastFocused = [path, name, Date.now() + lastFocusedExpire]; // Remember the last focused variable
                 transitio.configChange(path, { [name]: getValueFromInput(varInput) });
             }
-        });
+        }, { once: true });
         if (isLastFocusedStyle && lastFocused[1] === name && lastFocused[2] > Date.now()) {
             varInput.focus(); // Restore the focus
             lastFocused = [null, null, 0]; // Clear the last focused variable
