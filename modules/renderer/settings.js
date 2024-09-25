@@ -15,10 +15,6 @@ const switchDataAttr = "data-transitio-switch";
 const deletedDataAttr = "data-deleted";
 /** The `name` attribute of the details element. */
 const detailsName = "transitio-setting-details";
-/** The expiration time of the last focused variable. */
-const lastFocusedExpire = 1000;
-/** Last focused style path, variable name and expiration time. */
-let lastFocused = [null, null, 0];
 /** Supported extensions for style files. */
 const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
 
@@ -37,12 +33,13 @@ function getValueFromInput(varInput) {
             return varInput.value;
     }
 }
-/** Function to set the value to the input/select element.
+/** Function to set the value to the input/select element. Do nothing if the value is null or undefined.
  * @param {Element} varInput The input/select element.
- * @param {string|number|boolean} value The value to set.
+ * @param {string|number|boolean|null|undefined} value The value to set.
  * @returns {void}
  */
 function setValueToInput(varInput, value) {
+    if (value === null || value === undefined) return;
     switch (varInput.type) {
         case "checkbox":
             varInput.checked = value;
@@ -124,7 +121,7 @@ function addItem(path, container) {
     });
     return details;
 }
-/** Function to construct the element used for inputting variables. (Transitio preprocessor)
+/** Function to construct the element used for inputting variables, with its value set as default. (Transitio preprocessor)
  * @param {Object} varObj The variable object.
  * @returns {Element} The element used for inputting variables.
  */
@@ -140,9 +137,10 @@ function constructVarInputTransitio(varObj) {
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
             break;
-        case "number": {
+        case "number":
+        case "range": {
             varInput = document.createElement("input");
-            varInput.type = "number";
+            varInput.type = varObj.type;
             const [_, min, max, step] = varObj.args;
             varInput.placeholder = defaultValue;
             varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
@@ -197,10 +195,10 @@ function constructVarInputTransitio(varObj) {
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
     }
-    setValueToInput(varInput, varObj.value ?? defaultValue);
+    setValueToInput(varInput, defaultValue);
     return varInput;
 }
-/** Function to construct the element used for inputting variables. (Other preprocessors)
+/** Function to construct the element used for inputting variables, with its value set as default. (Other preprocessors)
  * @param {Object} varObj The variable object.
  * @returns {Element} The element used for inputting variables.
  */
@@ -215,13 +213,12 @@ function constructVarInput(varObj) {
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
             break;
-        case "checkbox": {
+        case "checkbox":
             varInput = document.createElement("input");
             varInput.type = "checkbox";
             defaultValue = Boolean(defaultValue);
             varInput.title = `默认值: ${defaultValue}`;
             break;
-        }
         case "select": {
             varInput = document.createElement("select");
             varInput.title = `默认值: ${defaultValue}`;
@@ -254,7 +251,7 @@ function constructVarInput(varObj) {
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
     }
-    setValueToInput(varInput, varObj.value ?? defaultValue);
+    setValueToInput(varInput, defaultValue);
     return varInput;
 }
 /** Function to setup the easter egg at the settings view.
@@ -392,6 +389,25 @@ async function initTransitioSettings(view) {
     const container = $("setting-section.snippets > setting-panel > setting-list");
     return container;
 }
+/** Function to add a variable to the UserStyle.
+ * @param {Element} details The details element.
+ * @param {string} path The path of the UserStyle.
+ * @param {string} name The name of the variable.
+ * @param {Object} varObj The variable object.
+ * @returns {Element} The added variable's input element.
+ */
+function addVar(details, preprocessor, path, name, varObj) {
+    const varItem = details.appendChild(document.createElement("label"));
+    varItem.textContent = varObj.label;
+    varItem.title = name;
+    const varInput = varItem.appendChild(preprocessor === "transitio" ? constructVarInputTransitio(varObj) : constructVarInput(varObj));
+    varInput.addEventListener("change", () => {
+        if (varInput.reportValidity()) {
+            transitio.configChange(path, { [name]: getValueFromInput(varInput) });
+        }
+    });
+    return varInput;
+}
 /** Function to handle `updateStyle` event on settings view.
  * @param {Element} container The settings container.
  * @param {Object} args The arguments of the event.
@@ -400,7 +416,7 @@ async function initTransitioSettings(view) {
 function transitioSettingsUpdateStyle(container, args) {
     const { path, meta, enabled } = args;
     const isDeleted = meta.name === " [已删除] ";
-    const details = container.querySelector(`details[${configDataAttr}="${path}"]`) || addItem(path, container);
+    const details = container.querySelector(`details[${configDataAttr}="${path}"]`) ?? addItem(path, container);
     // Summary part - Name and Description
     const item = details.querySelector("setting-item");
     const itemName = item.querySelector("setting-text[data-type='primary']");
@@ -422,7 +438,7 @@ function transitioSettingsUpdateStyle(container, args) {
         homepage.toggleAttribute("disabled", true);
     }
     const configureBtn = item.querySelector("span.transitio-configure");
-    const noVariables = Object.keys(meta.vars).length === 0;
+    const noVariables = !meta.vars || (Object.keys(meta.vars).length === 0);
     configureBtn.toggleAttribute("disabled", noVariables);
     const switch_ = item.querySelector(`setting-switch[${switchDataAttr}="${path}"]`);
     switch_.toggleAttribute("is-active", enabled);
@@ -431,30 +447,14 @@ function transitioSettingsUpdateStyle(container, args) {
         details.toggleAttribute(deletedDataAttr, true);
     }
     // Details part
-    for (const el of Array.from(details.children)) { // Remove all existing variables
-        if (el.tagName !== "SUMMARY") {
-            el.remove();
-        }
-    }
     if (noVariables) { // Close the details if there are no variables
         details.toggleAttribute("open", false);
     }
-    const isLastFocusedStyle = lastFocused[0] === path;
     for (const [name, varObj] of Object.entries(meta.vars)) {
-        const varItem = details.appendChild(document.createElement("label"));
-        varItem.textContent = varObj.label;
-        varItem.title = name;
-        const varInput = varItem.appendChild(meta.preprocessor === "transitio" ? constructVarInputTransitio(varObj) : constructVarInput(varObj));
-        varInput.addEventListener("change", () => {
-            if (varInput.reportValidity()) {
-                lastFocused = [path, name, Date.now() + lastFocusedExpire]; // Remember the last focused variable
-                transitio.configChange(path, { [name]: getValueFromInput(varInput) });
-            }
-        }, { once: true });
-        if (isLastFocusedStyle && lastFocused[1] === name && lastFocused[2] > Date.now()) {
-            varInput.focus(); // Restore the focus
-            lastFocused = [null, null, 0]; // Clear the last focused variable
-        }
+        const varInput = details.querySelector(`label[title="${name}"] > input`)
+            ?? details.querySelector(`label[title="${name}"] > select`)
+            ?? addVar(details, meta.preprocessor, path, name, varObj);
+        setValueToInput(varInput, varObj.value);
     }
     log("transitioSettingsUpdateStyle", path, enabled);
 }
