@@ -34,7 +34,7 @@ function searchAndHighlight(highlight, el, keyword) {
  */
 function searchAllAndHighlight(highlight, detail, keywords) {
     const settingItem = detail.querySelector("summary > setting-item");
-    const nameEl = settingItem.querySelector("setting-text");
+    const nameEl = settingItem.querySelector("setting-text[data-type='primary']");
     const descEl = settingItem.querySelector("setting-text[data-type='secondary']");
     let matches = 0;
     for (const keyword of keywords) {

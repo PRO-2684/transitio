@@ -65,6 +65,26 @@
                 background-color: yellow;
                 color: black;
             }
+            > setting-item > div > setting-text[data-type="primary"] {
+                &::after {
+                    content: "@" attr(data-preprocessor);
+                    text-transform: capitalize;
+                    font-size: smaller;
+                    border-radius: 4px;
+                    margin-left: 0.1em;
+                    padding: 2px;
+                    opacity: 0.8;
+                }
+                &[data-preprocessor="none"]::after {
+                    background: #808080aa;
+                }
+                &[data-preprocessor="transitio"]::after {
+                    background: #74a9f6aa;
+                }
+                &[data-preprocessor="stylus"]::after {
+                    background: #6da13faa;
+                }
+            }
         }
         > setting-item {
             padding-left: 1em;

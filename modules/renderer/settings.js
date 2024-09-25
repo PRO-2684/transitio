@@ -82,6 +82,8 @@ function addItem(path, container) {
     item.setAttribute("data-direction", "row");
     const left = item.appendChild(document.createElement("div"));
     const itemName = left.appendChild(document.createElement("setting-text"));
+    itemName.setAttribute("data-type", "primary");
+    itemName.setAttribute("data-preprocessor", "Unknown");
     const itemDesc = document.createElement("setting-text");
     itemDesc.setAttribute("data-type", "secondary");
     left.appendChild(itemDesc);
@@ -405,6 +407,7 @@ function transitioSettingsUpdateStyle(container, args) {
     const optionalVersion = meta.version ? ` (v${meta.version})` : "";
     itemName.textContent = meta.name + optionalVersion;
     itemName.title = path;
+    itemName.setAttribute("data-preprocessor", meta.preprocessor);
     const itemDesc = item.querySelector("setting-text[data-type='secondary']");
     itemDesc.textContent = meta.description || "此文件没有描述";
     itemDesc.title = itemDesc.textContent;

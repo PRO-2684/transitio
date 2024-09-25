@@ -115,6 +115,7 @@ function extractUserStyleMetadata(css) {
     } else { // Fall back to the old method
         const comment = getDesc(css) || "";
         result["description"] = comment;
+        result["preprocessor"] = "none"; // No preprocessor
     }
     return result;
 }

@@ -11,7 +11,7 @@ const log = isDebug ? simpleLog : dummyLog;
 let devMode = false;
 let watcher = null;
 
-const supportedPreprocessors = ["transitio", "stylus"];
+const supportedPreprocessors = ["none", "transitio", "stylus"];
 const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
 const debouncedSet = debounce(LiteLoader.api.config.set, updateInterval);
