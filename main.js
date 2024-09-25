@@ -3,7 +3,7 @@ const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const { extractUserStyleMetadata } = require("./modules/main/parser");
 const { listCSS } = require("./modules/main/walker");
-const { normalize, debounce, simpleLog, dummyLog } = require("./modules/main/utils");
+const { normalize, debounce, simpleLog, dummyLog, renderStylus } = require("./modules/main/utils");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -11,6 +11,7 @@ const log = isDebug ? simpleLog : dummyLog;
 let devMode = false;
 let watcher = null;
 
+const supportedPreprocessors = ["transitio", "stylus"];
 const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
 const debouncedSet = debounce(LiteLoader.api.config.set, updateInterval);
@@ -100,7 +101,7 @@ function getStyle(absPath) {
 }
 
 // Send updated style to renderer
-function updateStyle(absPath, webContent) {
+async function updateStyle(absPath, webContent) {
     absPath = normalize(absPath);
     log("updateStyle", absPath);
     const css = getStyle(absPath);
@@ -119,20 +120,23 @@ function updateStyle(absPath, webContent) {
     meta.name ??= path.basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
     meta.preprocessor ??= "transitio";
-    if (meta.preprocessor !== "transitio") {
-        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`)
+    if (!supportedPreprocessors.includes(meta.preprocessor)) {
+        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`);
         return;
     }
     // Read variables config, delete non-existent ones
     const udfVariables = config.styles[absPath].variables;
     for (const [varName, varValue] of Object.entries(udfVariables)) {
-        if (varName in meta.variables) {
-            meta.variables[varName].value = varValue;
+        if (varName in meta.vars) {
+            meta.vars[varName].value = varValue;
         } else {
             log(`Variable "${varName}" not found in ${absPath}`);
             delete config.styles[absPath].variables[varName];
             updateConfig();
         }
+    }
+    if (meta.preprocessor === "stylus") {
+        css = await renderStylus(absPath, css, meta.vars);
     }
     // Send message to renderer
     const msg = { path: absPath, enabled, css, meta };

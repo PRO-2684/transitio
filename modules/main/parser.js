@@ -1,4 +1,5 @@
 // Description: Transitio's parser module for UserStyle metadata extraction.
+const usercssMeta = require("usercss-meta");
 
 /**
  * Get the description from the first line of the CSS content. (will be deprecated)
@@ -56,30 +57,39 @@ function processVar(value) {
  * @returns {Object} The UserStyle metadata.
  */
 function extractUserStyleMetadata(css) {
-    const result = { variables: {} };
+    const result = { vars: {} };
     // Regular expression to match the UserStyle block with flexibility for multiple "=" and spaces
     const userStyleRegex = /\/\*\s*=+\s*UserStyle\s*=+\s*([\s\S]*?)\s*=+\s*\/UserStyle\s*=+\s*\*\//;
     const match = css.match(userStyleRegex);
     if (match) { // If the UserStyle block is found
+        // Detect if preprocessor is `transitio`
         const content = match[1]; // Extract the content within the UserStyle block
-        const lines = content.split('\n'); // Split the content by newline
-        lines.forEach(line => {
-            // Regular expression to match "@name value" pattern
-            const matchLine = line.trim().match(/^@(\S+)\s+(.+)$/);
-            if (matchLine) {
-                const name = matchLine[1]; // Extract the name
-                const value = matchLine[2]; // Extract the value
-                if (name === "var") {
-                    const varData = processVar(value);
-                    if (varData) {
-                        const [varName, varObj] = varData;
-                        result.variables[varName] = varObj;
+        const isTransitio = content.match(/@preprocessor\s+transitio\s*$/m);
+        if (!isTransitio) {
+            return usercssMeta.parse(match[0], {
+                mandatoryKeys: ["name"],
+                // unknownKey: "assign"
+            }).metadata;
+        } else {
+            const lines = content.split('\n'); // Split the content by newline
+            lines.forEach(line => {
+                // Regular expression to match "@name value" pattern
+                const matchLine = line.trim().match(/^@(\S+)\s+(.+)$/);
+                if (matchLine) {
+                    const name = matchLine[1]; // Extract the name
+                    const value = matchLine[2]; // Extract the value
+                    if (name === "var") {
+                        const varData = processVar(value);
+                        if (varData) {
+                            const [varName, varObj] = varData;
+                            result.vars[varName] = varObj;
+                        }
+                    } else {
+                        result[name] = value; // Store in the result object
                     }
-                } else {
-                    result[name] = value; // Store in the result object
                 }
-            }
-        });
+            });
+        }
     } else { // Fall back to the old method
         const comment = getDesc(css) || "";
         result["description"] = comment;

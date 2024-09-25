@@ -51,7 +51,7 @@ function constructVarValue(varObj) {
     }
 }
 /**
- * Apply variables to the CSS.
+ * Apply variables to the CSS (transitio preprocessor).
  * @param {String} css CSS content.
  * @param {Object} variables A dictionary of variables.
  * @returns {String} The CSS content with variables applied.
@@ -89,8 +89,7 @@ function injectCSS(path, css) {
  */
 function cssHelper(path, css, enabled, meta) {
     const current = document.querySelector(`style[${styleDataAttr}="${path}"]`);
-    log("Applying variables to", path, meta.variables)
-    const processedCSS = enabled ? applyVariables(css, meta.variables) : `/* ${meta.description || "此文件没有描述"} */`;
+    const processedCSS = enabled ? (meta.preprocessor === "transitio" ? applyVariables(css, meta.vars) : css) : `/* ${meta.description || "此文件没有描述"} */`;
     if (current) {
         current.textContent = processedCSS;
     } else {

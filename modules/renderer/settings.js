@@ -24,9 +24,10 @@ let lastFocused = [null, null, 0];
  * @param {Element} varInput The input/select element.
  * @returns {string|number|boolean} The value of the input element.
  */
-function getValueFromInput(varInput) {
+function getValueFromInput(varInput, varObj) {
     switch (varInput.type) {
         case "number":
+        case "range":
         case "percent":
         case "percentage":
             return parseFloat(varInput.value);
@@ -121,11 +122,11 @@ function addItem(path, container) {
     });
     return details;
 }
-/** Function to construct the element used for inputting variables.
+/** Function to construct the element used for inputting variables. (Transitio preprocessor)
  * @param {Object} varObj The variable object.
  * @returns {Element} The element used for inputting variables.
  */
-function constructVarInput(varObj) {
+function constructVarInputTransitio(varObj) {
     let varInput;
     let defaultValue = varObj.args[0];
     switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
@@ -188,6 +189,63 @@ function constructVarInput(varObj) {
         }
         default:
             // text, raw
+            varInput = document.createElement("input");
+            varInput.type = "text";
+            varInput.placeholder = defaultValue;
+            varInput.title = `默认值: ${defaultValue}`;
+            varInput.toggleAttribute("required", true);
+    }
+    setValueToInput(varInput, varObj.value ?? defaultValue);
+    return varInput;
+}
+/** Function to construct the element used for inputting variables. (Other preprocessors)
+ * @param {Object} varObj The variable object.
+ * @returns {Element} The element used for inputting variables.
+ */
+function constructVarInput(varObj) {
+    let varInput;
+    let defaultValue = varObj.default;
+    switch (varObj.type) { // https://github.com/openstyles/stylus/wiki/Writing-UserCSS#type
+        case "color":
+            varInput = document.createElement("input");
+            varInput.type = "color";
+            varInput.placeholder = defaultValue;
+            varInput.title = `默认值: ${defaultValue}`;
+            varInput.toggleAttribute("required", true);
+            break;
+        case "checkbox": {
+            varInput = document.createElement("input");
+            varInput.type = "checkbox";
+            defaultValue = Boolean(defaultValue);
+            varInput.title = `默认值: ${defaultValue}`;
+            break;
+        }
+        case "select": {
+            varInput = document.createElement("select");
+            varInput.title = `默认值: ${defaultValue}`;
+            for (const option of varObj.options) {
+                const optionElement = document.createElement("option");
+                optionElement.value = option.name;
+                optionElement.textContent = option.label;
+                varInput.appendChild(optionElement);
+            }
+            break;
+        }
+        case "number":
+        case "range": {
+            varInput = document.createElement("input");
+            varInput.type = varObj.type;
+            const { min, max, step } = varObj;
+            varInput.placeholder = defaultValue;
+            varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
+            varInput.min = min;
+            varInput.max = max;
+            varInput.step = step ?? 1;
+            varInput.toggleAttribute("required", true);
+            break;
+        }
+        default:
+            // text
             varInput = document.createElement("input");
             varInput.type = "text";
             varInput.placeholder = defaultValue;
@@ -351,7 +409,7 @@ function transitioSettingsUpdateStyle(container, args) {
         homepage.toggleAttribute("disabled", true);
     }
     const configureBtn = item.querySelector("span.transitio-configure");
-    const noVariables = Object.keys(meta.variables).length === 0;
+    const noVariables = Object.keys(meta.vars).length === 0;
     configureBtn.toggleAttribute("disabled", noVariables);
     const switch_ = item.querySelector(`setting-switch[${switchDataAttr}="${path}"]`);
     switch_.toggleAttribute("is-active", enabled);
@@ -369,13 +427,13 @@ function transitioSettingsUpdateStyle(container, args) {
         details.toggleAttribute("open", false);
     }
     const isLastFocusedStyle = lastFocused[0] === path;
-    for (const [name, varObj] of Object.entries(meta.variables)) {
+    for (const [name, varObj] of Object.entries(meta.vars)) {
         const varItem = details.appendChild(document.createElement("setting-item"));
         varItem.setAttribute("data-direction", "row");
         const varName = varItem.appendChild(document.createElement("setting-text"));
         varName.textContent = varObj.label;
         varName.title = name;
-        const varInput = varItem.appendChild(constructVarInput(varObj));
+        const varInput = varItem.appendChild(meta.preprocessor === "transitio" ? constructVarInputTransitio(varObj) : constructVarInput(varObj));
         varInput.addEventListener("change", () => {
             if (varInput.reportValidity()) {
                 lastFocused = [path, name, Date.now() + lastFocusedExpire]; // Remember the last focused variable

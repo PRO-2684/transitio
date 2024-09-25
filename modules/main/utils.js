@@ -1,4 +1,5 @@
 // Description: Some utility functions for main.
+const stylus = require('stylus');
 
 /**
  * Normalize a path to Unix style.
@@ -34,6 +35,34 @@ function simpleLog(...args) {
  * Logs nothing.
  * @param {...any} args The arguments to log.
  */
-function dummyLog(...args) {}
+function dummyLog(...args) { }
+/**
+ * Async wrapper for Stylus render.
+ * @param {string} path Path of the Stylus file.
+ * @param {string} content Content of the Stylus file.
+ * @param {Object} vars Variables to apply.
+ */
+async function renderStylus(path, content, vars) {
+    const varDef = Object.keys(vars).map(key => {
+        const variable = vars[key];
+        let value = variable.value;
+        if (variable.type === "select") {
+            // Map from option name to value
+            value = variable.options.find(opt => opt.name === value)?.value;
+        }
+        return `${key} = ${value}${variable.units ?? ""};\n`;
+    }).join("");
+    return new Promise((resolve, reject) => {
+        stylus(varDef + content)
+            .set("filename", path)
+            .render((err, css) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(css);
+            }
+        });
+    });
+}
 
-module.exports = { normalize, debounce, simpleLog, dummyLog };
+module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus };
