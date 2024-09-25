@@ -9,7 +9,7 @@ transitio.rendererReady();
 
 /**
  * Called when the settings window is created.
- * @param {Element} view The settings view element.
+ * @param {HTMLElement} view The settings view element.
  */
 async function onSettingWindowCreated(view) {
     const container = await initTransitioSettings(view);

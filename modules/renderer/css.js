@@ -70,7 +70,7 @@ function applyVariables(css, variables) {
  * Inject CSS into the document.
  * @param {String} path Path of the CSS file.
  * @param {String} css CSS content.
- * @returns {Element} The style element.
+ * @returns {HTMLStyleElement} The style element.
  */
 function injectCSS(path, css) {
     const style = document.createElement("style");

@@ -15,7 +15,7 @@ function log(...args) {
 }
 /**
  * Show debug hint on settings page.
- * @param {Element} view View element.
+ * @param {HTMLElement} view View element.
  */
 function showDebugHint(view) {
     if (isDebug) {

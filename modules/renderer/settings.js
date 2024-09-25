@@ -19,7 +19,7 @@ const detailsName = "transitio-setting-details";
 const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
 
 /** Function to parse the value from the input/select element.
- * @param {Element} varInput The input/select element.
+ * @param {HTMLInputElement|HTMLSelectElement} varInput The input/select element.
  * @returns {string|number|boolean} The value of the input element.
  */
 function getValueFromInput(varInput) {
@@ -33,26 +33,33 @@ function getValueFromInput(varInput) {
             return varInput.value;
     }
 }
-/** Function to set the value to the input/select element. Do nothing if the value is null or undefined.
- * @param {Element} varInput The input/select element.
+/** Function to set the value to the input/select element, and dispatches a "change" event if value changes. Do nothing if the value is null or undefined.
+ * @param {HTMLInputElement|HTMLSelectElement} varInput The input/select element.
  * @param {string|number|boolean|null|undefined} value The value to set.
  * @returns {void}
  */
 function setValueToInput(varInput, value) {
     if (value === null || value === undefined) return;
+    let changed = false;
     switch (varInput.type) {
         case "checkbox":
-            varInput.checked = value;
+            changed = varInput.checked !== value;
+            if (changed) varInput.checked = value;
             break;
-        default: // text, color/colour, number, percent/percentage, select, raw
-            varInput.value = value;
+        default: // text, color/colour, percent/percentage, select, raw
+            changed = varInput.value !== String(value); // Convert to string to compare
+            if (changed) varInput.value = value;
             break;
+    }
+    if (changed) {
+        log("setValueToInput changes to", value);
+        varInput.dispatchEvent(new Event("change", { bubbles: true }));
     }
 }
 /** Function to add a button to the right side of the setting item.
- * @param {Element} right The right side element.
+ * @param {HTMLDivElement} right The right side element.
  * @param {Object} args The `icon`, `title`, and `className` of the button.
- * @returns {Element} The added button.
+ * @returns {HTMLSpanElement} The added button.
  */
 function addTransitioMore(right, args) {
     const more = right.appendChild(document.createElement("span"));
@@ -63,8 +70,8 @@ function addTransitioMore(right, args) {
 }
 /** Function to add a item representing the UserStyle with name and description.
  * @param {string} path The path of the style file.
- * @param {Element} container The container to add the item.
- * @returns {Element} The added `details` element.
+ * @param {HTMLElement} container The container to add the item.
+ * @returns {HTMLDetailsElement} The added `details` element.
  */
 function addItem(path, container) {
     const details = container.appendChild(document.createElement("details"));
@@ -121,11 +128,62 @@ function addItem(path, container) {
     });
     return details;
 }
-/** Function to construct the element used for inputting variables, with its value set as default. (Transitio preprocessor)
- * @param {Object} varObj The variable object.
- * @returns {Element} The element used for inputting variables.
+/** Function to create an input element for number-like variables.
+ * @param {string} type The type of the variable.
+ * @param {Object} args The arguments of the variable.
+ * @param {Number} args.defaultValue The default value of the variable.
+ * @param {number|undefined} args.min The minimum value of the variable.
+ * @param {number|undefined} args.max The maximum value of the variable.
+ * @param {number|undefined} args.step The step value of the variable.
+ * @returns {HTMLInputElement} The created input element.
  */
-function constructVarInputTransitio(varObj) {
+function createNumberLikeInput(type, args) {
+    const input = document.createElement("input");
+    input.type = type;
+    input.placeholder = args.defaultValue;
+    input.title = `默认值: ${args.defaultValue}, 范围: [${args.min ?? "-∞"}, ${args.max ?? "+∞"}], 步长: ${args.step ?? "1"}`;
+    input.min = args.min;
+    input.max = args.max;
+    input.step = args.step ?? 1;
+    input.toggleAttribute("required", true);
+    return input;
+}
+/** Function to create a `range` and a `number` input that're linked together.
+ * @param {Object} args The arguments of the variable.
+ * @param {Number} args.defaultValue The default value of the variable.
+ * @param {number|undefined} args.min The minimum value of the variable.
+ * @param {number|undefined} args.max The maximum value of the variable.
+ * @param {number|undefined} args.step The step value of the variable.
+ * @returns {HTMLInputElement[]} The created input elements.
+ */
+function createLinkedInputs(args) {
+    const range = createNumberLikeInput("range", args);
+    const number = createNumberLikeInput("number", args);
+    range.addEventListener("input", () => {
+        number.value = range.value;
+    });
+    range.addEventListener("change", () => {
+        number.value = range.value;
+    });
+    number.addEventListener("input", () => {
+        if (number.reportValidity()) {
+            range.value = number.value;
+        }
+    });
+    number.addEventListener("change", () => {
+        if (number.reportValidity()) {
+            range.value = number.value;
+            range.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+    });
+    return [range, number];
+}
+/** Function to add the element(s) used for inputting variables, with its value set as default. (Transitio preprocessor)
+ * @param {HTMLLabelElement} varItem The parent element of our input element(s).
+ * @param {Object} varObj The variable object.
+ * @returns {HTMLInputElement|HTMLSelectElement} The primary element used for inputting variables.
+ */
+function addVarInputTransitio(varItem, varObj) {
     let varInput;
     let defaultValue = varObj.args[0];
     switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
@@ -137,32 +195,24 @@ function constructVarInputTransitio(varObj) {
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
             break;
-        case "number":
-        case "range": {
-            varInput = document.createElement("input");
-            varInput.type = varObj.type;
+        case "number":{
             const [_, min, max, step] = varObj.args;
-            varInput.placeholder = defaultValue;
-            varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
-            varInput.min = min;
-            varInput.max = max;
-            varInput.step = step ?? 1;
-            varInput.toggleAttribute("required", true);
+            varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
+            break;
+        }
+        case "range": {
+            const [_, min, max, step] = varObj.args;
+            const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
+            varInput = range;
+            varItem.appendChild(number);
             break;
         }
         case "percent":
         case "percentage": {
-            varInput = document.createElement("input");
-            varInput.type = "number";
             const [_, min, max, step] = varObj.args;
-            varInput.placeholder = defaultValue;
             const effectiveMin = (min === undefined) ? 0 : min;
             const effectiveMax = (max === undefined) ? 100 : max;
-            varInput.title = `默认值: ${defaultValue}%, 范围: [${effectiveMin ?? "-∞"}%, ${effectiveMax ?? "+∞"}%], 步长: ${step ?? "1"}%`;
-            varInput.min = effectiveMin;
-            varInput.max = effectiveMax;
-            varInput.step = step ?? "1";
-            varInput.toggleAttribute("required", true);
+            varInput = createNumberLikeInput("number", { defaultValue, min: effectiveMin, max: effectiveMax, step });
             break;
         }
         case "checkbox": {
@@ -196,13 +246,15 @@ function constructVarInputTransitio(varObj) {
             varInput.toggleAttribute("required", true);
     }
     setValueToInput(varInput, defaultValue);
+    varItem.appendChild(varInput);
     return varInput;
 }
-/** Function to construct the element used for inputting variables, with its value set as default. (Other preprocessors)
+/** Function to add the element(s) used for inputting variables, with its value set as default. (Other preprocessors)
+ * @param {HTMLLabelElement} varItem The parent element of our input element(s).
  * @param {Object} varObj The variable object.
- * @returns {Element} The element used for inputting variables.
+ * @returns {HTMLInputElement|HTMLSelectElement} The primary element used for inputting variables.
  */
-function constructVarInput(varObj) {
+function addVarInput(varItem, varObj) {
     let varInput;
     let defaultValue = varObj.default;
     switch (varObj.type) { // https://github.com/openstyles/stylus/wiki/Writing-UserCSS#type
@@ -230,17 +282,16 @@ function constructVarInput(varObj) {
             }
             break;
         }
-        case "number":
-        case "range": {
-            varInput = document.createElement("input");
-            varInput.type = varObj.type;
+        case "number": {
             const { min, max, step } = varObj;
-            varInput.placeholder = defaultValue;
-            varInput.title = `默认值: ${defaultValue}, 范围: [${min ?? "-∞"}, ${max ?? "+∞"}], 步长: ${step ?? "1"}`;
-            varInput.min = min;
-            varInput.max = max;
-            varInput.step = step ?? 1;
-            varInput.toggleAttribute("required", true);
+            varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
+            break;
+        }
+        case "range": {
+            const { min, max, step } = varObj;
+            const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
+            varInput = number;
+            varItem.appendChild(range);
             break;
         }
         default:
@@ -252,6 +303,7 @@ function constructVarInput(varObj) {
             varInput.toggleAttribute("required", true);
     }
     setValueToInput(varInput, defaultValue);
+    varItem.appendChild(varInput);
     return varInput;
 }
 /** Function to setup the easter egg at the settings view.
@@ -292,8 +344,8 @@ function setupEasterEgg(logo) {
     });
 }
 /** Function to initialize the settings view.
- * @param {Element} view The settings view element.
- * @returns {Promise<Element>} The container to add the items.
+ * @param {HTMLElement} view The settings view element.
+ * @returns {Promise<HTMLElement>} The container to add the items.
  */
 async function initTransitioSettings(view) {
     const r = await fetch(`local:///${pluginPath}/settings.html`);
@@ -390,17 +442,17 @@ async function initTransitioSettings(view) {
     return container;
 }
 /** Function to add a variable to the UserStyle.
- * @param {Element} details The details element.
+ * @param {HTMLDetailsElement} details The details element.
  * @param {string} path The path of the UserStyle.
  * @param {string} name The name of the variable.
  * @param {Object} varObj The variable object.
- * @returns {Element} The added variable's input element.
+ * @returns {HTMLInputElement|HTMLSelectElement} The added variable's input element.
  */
 function addVar(details, preprocessor, path, name, varObj) {
     const varItem = details.appendChild(document.createElement("label"));
     varItem.textContent = varObj.label;
     varItem.title = name;
-    const varInput = varItem.appendChild(preprocessor === "transitio" ? constructVarInputTransitio(varObj) : constructVarInput(varObj));
+    const varInput = preprocessor === "transitio" ? addVarInputTransitio(varItem, varObj) : addVarInput(varItem, varObj);
     varInput.addEventListener("change", () => {
         if (varInput.reportValidity()) {
             transitio.configChange(path, { [name]: getValueFromInput(varInput) });
@@ -409,7 +461,7 @@ function addVar(details, preprocessor, path, name, varObj) {
     return varInput;
 }
 /** Function to handle `updateStyle` event on settings view.
- * @param {Element} container The settings container.
+ * @param {HTMLElement} container The settings container.
  * @param {Object} args The arguments of the event.
  * @returns {void}
  */
@@ -459,7 +511,7 @@ function transitioSettingsUpdateStyle(container, args) {
     log("transitioSettingsUpdateStyle", path, enabled);
 }
 /** Function to handle `resetStyle` event on settings view.
- * @param {Element} container The settings container.
+ * @param {HTMLElement} container The settings container.
  * @returns {void}
  */
 function transitioSettingsResetStyle(container) {
