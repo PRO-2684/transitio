@@ -16,10 +16,18 @@ jobs:
         with:
           fetch-depth: 16 # Ensure we can generate changelogs
 
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "20"
+
+      - name: "Install Dependencies"
+        run: npm i
+
       - name: "Zip release files" # Only if the version has been updated
         run: |
           echo "Creating a release zip file..."
-          zip -r transitio-release.zip icons/ modules/ main.js manifest.json preload.js renderer.js settings.html
+          zip -r transitio-release.zip icons/ node_modules/ modules/ main.js manifest.json preload.js renderer.js settings.html
           echo "Done!"
 
       - name: "Create Release"
