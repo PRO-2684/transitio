@@ -26,7 +26,7 @@ const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_exte
  * @param {Element} varInput The input/select element.
  * @returns {string|number|boolean} The value of the input element.
  */
-function getValueFromInput(varInput, varObj) {
+function getValueFromInput(varInput) {
     switch (varInput.type) {
         case "number":
         case "range":

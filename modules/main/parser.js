@@ -90,18 +90,8 @@ function extractUserStyleMetadata(css) {
         const content = match[1]; // Extract the content within the UserStyle block
         const isTransitio = content.match(/@preprocessor\s+transitio\s*$/m);
         if (!isTransitio) {
-            try {
-                const result = parser.parse(match[0].replaceAll("\r\n", "\n")).metadata;
-                // for (const varName in result.vars) {
-                //     const varObj = result.vars[varName];
-                //     if (varObj.type === "checkbox") {
-                //         varObj.default = varObj.default === "1"; // Fix: Convert to boolean
-                //     }
-                // }
-                return result;
-            } catch (e) {
-                return result;
-            }
+            const result = parser.parse(match[0].replaceAll("\r\n", "\n")).metadata;
+            return result;
         } else {
             const lines = content.split('\n'); // Split the content by newline
             lines.forEach(line => {
