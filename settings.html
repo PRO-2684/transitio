@@ -100,6 +100,9 @@
             cursor: not-allowed;
             filter: grayscale(1);
             opacity: 0.6;
+            > summary > setting-item > div > setting-text[data-type="primary"]::after {
+                display: none;
+            }
             > * {
                 pointer-events: none;
             }
