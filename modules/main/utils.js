@@ -50,8 +50,8 @@ async function renderStylus(path, content, vars) {
             // Map from option name to value
             value = variable.options.find(opt => opt.name === value)?.value;
         }
-        return `${key} = ${value}${variable.units ?? ""};\n`;
-    }).join("");
+        return `${key} = ${value}${variable.units ?? ""};`;
+    }).join("\n");
     return new Promise((resolve, reject) => {
         stylus(varDef + content)
             .set("filename", path)

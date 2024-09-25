@@ -1,5 +1,30 @@
 // Description: Transitio's parser module for UserStyle metadata extraction.
 const usercssMeta = require("usercss-meta");
+const parser = usercssMeta.createParser({
+    mandatoryKeys: ["name"],
+    parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: `./node_modules/usercss-meta/lib/parse-util.js#L66`
+        checkbox: function parseBool(state) {
+            if (state.lastIndex >= state.text.length) {
+                throw new EOFError(state.lastIndex);
+            }
+            state.index = state.lastIndex;
+            state.value = state.text[state.lastIndex] === "1";
+            state.lastIndex++;
+            usercssMeta.util.eatWhitespace(state);
+        }
+    },
+    validateVar: { // Changes validator for checkbox so that it now asserts a boolean. Ref: `./node_modules/usercss-meta/lib/parse.js#L296`
+        checkbox: function validateBool(state) {
+            if (!state.value instanceof Boolean) {
+                throw new usercssMeta.ParseError({
+                    code: 'invalidCheckboxDefault',
+                    message: 'value must be 0 or 1',
+                    index: state.valueIndex
+                });
+            }
+        }
+    }
+});
 
 /**
  * Get the description from the first line of the CSS content. (will be deprecated)
@@ -66,10 +91,14 @@ function extractUserStyleMetadata(css) {
         const isTransitio = content.match(/@preprocessor\s+transitio\s*$/m);
         if (!isTransitio) {
             try {
-                return usercssMeta.parse(match[0].replaceAll("\r", ""), {
-                    mandatoryKeys: ["name"],
-                    // unknownKey: "assign"
-                }).metadata;
+                const result = parser.parse(match[0].replaceAll("\r\n", "\n")).metadata;
+                // for (const varName in result.vars) {
+                //     const varObj = result.vars[varName];
+                //     if (varObj.type === "checkbox") {
+                //         varObj.default = varObj.default === "1"; // Fix: Convert to boolean
+                //     }
+                // }
+                return result;
             } catch (e) {
                 return result;
             }

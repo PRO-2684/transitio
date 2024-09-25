@@ -30,8 +30,6 @@ function getValueFromInput(varInput, varObj) {
     switch (varInput.type) {
         case "number":
         case "range":
-        case "percent":
-        case "percentage":
             return parseFloat(varInput.value);
         case "checkbox":
             return varInput.checked;
