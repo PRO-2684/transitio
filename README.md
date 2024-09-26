@@ -86,6 +86,7 @@ plugins (所有的插件目录)
 | [customize-more-menu](https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏主界面更多菜单中的项目 |
 | [customize-settings](https://github.com/PRO-2684/Transitio-user-css/#customize-settings) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 自定义隐藏 QQNT 原生设置界面选项，默认隐藏“超级调色盘” |
 | [compact-at-list](https://github.com/PRO-2684/Transitio-user-css/#compact-at-list) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 艾特建议面板更为紧凑 |
+| [Contact List with Rounded Corners Display](https://github.com/YatFanLan/Contact-List-with-Rounded-Corners-Display) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏文件侧边栏下方的导入手机相册功能|
 | [chat-the-bubbles](https://gist.github.com/BingZi-233/0193165fa053f6d9e61140180d9a5995) | 🟢 | [BingZi-233](https://github.com/BingZi-233) | 气泡描边 |
 | [demo-mode](https://github.com/PRO-2684/Transitio-user-css/#demo-mode) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | [演示模式](https://github.com/qianxuu/LiteLoaderQQNT-Plugin-Demo-mode)的 CSS |
 | [font-color](https://github.com/nogodnodevil/Transitio--font-color) | 🔴 | [nogodnodevil](https://github.com/nogodnodevil) | 自定义 QQNT 一些文字的颜色 |
@@ -94,7 +95,7 @@ plugins (所有的插件目录)
 | [hide-level](https://github.com/SoudayoWwww/transitio-hide-level#hide-level) | 🔴 | [SoudayoWwww](https://github.com/SoudayoWwww) | 隐藏群内等级 |
 | [Hide certain features in the settings](https://github.com/YatFanLan/Hide-certain-features-in-the-settings) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏设置中的某些功能(隐藏安全设置,隐藏软件更新)|
 | [Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window](https://github.com/YatFanLan/Hide-the-Import-Phone-Album-feature-in-the-upper-right-corner-of-the-My-Phone-Chat-window) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏我的手机聊天窗口中右上角的导入手机相册功能|
-| [Contact List with Rounded Corners Display](https://github.com/YatFanLan/Contact-List-with-Rounded-Corners-Display) | 🟢 |[YatFanLan](https://github.com/YatFanLan) | 隐藏文件侧边栏下方的导入手机相册功能|
+
 | [hide-lock](https://github.com/PRO-2684/Transitio-user-css/#hide-lock) | 🟢 | [Shapaper233](https://github.com/Shapaper233) | 隐藏侧边栏 "更多" 中倒数第四个按钮 ("锁定") |
 | [hide-self](https://github.com/PRO-2684/Transitio-user-css/#hide-self) | 🟢 | [PRO-2684](https://github.com/PRO-2684) | 隐藏自己的头像和昵称 |
 | [ Hide-the-QQ-Space-option-on-the-Friends-Information-screen](https://github.com/YatFanLan/Hide-the-QQ-Space-option-on-the-Friends-Information-screen) | 🟢 | [YatFanLan](https://github.com/YatFanLan) |  隐藏好友信息界面的QQ空间选项|
