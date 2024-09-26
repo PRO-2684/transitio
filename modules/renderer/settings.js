@@ -215,13 +215,13 @@ function addVarInput(varItem, varObj) {
             }
             break;
         }
-        case "percent":
-        case "percentage":
         case "number": {
             const { min, max, step } = varObj;
             varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
             break;
         }
+        case "percent":
+        case "percentage":
         case "range": {
             const { min, max, step } = varObj;
             const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
