@@ -193,6 +193,7 @@ function addVarInput(varItem, varObj) {
     let defaultValue = varObj.default;
     switch (varObj.type) { // https://github.com/openstyles/stylus/wiki/Writing-UserCSS#type
         case "color":
+        case "colour":
             varInput = document.createElement("input");
             varInput.type = "color";
             varInput.title = `默认值: ${defaultValue}`;
@@ -214,6 +215,8 @@ function addVarInput(varItem, varObj) {
             }
             break;
         }
+        case "percent":
+        case "percentage":
         case "number": {
             const { min, max, step } = varObj;
             varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
