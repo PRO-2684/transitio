@@ -4,28 +4,12 @@
 const styleDataAttr = "data-transitio-style";
 
 /**
- * Get the default value of a select variable, given the arguments. (transitio preprocessor)
- * @param {Array} varArgs Arguments for the select variable.
- * @returns {String} The default value of the select variable.
- */
-function getSelectDefaultValue(varArgs) {
-    // varArgs: [default-index, option1, option2, ...]
-    //   option: [value, label] or value
-    const defaultIndex = varArgs[0];
-    const defaultOption = varArgs[defaultIndex + 1];
-    if (Array.isArray(defaultOption)) {
-        return defaultOption[0];
-    } else {
-        return defaultOption;
-    }
-}
-/**
  * Construct the value of a variable, to be applied into the style. (transitio preprocessor)
  * @param {Object} varObj Variable object.
  * @returns {String} The value of the variable.
  */
 function constructVarValue(varObj) {
-    const value = varObj.value ?? varObj.args[0];
+    const value = varObj.value ?? varObj.default;
     switch (varObj.type) {
         case "text":
             return `"${CSS.escape(value)}"`;
@@ -36,17 +20,8 @@ function constructVarValue(varObj) {
         case "percentage":
             return isNaN(value) ? value : `${value}%`;
         case "checkbox":
-            // varObj.args: [default-index/boolean, option1, option2, ...]
-            //   option: value
-            // varObj.value: default-index/boolean
-            return value ? varObj.args[2] : varObj.args[1];
-        case "select": {
-            // varObj.args: [default-index, option1, option2, ...]
-            //   option: [value, label] or value
-            // varObj.value: value
-            return varObj.value ?? getSelectDefaultValue(varObj.args);
-        }
-        default: // color/colour, raw
+            return value ? varObj.options[1].value : varObj.options[0].value;
+        default: // select, color/colour, raw
             return value.toString();
     }
 }
@@ -106,4 +81,4 @@ function removeAllStyles() {
     });
 }
 
-export { getSelectDefaultValue, cssHelper, removeAllStyles };
+export { cssHelper, removeAllStyles };

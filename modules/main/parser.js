@@ -42,7 +42,7 @@ function getDesc(css) {
 /**
  * Parse arguments of `@var` line.
  * @param {string} args The arguments string.
- * @returns {Array|Object|null} The parsed arguments.
+ * @returns {Array|null} The parsed arguments.
  */
 function parseVarArgs(args) {
     try {
@@ -70,7 +70,49 @@ function processVar(value) {
         if (!varArgs) {
             return null;
         }
-        return [varName, { "type": varType, "label": varLabel, "args": varArgs, "value": null }];
+        const varData = { type: varType, label: varLabel, name: varName, value: null, default: null, options: null };
+        switch (varType) {
+            case "text":
+            case "color":
+            case "colour":
+                varData.default = varArgs[0];
+                break;
+            case "number":
+            case "range":
+            case "percent":
+            case "percentage": {
+                let [defaultValue, min, max, step] = varArgs;
+                if (varType.startsWith("percent")) {
+                    min ??= 0;
+                    max ??= 100;
+                }
+                varData.default = defaultValue;
+                Object.assign(varData, { min, max, step });
+                break;
+            }
+            case "checkbox":
+                varData.default = Boolean(varArgs[0]);
+                varData.options = varArgs.slice(1).map(v => { return { name: v, label: v, value: v } });
+                break;
+            case "select": {
+                const defaultIndex = varArgs[0];
+                const defaultOption = varArgs[defaultIndex + 1];
+                if (Array.isArray(defaultOption)) {
+                    varData.default = defaultOption[0];
+                } else {
+                    varData.default = defaultOption;
+                }
+                varData.options = varArgs.slice(1).map(v => {
+                    if (Array.isArray(v)) {
+                        return { name: v[0], label: v[1], value: v[0] };
+                    } else {
+                        return { name: v, label: v, value: v };
+                    }
+                });
+                break;
+            }
+        }
+        return [varName, varData];
     } else {
         return null;
     }

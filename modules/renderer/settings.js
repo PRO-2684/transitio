@@ -1,6 +1,5 @@
 // Description: The renderer script for the settings view of Transitio.
 import { log, showDebugHint } from "./debug.js";
-import { getSelectDefaultValue } from "./css.js";
 import { setupSearch } from "./search.js";
 
 /** Transitio plugin path. */
@@ -184,89 +183,7 @@ function createLinkedInputs(args) {
     });
     return [range, number];
 }
-/** Function to get the default value of a variable. (Transitio preprocessor)
- * @param {Object} varObj The variable object.
- * @returns {string|boolean|number} The default value of the variable.
- */
-function getDefaultValueTransitio(varObj) {
-    switch (varObj.type) {
-        case "checkbox":
-            return Boolean(varObj.args[0]);
-        case "select":
-            return getSelectDefaultValue(varObj.args);
-        default:
-            return varObj.args[0];
-    }
-}
-/** Function to add the element(s) used for inputting variables, with its value set as default. (Transitio preprocessor)
- * @param {HTMLLabelElement} varItem The parent element of our input element(s).
- * @param {Object} varObj The variable object.
- * @returns {HTMLInputElement|HTMLSelectElement} The primary element used for inputting variables.
- */
-function addVarInputTransitio(varItem, varObj) {
-    let varInput;
-    const defaultValue = getDefaultValueTransitio(varObj);
-    switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
-        case "color":
-        case "colour":
-            varInput = document.createElement("input");
-            varInput.type = "color";
-            varInput.title = `默认值: ${defaultValue}`;
-            varInput.toggleAttribute("required", true);
-            break;
-        case "number":{
-            const [_, min, max, step] = varObj.args;
-            varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
-            break;
-        }
-        case "range": {
-            const [_, min, max, step] = varObj.args;
-            const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
-            varInput = range;
-            varItem.appendChild(number);
-            break;
-        }
-        case "percent":
-        case "percentage": {
-            const [_, min, max, step] = varObj.args;
-            const effectiveMin = (min === undefined) ? 0 : min;
-            const effectiveMax = (max === undefined) ? 100 : max;
-            varInput = createNumberLikeInput("number", { defaultValue, min: effectiveMin, max: effectiveMax, step });
-            break;
-        }
-        case "checkbox": {
-            varInput = document.createElement("input");
-            varInput.type = "checkbox";
-            varInput.title = `默认值: ${defaultValue}`;
-            break;
-        }
-        case "select": {
-            varInput = document.createElement("select");
-            varInput.title = `默认值: ${defaultValue}`;
-            for (let i = 1; i < varObj.args.length; i++) {
-                const option = varObj.args[i];
-                const value = Array.isArray(option) ? option[0] : option;
-                const label = Array.isArray(option) ? option[1] : option;
-                const optionElement = document.createElement("option");
-                optionElement.value = value;
-                optionElement.textContent = label;
-                varInput.appendChild(optionElement);
-            }
-            break;
-        }
-        default:
-            // text, raw
-            varInput = document.createElement("input");
-            varInput.type = "text";
-            varInput.title = `默认值: ${defaultValue}`;
-            varInput.toggleAttribute("required", true);
-    }
-    varInput.placeholder = defaultValue;
-    setValueToInput(varInput, defaultValue);
-    varItem.appendChild(varInput);
-    return varInput;
-}
-/** Function to add the element(s) used for inputting variables, with its value set as default. (Other preprocessors)
+/** Function to add the element(s) used for inputting variables, with its value set as default.
  * @param {HTMLLabelElement} varItem The parent element of our input element(s).
  * @param {Object} varObj The variable object.
  * @returns {HTMLInputElement|HTMLSelectElement} The primary element used for inputting variables.
@@ -284,7 +201,6 @@ function addVarInput(varItem, varObj) {
         case "checkbox":
             varInput = document.createElement("input");
             varInput.type = "checkbox";
-            // defaultValue = Boolean(defaultValue);
             varInput.title = `默认值: ${defaultValue}`;
             break;
         case "select": {
@@ -468,7 +384,7 @@ function addVar(details, preprocessor, path, name, varObj) {
     const varItem = details.appendChild(document.createElement("label"));
     varItem.textContent = varObj.label;
     varItem.title = name;
-    const varInput = preprocessor === "transitio" ? addVarInputTransitio(varItem, varObj) : addVarInput(varItem, varObj);
+    const varInput = addVarInput(varItem, varObj);
     varInput.addEventListener("change", () => {
         if (varInput.reportValidity()) {
             transitio.configChange(path, { [name]: getValueFromInput(varInput) });
@@ -522,7 +438,7 @@ function transitioSettingsUpdateStyle(container, args) {
         const varInput = details.querySelector(`label[title="${name}"] > input`)
             ?? details.querySelector(`label[title="${name}"] > select`)
             ?? addVar(details, meta.preprocessor, path, name, varObj);
-        setValueToInput(varInput, varObj.value ?? varObj.default ?? getDefaultValueTransitio(varObj));
+        setValueToInput(varInput, varObj.value ?? varObj.default);
     }
     log("transitioSettingsUpdateStyle", path, enabled);
 }
