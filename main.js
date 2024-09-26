@@ -145,7 +145,7 @@ async function updateStyle(absPath, webContent) {
             css = await renderStylus(absPath, css, meta.vars);
         } catch (err) {
             log(`Failed to render ${absPath}:`, err);
-            css = `/* Stylus 编译失败: ${err} */`;
+            css = `/* Stylus 编译失败: ${err.name} (使用 Debug 模式查看终端输出来获得更多信息) */`;
             meta.name += " (编译失败)";
         }
     }
