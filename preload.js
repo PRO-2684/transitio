@@ -23,6 +23,10 @@ contextBridge.exposeInMainWorld("transitio", {
         "LiteLoader.transitio.removeStyle",
         path
     ),
+    resetStyle: (path) => ipcRenderer.send(
+        "LiteLoader.transitio.resetStyle",
+        path
+    ),
     open: (type, uri) => ipcRenderer.send(
         "LiteLoader.transitio.open",
         type, uri

@@ -4,7 +4,7 @@
 const styleDataAttr = "data-transitio-style";
 
 /**
- * Get the default value of a select variable, given the arguments.
+ * Get the default value of a select variable, given the arguments. (transitio preprocessor)
  * @param {Array} varArgs Arguments for the select variable.
  * @returns {String} The default value of the select variable.
  */
@@ -30,6 +30,7 @@ function constructVarValue(varObj) {
         case "text":
             return `"${CSS.escape(value)}"`;
         case "number":
+        case "range":
             return isNaN(value) ? value : value.toString();
         case "percent":
         case "percentage":

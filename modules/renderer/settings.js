@@ -111,10 +111,16 @@ function addItem(path, container) {
             transitio.open("show", path);
         }
     });
-    const configureBtn = addTransitioMore(right, { icon: "⚙️", title: "配置变量", className: "transitio-configure" });
+    const configureBtn = addTransitioMore(right, { icon: "⚙️", title: "配置变量，右键以重置为默认值", className: "transitio-configure" });
     configureBtn.addEventListener("click", () => {
         if (!details.hasAttribute(deletedDataAttr) && !configureBtn.hasAttribute("disabled")) {
             details.toggleAttribute("open");
+        }
+    });
+    configureBtn.addEventListener("mouseup", (e) => {
+        if (!details.hasAttribute(deletedDataAttr) && !configureBtn.hasAttribute("disabled")
+            && e.button === 2 && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+            transitio.resetStyle(path);
         }
     });
     const switch_ = right.appendChild(document.createElement("setting-switch"));
@@ -166,7 +172,7 @@ function createLinkedInputs(args) {
         number.value = range.value;
     });
     number.addEventListener("input", () => {
-        if (number.reportValidity()) {
+        if (number.checkValidity()) {
             range.value = number.value;
         }
     });
@@ -178,6 +184,20 @@ function createLinkedInputs(args) {
     });
     return [range, number];
 }
+/** Function to get the default value of a variable. (Transitio preprocessor)
+ * @param {Object} varObj The variable object.
+ * @returns {string|boolean|number} The default value of the variable.
+ */
+function getDefaultValueTransitio(varObj) {
+    switch (varObj.type) {
+        case "checkbox":
+            return Boolean(varObj.args[0]);
+        case "select":
+            return getSelectDefaultValue(varObj.args);
+        default:
+            return varObj.args[0];
+    }
+}
 /** Function to add the element(s) used for inputting variables, with its value set as default. (Transitio preprocessor)
  * @param {HTMLLabelElement} varItem The parent element of our input element(s).
  * @param {Object} varObj The variable object.
@@ -185,13 +205,13 @@ function createLinkedInputs(args) {
  */
 function addVarInputTransitio(varItem, varObj) {
     let varInput;
-    let defaultValue = varObj.args[0];
+    // let defaultValue = varObj.args[0];
+    const defaultValue = getDefaultValueTransitio(varObj);
     switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
         case "color":
         case "colour":
             varInput = document.createElement("input");
             varInput.type = "color";
-            varInput.placeholder = defaultValue;
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
             break;
@@ -218,13 +238,13 @@ function addVarInputTransitio(varItem, varObj) {
         case "checkbox": {
             varInput = document.createElement("input");
             varInput.type = "checkbox";
-            defaultValue = Boolean(defaultValue);
+            // defaultValue = Boolean(defaultValue);
             varInput.title = `默认值: ${defaultValue}`;
             break;
         }
         case "select": {
             varInput = document.createElement("select");
-            defaultValue = getSelectDefaultValue(varObj.args);
+            // defaultValue = getSelectDefaultValue(varObj.args);
             varInput.title = `默认值: ${defaultValue}`;
             for (let i = 1; i < varObj.args.length; i++) {
                 const option = varObj.args[i];
@@ -241,10 +261,10 @@ function addVarInputTransitio(varItem, varObj) {
             // text, raw
             varInput = document.createElement("input");
             varInput.type = "text";
-            varInput.placeholder = defaultValue;
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
     }
+    varInput.placeholder = defaultValue;
     setValueToInput(varInput, defaultValue);
     varItem.appendChild(varInput);
     return varInput;
@@ -261,14 +281,13 @@ function addVarInput(varItem, varObj) {
         case "color":
             varInput = document.createElement("input");
             varInput.type = "color";
-            varInput.placeholder = defaultValue;
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
             break;
         case "checkbox":
             varInput = document.createElement("input");
             varInput.type = "checkbox";
-            defaultValue = Boolean(defaultValue);
+            // defaultValue = Boolean(defaultValue);
             varInput.title = `默认值: ${defaultValue}`;
             break;
         case "select": {
@@ -298,10 +317,10 @@ function addVarInput(varItem, varObj) {
             // text
             varInput = document.createElement("input");
             varInput.type = "text";
-            varInput.placeholder = defaultValue;
             varInput.title = `默认值: ${defaultValue}`;
             varInput.toggleAttribute("required", true);
     }
+    varInput.placeholder = defaultValue;
     setValueToInput(varInput, defaultValue);
     varItem.appendChild(varInput);
     return varInput;
@@ -506,7 +525,7 @@ function transitioSettingsUpdateStyle(container, args) {
         const varInput = details.querySelector(`label[title="${name}"] > input`)
             ?? details.querySelector(`label[title="${name}"] > select`)
             ?? addVar(details, meta.preprocessor, path, name, varObj);
-        setValueToInput(varInput, varObj.value);
+        setValueToInput(varInput, varObj.value ?? varObj.default ?? getDefaultValueTransitio(varObj));
     }
     log("transitioSettingsUpdateStyle", path, enabled);
 }

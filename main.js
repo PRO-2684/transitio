@@ -52,6 +52,12 @@ ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
         });
     }
 });
+ipcMain.on("LiteLoader.transitio.resetStyle", (event, absPath) => {
+    log("resetStyle", absPath);
+    delete config.styles[absPath].variables;
+    updateConfig();
+    updateStyle(absPath);
+});
 ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
     log("open", type, uri);
     switch (type) {
@@ -109,8 +115,7 @@ async function updateStyle(absPath, webContent) {
     // Initialize style configuration
     if (typeof config.styles[absPath] !== "object") {
         config.styles[absPath] = {
-            enabled: Boolean(config.styles[absPath] ?? true),
-            variables: {}
+            enabled: Boolean(config.styles[absPath] ?? true)
         };
         updateConfig();
     }
@@ -125,7 +130,7 @@ async function updateStyle(absPath, webContent) {
         return;
     }
     // Read variables config, delete non-existent ones
-    const udfVariables = config.styles[absPath].variables;
+    const udfVariables = config.styles[absPath].variables ?? {};
     for (const [varName, varValue] of Object.entries(udfVariables)) {
         if (varName in meta.vars) {
             meta.vars[varName].value = varValue;
@@ -193,10 +198,11 @@ function onStyleChange(eventType, filename) {
 // Listen to config modification (from renderer)
 function onConfigChange(event, absPath, arg) {
     log("onConfigChange", absPath, arg);
+    const styleConfig = config.styles[absPath];
     if (typeof arg === "boolean") {
-        config.styles[absPath].enabled = arg;
+        styleConfig.enabled = arg;
     } else if (typeof arg === "object") {
-        Object.assign(config.styles[absPath].variables, arg);
+        styleConfig.variables = Object.assign(styleConfig.variables ?? {}, arg);
     }
     updateConfig();
     updateStyle(absPath);
