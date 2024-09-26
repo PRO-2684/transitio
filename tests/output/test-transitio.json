@@ -1,0 +1,214 @@
+{
+    "vars": {
+        "var-1": {
+            "type": "text",
+            "label": "Var 1",
+            "name": "var-1",
+            "value": null,
+            "default": "Val 1",
+            "options": null
+        },
+        "var-2": {
+            "type": "color",
+            "label": "Var 2",
+            "name": "var-2",
+            "value": null,
+            "default": "#012345",
+            "options": null
+        },
+        "var-3": {
+            "type": "number",
+            "label": "Var 3",
+            "name": "var-3",
+            "value": null,
+            "default": 123,
+            "options": null,
+            "min": null,
+            "max": null,
+            "step": null
+        },
+        "var-4": {
+            "type": "number",
+            "label": "Var 4",
+            "name": "var-4",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": null,
+            "step": null
+        },
+        "var-5": {
+            "type": "number",
+            "label": "Var 5",
+            "name": "var-5",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 45,
+            "step": null
+        },
+        "var-6": {
+            "type": "number",
+            "label": "Var 6",
+            "name": "var-6",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 45,
+            "step": 3
+        },
+        "var-7": {
+            "type": "range",
+            "label": "Var 7",
+            "name": "var-7",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 45,
+            "step": 3
+        },
+        "var-8": {
+            "type": "percent",
+            "label": "Var 8",
+            "name": "var-8",
+            "value": null,
+            "default": 99,
+            "options": null,
+            "min": 0,
+            "max": 100,
+            "step": null
+        },
+        "var-9": {
+            "type": "percent",
+            "label": "Var 9",
+            "name": "var-9",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 100,
+            "step": null
+        },
+        "var-10": {
+            "type": "percent",
+            "label": "Var 10",
+            "name": "var-10",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 45,
+            "step": null
+        },
+        "var-11": {
+            "type": "percent",
+            "label": "Var 11",
+            "name": "var-11",
+            "value": null,
+            "default": 12,
+            "options": null,
+            "min": 3,
+            "max": 45,
+            "step": 3
+        },
+        "var-12": {
+            "type": "checkbox",
+            "label": "Var 12",
+            "name": "var-12",
+            "value": null,
+            "default": true,
+            "options": [
+                {
+                    "name": "0",
+                    "label": "0",
+                    "value": "0"
+                },
+                {
+                    "name": "1",
+                    "label": "1",
+                    "value": "1"
+                }
+            ]
+        },
+        "var-13": {
+            "type": "checkbox",
+            "label": "Var 13",
+            "name": "var-13",
+            "value": null,
+            "default": false,
+            "options": [
+                {
+                    "name": "a",
+                    "label": "a",
+                    "value": "a"
+                },
+                {
+                    "name": "b",
+                    "label": "b",
+                    "value": "b"
+                }
+            ]
+        },
+        "var-15": {
+            "type": "select",
+            "label": "Var 15",
+            "name": "var-15",
+            "value": null,
+            "default": "inline",
+            "options": [
+                {
+                    "name": "inline",
+                    "label": "显示",
+                    "value": "inline"
+                },
+                {
+                    "name": "none",
+                    "label": "隐藏",
+                    "value": "none"
+                }
+            ]
+        },
+        "var-16": {
+            "type": "select",
+            "label": "Var 16",
+            "name": "var-16",
+            "value": null,
+            "default": "block",
+            "options": [
+                {
+                    "name": "inline",
+                    "label": "显示",
+                    "value": "inline"
+                },
+                {
+                    "name": "none",
+                    "label": "隐藏",
+                    "value": "none"
+                },
+                {
+                    "name": "block",
+                    "label": "块级",
+                    "value": "block"
+                }
+            ]
+        },
+        "var-17": {
+            "type": "raw",
+            "label": "Var 17",
+            "name": "var-17",
+            "value": null,
+            "default": null,
+            "options": null
+        }
+    },
+    "name": "test",
+    "description": "UserCSS example",
+    "namespace": "example.com",
+    "author": "me",
+    "version": "0.1.0",
+    "preprocessor": "transitio"
+}

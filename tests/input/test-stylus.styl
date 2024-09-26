@@ -1,0 +1,43 @@
+/* ==UserStyle==
+@name         test
+@description  UserCSS example
+@namespace    example.com
+@author       me
+@version      0.1.0
+@preprocessor stylus
+@var checkbox fontEnable "Font enabled" 1
+@var text     fontSize   "Font size"    2.1em
+@var color    fontColor  "Font color"   #123456
+@var select   fontName   "Font name"    ["Arial", "Consolas*", "Times New Roman"]
+@var select   fontBkgd   "Body background color"   {
+  "Near Black": "#111111",
+  "Near White*": "#eeeeee"
+}
+@var text     bkgdImg    "Bkgd image"   "'http://example.com/bkgd.jpg'"
+@var text     logoImg    "Logo image"   none
+@var number   adOpacity  "Ad opacity"       [0.5, 0, 1, 0.1]
+@var range    imgHeight  "Max image height" [50, 10, 200, 10, "px"]
+==/UserStyle== */
+// From https://github.com/openstyles/stylus/wiki/Writing-UserCSS#variable-examples
+@-moz-document domain("example.com") {
+  if fontEnable {
+    body {
+      font-size: fontSize !important;
+      color: fontColor !important;
+      font-family: fontName !important; /* Consolas (without the "*") will be set as default */
+      background-color: fontBkgd !important;
+      /* This approach will not allow setting the background-image to "none" */
+      background-image: url(bkgdImg) !important;
+    }
+    #logo {
+       /* This approach will, but needs url('URL_HERE') written in the config input if set to a URL */
+      background-image: logoImg !important;
+    }
+    #ad {
+      opacity: adOpacity !important;
+    }
+    img {
+      max-height: imgHeight !important; /* the 'px' is added to this value automatically */
+    }
+  }
+}

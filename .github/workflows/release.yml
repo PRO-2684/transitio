@@ -24,6 +24,9 @@ jobs:
       - name: "Install Dependencies"
         run: npm i
 
+      - name: "Test"
+        run: npm test
+
       - name: "Zip release files" # Only if the version has been updated
         run: |
           echo "Creating a release zip file..."

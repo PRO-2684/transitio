@@ -87,7 +87,9 @@ function processVar(value) {
                     max ??= 100;
                 }
                 varData.default = defaultValue;
-                Object.assign(varData, { min, max, step });
+                varData.min = min ?? null;
+                varData.max = max ?? null;
+                varData.step = step ?? null;
                 break;
             }
             case "checkbox":

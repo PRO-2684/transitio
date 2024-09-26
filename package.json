@@ -4,7 +4,7 @@
   "description": "Load custom UserStyles for QQNT",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./scripts/test.js",
     "version": "node ./scripts/update_version.js"
   },
   "repository": {

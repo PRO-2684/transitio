@@ -1,0 +1,28 @@
+/* ==UserStyle==
+@name         test
+@description  UserCSS example
+@namespace    example.com
+@author       me
+@version      0.1.0
+@preprocessor transitio
+@var text     var-1  "Var 1"  "Val 1"
+@var color    var-2  "Var 2"  "#012345"
+@var number   var-3  "Var 3"  123
+@var number   var-4  "Var 4"  [12, 3]
+@var number   var-5  "Var 5"  [12, 3, 45]
+@var number   var-6  "Var 6"  [12, 3, 45, 3]
+@var range    var-7  "Var 7"  [12, 3, 45, 3]
+@var percent  var-8  "Var 8"  [99]
+@var percent  var-9  "Var 9"  [12, 3]
+@var percent  var-10 "Var 10" [12, 3, 45]
+@var percent  var-11 "Var 11" [12, 3, 45, 3]
+@var checkbox var-12 "Var 12" [true, "0", "1"]
+@var checkbox var-13 "Var 13" [false, "a", "b"]
+@var select   var-14 "Var 14" [1, "\\"String 1\\"", "\\"String 2\\"", "\\"String 3\\""]
+@var select   var-15 "Var 15" [0, ["inline", "显示"], ["none", "隐藏"]]
+@var select   var-16 "Var 16" [2, ["inline", "显示"], ["none", "隐藏"], ["block", "块级"]]
+@var raw      var-17 "Var 17" "display: none;"
+==/UserStyle== */
+#target {
+    display: var(--var-15);
+}

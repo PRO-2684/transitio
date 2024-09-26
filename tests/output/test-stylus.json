@@ -1,0 +1,117 @@
+{
+    "name": "test",
+    "description": "UserCSS example",
+    "namespace": "example.com",
+    "author": "me",
+    "version": "0.1.0",
+    "preprocessor": "stylus",
+    "vars": {
+        "fontEnable": {
+            "type": "checkbox",
+            "label": "Font enabled",
+            "name": "fontEnable",
+            "value": null,
+            "default": true,
+            "options": null
+        },
+        "fontSize": {
+            "type": "text",
+            "label": "Font size",
+            "name": "fontSize",
+            "value": null,
+            "default": "2.1em",
+            "options": null
+        },
+        "fontColor": {
+            "type": "color",
+            "label": "Font color",
+            "name": "fontColor",
+            "value": null,
+            "default": "#123456",
+            "options": null
+        },
+        "fontName": {
+            "type": "select",
+            "label": "Font name",
+            "name": "fontName",
+            "value": null,
+            "default": "Consolas",
+            "options": [
+                {
+                    "name": "Arial",
+                    "label": "Arial",
+                    "value": "Arial"
+                },
+                {
+                    "name": "Consolas",
+                    "label": "Consolas",
+                    "value": "Consolas"
+                },
+                {
+                    "name": "Times New Roman",
+                    "label": "Times New Roman",
+                    "value": "Times New Roman"
+                }
+            ]
+        },
+        "fontBkgd": {
+            "type": "select",
+            "label": "Body background color",
+            "name": "fontBkgd",
+            "value": null,
+            "default": "Near White",
+            "options": [
+                {
+                    "name": "Near Black",
+                    "label": "Near Black",
+                    "value": "#111111"
+                },
+                {
+                    "name": "Near White",
+                    "label": "Near White",
+                    "value": "#eeeeee"
+                }
+            ]
+        },
+        "bkgdImg": {
+            "type": "text",
+            "label": "Bkgd image",
+            "name": "bkgdImg",
+            "value": null,
+            "default": "'http://example.com/bkgd.jpg'",
+            "options": null
+        },
+        "logoImg": {
+            "type": "text",
+            "label": "Logo image",
+            "name": "logoImg",
+            "value": null,
+            "default": "none",
+            "options": null
+        },
+        "adOpacity": {
+            "type": "number",
+            "label": "Ad opacity",
+            "name": "adOpacity",
+            "value": null,
+            "default": 0.5,
+            "options": null,
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "units": null
+        },
+        "imgHeight": {
+            "type": "range",
+            "label": "Max image height",
+            "name": "imgHeight",
+            "value": null,
+            "default": 50,
+            "options": null,
+            "min": 10,
+            "max": 200,
+            "step": 10,
+            "units": "px"
+        }
+    }
+}
