@@ -205,7 +205,6 @@ function getDefaultValueTransitio(varObj) {
  */
 function addVarInputTransitio(varItem, varObj) {
     let varInput;
-    // let defaultValue = varObj.args[0];
     const defaultValue = getDefaultValueTransitio(varObj);
     switch (varObj.type) { // https://github.com/PRO-2684/transitio/wiki/4.-%E7%94%A8%E6%88%B7%E6%A0%B7%E5%BC%8F%E5%BC%80%E5%8F%91#%E7%B1%BB%E5%9E%8B-type
         case "color":
@@ -238,13 +237,11 @@ function addVarInputTransitio(varItem, varObj) {
         case "checkbox": {
             varInput = document.createElement("input");
             varInput.type = "checkbox";
-            // defaultValue = Boolean(defaultValue);
             varInput.title = `默认值: ${defaultValue}`;
             break;
         }
         case "select": {
             varInput = document.createElement("select");
-            // defaultValue = getSelectDefaultValue(varObj.args);
             varInput.title = `默认值: ${defaultValue}`;
             for (let i = 1; i < varObj.args.length; i++) {
                 const option = varObj.args[i];
@@ -309,8 +306,8 @@ function addVarInput(varItem, varObj) {
         case "range": {
             const { min, max, step } = varObj;
             const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
-            varInput = number;
-            varItem.appendChild(range);
+            varInput = range;
+            varItem.appendChild(number);
             break;
         }
         default:

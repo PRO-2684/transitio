@@ -169,6 +169,14 @@ async function reloadStyle(webContent) {
     for (const absPath of styles) {
         updateStyle(absPath, webContent);
     }
+    const removedStyles = new Set(Object.keys(config.styles)).difference(new Set(styles));
+    for (const absPath of removedStyles) {
+        log("Removed style", absPath);
+        delete config.styles[absPath];
+    }
+    if (removedStyles.size) {
+        updateConfig();
+    }
 }
 
 // Import style from renderer
