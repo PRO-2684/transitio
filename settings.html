@@ -63,45 +63,6 @@
 
     /* 各个用户样式 */
     .transitio details {
-        > summary {
-            list-style: none;
-            outline: none;
-            &::highlight(transitio-search-highlight) {
-                background-color: yellow;
-                color: black;
-            }
-            > setting-item > div > setting-text[data-type="primary"] {
-                &::after {
-                    content: "#" attr(data-preprocessor);
-                    text-transform: capitalize;
-                    font-size: smaller;
-                    border-radius: 4px;
-                    margin-left: 0.1em;
-                    padding: 2px;
-                    opacity: 0.8;
-                }
-                &[data-preprocessor="none"]::after {
-                    background: #808080aa;
-                }
-                &[data-preprocessor="transitio"]::after {
-                    background: #74a9f6aa;
-                }
-                &[data-preprocessor="stylus"]::after {
-                    background: #6da13faa;
-                }
-            }
-        }
-        > label {
-            display: list-item;
-            margin-left: 1.5em;
-            padding: 0.5em 0;
-            > input, > select {
-                float: right;
-            }
-        }
-        &[open] > summary {
-            border-bottom: 1px dashed var(--fill_standard_secondary);
-        }
         &.is-loading { /* Loading snippets */
             cursor: progress;
             opacity: 0.6;
@@ -124,6 +85,65 @@
             display: none;
             + setting-divider { /* Hide divider */
                 display: none;
+            }
+        }
+        > summary {
+            list-style: none;
+            outline: none;
+            &::highlight(transitio-search-highlight) {
+                background-color: yellow;
+                color: black;
+            }
+            > setting-item > div > setting-text[data-type="primary"] {
+                &::after { /* Preprocessor hashtag */
+                    content: "#" attr(data-preprocessor);
+                    text-transform: capitalize;
+                    font-size: smaller;
+                    border-radius: 4px;
+                    margin-left: 0.1em;
+                    padding: 2px;
+                    opacity: 0.8;
+                }
+                &[data-preprocessor="none"]::after {
+                    background: #808080aa;
+                }
+                &[data-preprocessor="transitio"]::after {
+                    background: #74a9f6aa;
+                }
+                &[data-preprocessor="stylus"]::after {
+                    background: #6da13faa;
+                }
+                &[data-hashtag-highlight]::after {
+                    opacity: 1;
+                    font-weight: bold;
+                }
+            }
+            &:hover .transitio-more {
+                opacity: 0.6;
+                &:not([disabled]):hover {
+                    scale: 1.2;
+                    opacity: 1;
+                }
+                &[disabled] {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
+            }
+        }
+        &[open] > summary {
+            border-bottom: 1px dashed var(--fill_standard_secondary);
+            .transitio-more.transitio-configure {
+                scale: 1.2;
+                transform: rotate(180deg);
+                opacity: 1;
+            }
+        }
+        > label {
+            display: list-item;
+            margin-left: 1.5em;
+            padding: 0.5em 0;
+            > input, > select {
+                float: right;
             }
         }
     }
@@ -155,11 +175,17 @@
             content: "💡";
             padding-right: 0.5em;
         }
-        > code, > kbd {
+        code, kbd {
             background: var(--fill_standard_primary);
             border-radius: 4px;
             padding: 0.1em 0.3em;
             margin: 0 0.1em;
+        }
+        b, em {
+            font-weight: bold;
+        }
+        i {
+            font-style: italic;
         }
     }
 
@@ -189,27 +215,6 @@
         transition-duration: 0.2s;
         transition-timing-function: ease-in-out;
         font-family: system-ui, PingFang SC, PingFangSC-Regular, Microsoft YaHei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif, Apple Braille;
-    }
-
-    .transitio details {
-        > summary {
-            &:hover .transitio-more {
-                opacity: 0.6;
-                &:not([disabled]):hover {
-                    scale: 1.2;
-                    opacity: 1;
-                }
-                &[disabled] {
-                    opacity: 0.3;
-                    cursor: not-allowed;
-                }
-            }
-        }
-        &[open] > summary .transitio-more.transitio-configure {
-            scale: 1.2;
-            transform: rotate(180deg);
-            opacity: 1;
-        }
     }
 
     /* Logo */

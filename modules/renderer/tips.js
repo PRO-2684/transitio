@@ -11,10 +11,11 @@ const tips = [
     "未聚焦到输入框的情况下，按 <kbd>Enter</kbd> 或 <kbd>Ctrl</kbd> + <kbd>F</kbd> 可以聚焦到搜索框",
     "除了点击 <code>选择文件</code> 按钮，你还可以直接拖拽文件到虚线区域来导入样式",
     "可以在 <code>data/transitio/styles/</code> 目录下创建快捷方式或软链接来导入样式",
-    "点击 <code><span style='font-style: italic;'>用户样式列表</span></code> 可以快速打开 Transitio 的用户样式列表，双击 <code>导入用户样式...</code> 可以立即重载所有用户样式",
+    "点击 <code><i>用户样式列表</i></code> 可以快速打开 Transitio 的用户样式列表，双击 <code>导入用户样式...</code> 可以立即重载所有用户样式",
+    "搜索框中可以使用 Hashtag 来筛选使用指定预处理器的样式，例如 <code>#stylus</code>。若存在多个 Hashtag，则展示满足其中 <em>任意</em> 一个的用户样式",
+    "搜索框中的所有关键词均大小写不敏感，搜索结果中仅展示包含 <em>所有普通关键词</em> 以及 <em>任一 Hashtag 关键词</em> 的用户样式",
     "单击此处可以查看更多提示",
     // "按下 <kbd>Alt</kbd> 的同时拖拽文件到虚线区域可以导入用户样式的快捷方式或软链接", // Not implemented
-    // "搜索框中可以使用 <code>#preprocessor</code> 来筛选使用指定预处理器的样式 (例如 <code>#stylus</code>)", // Not implemented
     // Dev notes
     "由于 Node.js <code>fs.watch</code> 实现问题，无法正常监控文件修改，因此开发者模式下检测到修改会重载所有样式，导致较大的性能损耗。实际上更推荐重新开关修改的用户样式来更新样式",
     "为什么要用英文写 Release Notes？因为我懒得切输入法",
@@ -32,7 +33,7 @@ const tips = [
  * Current/Next tip index.
  * @type {number}
  */
-let idx = Math.floor(Math.random() * 7); // Show usage tips first
+let idx = Math.floor(Math.random() * 9); // Show usage tips first
 /**
  * Show a random tip.
  */

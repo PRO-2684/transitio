@@ -1,8 +1,14 @@
 // Description: Search module for settings view.
 import { log } from "./debug.js";
 
+/** The name of the highlight object for search */
+const searchHighlightName = "transitio-search-highlight";
 /** Attribute of `<details>` that indicates the style is hidden by search */
 const searchHiddenDataAttr = "data-search-hidden";
+/** Attribute of `<setting-text>` that indicates its respective preprocessor hashtag */
+const hashtagDataAttr = "data-preprocessor";
+/** Attribute of `<setting-text>` that indicates its preprocessor hashtag is highlighted by search */
+const hashtagHighlightDataAttr = "data-hashtag-highlight";
 
 /** Search `keyword` in the `el` and highlight the matched text.
  * @param {Highlight} highlight The highlight object.
@@ -28,12 +34,12 @@ function searchAndHighlight(highlight, el, keyword) {
 }
 /** Search all `keywords` in the `details` and highlight the matched text.
  * @param {Highlight} highlight The highlight object.
- * @param {HTMLElement} detail The `details` element to search.
+ * @param {HTMLDetailsElement} details The `details` element to search.
  * @param {Set<string>} keywords The keywords to search.
  * @returns {boolean} Returns `true` if all keywords are found in the `details`.
  */
-function searchAllAndHighlight(highlight, detail, keywords) {
-    const settingItem = detail.querySelector("summary > setting-item");
+function searchAllAndHighlight(highlight, details, keywords) {
+    const settingItem = details.querySelector("summary > setting-item");
     const nameEl = settingItem.querySelector("setting-text[data-type='primary']");
     const descEl = settingItem.querySelector("setting-text[data-type='secondary']");
     let matches = 0;
@@ -46,6 +52,25 @@ function searchAllAndHighlight(highlight, detail, keywords) {
     }
     return matches === keywords.size;
 }
+/** Check if the `details` contains one of the `hashtags`.
+ * 1. If `hashtags` is empty, revert highlight and return `true`
+ * 2. If found, highlight the tag and return `true`
+ * 3. If not found, revert highlight and return `false`
+ * @param {Set<string>} hashtags The hashtags to search. (without leading `#`)
+ * @param {HTMLDetailsElement} details The `details` element to search.
+ * @returns {boolean} Returns `true` if the `details` contains one of the `hashtags`.
+ */
+function matchHashtags(hashtags, details) {
+    const itemName = details.querySelector("summary > setting-item setting-text[data-type='primary']");
+    if (hashtags.size === 0) { // Case 1
+        itemName.removeAttribute(hashtagHighlightDataAttr);
+        return true;
+    }
+    const tag = itemName.getAttribute(hashtagDataAttr);
+    const isMatch = hashtags.has(tag);
+    itemName.toggleAttribute(hashtagHighlightDataAttr, isMatch); // Case 2 and 3
+    return isMatch;
+}
 /** Perform search and hide the `details` that doesn't match the search.
  * @param {Highlight} highlight The highlight object.
  * @param {string} text The search text.
@@ -56,15 +81,17 @@ function doSearch(highlight, text, container) { // Main function for searching
     log("Search", text);
     highlight.clear(); // Clear previous highlights
     const items = container.querySelectorAll("details");
-    const searchWords = new Set( // Use Set to remove duplicates
-        text.toLowerCase() // Convert to lowercase
-            .split(" ") // Split by space
-            .map(word => word.trim()) // Remove leading and trailing spaces
-            .filter(word => word.length > 0) // Remove empty strings
-    );
-    items.forEach((detail) => { // Iterate through all `details`
-        const isMatch = searchAllAndHighlight(highlight, detail, searchWords);
-        detail.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
+    const words = text.toLowerCase() // Convert to lowercase
+        .split(" ") // Split by space
+        .map(word => word.trim()) // Remove leading and trailing spaces
+        .filter(word => word.length > 0); // Remove empty strings
+    // Split the `words` into normal words and hashtags
+    const searchWords = new Set(words.filter(word => !word.startsWith("#"))); // Normal words
+    const hashtags = new Set(words.filter(word => word.startsWith("#")).map(word => word.slice(1))); // Hashtags
+    items.forEach((details) => { // Iterate through all `details`
+        const isMatch = searchAllAndHighlight(highlight, details, searchWords)
+            && matchHashtags(hashtags, details);
+        details.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
     });
 }
 /** Setup the search bar for the settings view.
@@ -76,7 +103,7 @@ function setupSearch(view) {
     const search = view.querySelector("#transitio-search");
     const container = view.querySelector("setting-section.snippets > setting-panel > setting-list");
     const highlight = new Highlight();
-    CSS.highlights.set("transitio-search-highlight", highlight);
+    CSS.highlights.set(searchHighlightName, highlight);
     document.addEventListener("keydown", (e) => {
         if (!view.checkVisibility()) return; // The setting window is not visible
         if (document.activeElement === search) { // The search bar is focused

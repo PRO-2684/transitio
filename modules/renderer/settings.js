@@ -372,7 +372,7 @@ function transitioSettingsUpdateStyle(container, args) {
     const isDeleted = meta.name === " [已删除] ";
     const details = container.querySelector(`details[${configDataAttr}="${path}"]`) ?? addItem(path, container);
     // Summary part - Name and Description
-    const item = details.querySelector("setting-item");
+    const item = details.querySelector("summary > setting-item");
     const itemName = item.querySelector("setting-text[data-type='primary']");
     const optionalVersion = meta.version ? ` (v${meta.version})` : "";
     itemName.textContent = meta.name + optionalVersion;
