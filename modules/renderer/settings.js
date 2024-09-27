@@ -53,8 +53,7 @@ function setValueToInput(varInput, value) {
             break;
     }
     if (changed) {
-        log("setValueToInput changes to", value);
-        varInput.dispatchEvent(new Event("change", { bubbles: true }));
+        varInput.dispatchEvent(new CustomEvent("change", { bubbles: true, detail: { fromCallback: true } }));
     }
 }
 /** Function to add a button to the right side of the setting item.
@@ -180,7 +179,7 @@ function createLinkedInputs(args) {
     number.addEventListener("change", () => {
         if (number.reportValidity()) {
             range.value = number.value;
-            range.dispatchEvent(new Event("change", { bubbles: true }));
+            range.dispatchEvent(new CustomEvent("change", { bubbles: true, detail: { fromCallback: false } }));
         }
     });
     return [range, number];
@@ -354,9 +353,11 @@ function addVar(details, path, name, varObj) {
     varItem.textContent = varObj.label;
     varItem.title = name;
     const varInput = addVarInput(varItem, varObj);
-    varInput.addEventListener("change", () => {
-        if (varInput.reportValidity()) {
-            transitio.configChange(path, { [name]: getValueFromInput(varInput) });
+    varInput.addEventListener("change", (e) => {
+        if (!e.detail?.fromCallback && varInput.reportValidity()) {
+            const msg = { [name]: getValueFromInput(varInput) };
+            log("configChange", path, msg);
+            transitio.configChange(path, msg);
         }
     });
     return varInput;

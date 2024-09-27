@@ -4,6 +4,9 @@ const parser = usercssMeta.createParser({
     mandatoryKeys: ["name"],
     parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: https://github.com/openstyles/usercss-meta/issues/93
         checkbox: parseBool
+    },
+    validateVar: { // Changes validator for checkbox so that it now asserts a boolean.
+        checkbox: validateBool
     }
 });
 
@@ -19,8 +22,21 @@ function parseBool(state) {
         state.value = true;
     } else {
         throw new usercssMeta.ParseError({
-            code: 'invalidBool',
-            message: 'value must be 0 or 1',
+            code: "invalidBool",
+            message: "value must be 0 or 1",
+            index: state.valueIndex
+        });
+    }
+}
+/**
+ * Validates a boolean value.
+ * @param {object} state The parser state.
+ */
+function validateBool(state) {
+    if (!state.value instanceof Boolean) {
+        throw new usercssMeta.ParseError({
+            code: "invalidCheckboxDefault",
+            message: "value must be 0 or 1",
             index: state.valueIndex
         });
     }
