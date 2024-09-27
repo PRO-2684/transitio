@@ -204,7 +204,7 @@ function onStyleChange(eventType, filename) {
     // } else {
     //     resetStyle();
     // }
-    // However, Electron's fs.watch is not reliable enough.
+    // However, Node's fs.watch is not reliable enough.
     // Renaming a file will trigger a `change` event instead of `rename`, making it hard to distinguish.
     reloadStyle(); // For now, just reload all styles. (Any way, only in dev mode)
 }
