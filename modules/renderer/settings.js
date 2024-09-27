@@ -1,6 +1,7 @@
 // Description: The renderer script for the settings view of Transitio.
 import { log, showDebugHint } from "./debug.js";
 import { setupSearch } from "./search.js";
+import { eggs } from "./eggs.js";
 
 /** Transitio plugin path. */
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
@@ -241,42 +242,12 @@ function addVarInput(varItem, varObj) {
     varItem.appendChild(varInput);
     return varInput;
 }
-/** Function to setup the easter egg at the settings view.
- * @param {HTMLElement} logo The logo element.
+/** Function to setup easter eggs at the settings view.
+ * @param {HTMLElement} view The settings view element.
  * @returns {void}
  */
-function setupEasterEgg(logo) {
-    const title = document.querySelector(".setting-title");
-    function lumos() {
-        document.body.classList.remove("q-theme-tokens-dark");
-        document.body.classList.add("q-theme-tokens-light");
-        document.body.setAttribute("q-theme", "light");
-        title.classList.add("lumos");
-        setTimeout(() => {
-            title.classList.remove("lumos");
-        }, 2000);
-    }
-    function nox() {
-        document.body.classList.remove("q-theme-tokens-light");
-        document.body.classList.add("q-theme-tokens-dark");
-        document.body.setAttribute("q-theme", "dark");
-        title.classList.add("nox");
-        setTimeout(() => {
-            title.classList.remove("nox");
-        }, 2000);
-    }
-    function currentTheme() {
-        return document.body.getAttribute("q-theme");
-    }
-    logo.addEventListener("animationend", () => {
-        document.startViewTransition(() => {
-            if (currentTheme() == "light") {
-                nox();
-            } else {
-                lumos();
-            }
-        });
-    });
+function setupEasterEggs(view) {
+    eggs.forEach(egg => egg(view));
 }
 /** Function to initialize the settings view.
  * @param {HTMLElement} view The settings view element.
@@ -365,7 +336,6 @@ async function initTransitioSettings(view) {
     // Logo
     const logo = $(".logo");
     logo.src = `local:///${pluginPath}/icons/icon.svg`;
-    setupEasterEgg(logo);
     // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {
@@ -373,6 +343,7 @@ async function initTransitioSettings(view) {
         }
         link.addEventListener("click", openURL);
     });
+    setupEasterEggs(view);
     const container = $("setting-section.snippets > setting-panel > setting-list");
     return container;
 }

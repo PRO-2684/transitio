@@ -210,17 +210,22 @@
         }
     }
 
-    /* Easter egg */
-    .setting-title.lumos::after {
-        content: "🌟 Lumos!";
-        padding-left: 1em;
-        opacity: 0.5;
-    }
-
-    .setting-title.nox::after {
-        content: "🌙 Nox!";
-        padding-left: 1em;
-        opacity: 0.5;
+    /* Easter eggs */
+    .setting-title {
+        &.lumos::after {
+            content: "🌟 Lumos!";
+            padding-left: 1em;
+            opacity: 0.5;
+        }
+        &.nox::after {
+            content: "🌙 Nox!";
+            padding-left: 1em;
+            opacity: 0.5;
+        }
+        &.wand > .icon-area::after {
+            content: "🪄";
+            padding-right: 0.5em;
+        }
     }
 
     /* 动画 */
