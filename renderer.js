@@ -1,5 +1,4 @@
 import { cssHelper, removeAllStyles } from "./modules/renderer/css.js";
-import { initTransitioSettings, transitioSettingsUpdateStyle, transitioSettingsResetStyle } from "./modules/renderer/settings.js";
 
 transitio.onUpdateStyle((event, args) => {
     cssHelper(args.path, args.css, args.enabled, args.meta);
@@ -12,6 +11,7 @@ transitio.rendererReady();
  * @param {HTMLElement} view The settings view element.
  */
 async function onSettingWindowCreated(view) {
+    const { initTransitioSettings, transitioSettingsUpdateStyle, transitioSettingsResetStyle } = await import("./modules/renderer/settings.js");
     const container = await initTransitioSettings(view);
     transitio.onUpdateStyle((event, args) => {
         transitioSettingsUpdateStyle(container, args);
