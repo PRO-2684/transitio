@@ -144,6 +144,25 @@
         }
     }
 
+    .transitio #transitio-tips {
+        display: block;
+        margin: -1em auto 1em auto;;
+        opacity: 0.5;
+        background: none;
+        font-size: smaller;
+        text-align: center;
+        &::before {
+            content: "💡";
+            padding-right: 0.5em;
+        }
+        > code, > kbd {
+            background: var(--fill_standard_primary);
+            border-radius: 4px;
+            padding: 0.1em 0.3em;
+            margin: 0 0.1em;
+        }
+    }
+
     /* 链接 */
     .transitio .transitio-link {
         cursor: pointer;
@@ -317,3 +336,4 @@
         </setting-list>
     </setting-panel>
 </setting-section>
+<span id="transitio-tips"></span>

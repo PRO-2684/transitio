@@ -2,30 +2,29 @@
 const usercssMeta = require("usercss-meta");
 const parser = usercssMeta.createParser({
     mandatoryKeys: ["name"],
-    parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: `./node_modules/usercss-meta/lib/parse-util.js#L66`
-        checkbox: function parseBool(state) {
-            if (state.lastIndex >= state.text.length) {
-                throw new EOFError(state.lastIndex);
-            }
-            state.index = state.lastIndex;
-            state.value = state.text[state.lastIndex] === "1";
-            state.lastIndex++;
-            usercssMeta.util.eatWhitespace(state);
-        }
-    },
-    validateVar: { // Changes validator for checkbox so that it now asserts a boolean. Ref: `./node_modules/usercss-meta/lib/parse.js#L296`
-        checkbox: function validateBool(state) {
-            if (!state.value instanceof Boolean) {
-                throw new usercssMeta.ParseError({
-                    code: 'invalidCheckboxDefault',
-                    message: 'value must be 0 or 1',
-                    index: state.valueIndex
-                });
-            }
-        }
+    parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: https://github.com/openstyles/usercss-meta/issues/93
+        checkbox: parseBool
     }
 });
 
+/**
+ * Parses a boolean value.
+ * @param {object} state The parser state.
+ */
+function parseBool(state) {
+    usercssMeta.util.parseChar(state);
+    if (state.value === "0") {
+        state.value = false;
+    } else if (state.value === "1") {
+        state.value = true;
+    } else {
+        throw new usercssMeta.ParseError({
+            code: 'invalidBool',
+            message: 'value must be 0 or 1',
+            index: state.valueIndex
+        });
+    }
+}
 /**
  * Get the description from the first line of the CSS content. (will be deprecated)
  * @param {string} css The CSS content.

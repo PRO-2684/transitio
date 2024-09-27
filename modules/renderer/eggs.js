@@ -1,6 +1,12 @@
 // Description: Easter eggs.
 
 /**
+ * Easter eggs.
+ * @type {Function[]}
+ */
+const eggs = [lumosNox, wand];
+
+/**
  * Lumos and Nox easter egg.
  * @param {HTMLElement} view The settings view element.
  */
@@ -48,12 +54,18 @@ function wand(view) {
     if (r > 0.01) return;
     const title = document.querySelector(".setting-title");
     title.classList.add("wand");
+    const icon = title.querySelector(".icon-area");
+    icon.addEventListener("click", () => {
+        title.classList.remove("wand");
+    }, { once: true });
 }
 
-/**
- * Easter eggs.
- * @type {Function[]}
+/** Function to setup easter eggs at the settings view.
+ * @param {HTMLElement} view The settings view element.
+ * @returns {void}
  */
-const eggs = [lumosNox, wand];
+function setupEasterEggs(view) {
+    eggs.forEach(egg => egg(view));
+}
 
-export { eggs };
+export { setupEasterEggs };

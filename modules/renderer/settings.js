@@ -1,7 +1,8 @@
 // Description: The renderer script for the settings view of Transitio.
 import { log, showDebugHint } from "./debug.js";
 import { setupSearch } from "./search.js";
-import { eggs } from "./eggs.js";
+import { setupEasterEggs } from "./eggs.js";
+import { setupTips } from "./tips.js";
 
 /** Transitio plugin path. */
 const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
@@ -242,13 +243,6 @@ function addVarInput(varItem, varObj) {
     varItem.appendChild(varInput);
     return varInput;
 }
-/** Function to setup easter eggs at the settings view.
- * @param {HTMLElement} view The settings view element.
- * @returns {void}
- */
-function setupEasterEggs(view) {
-    eggs.forEach(egg => egg(view));
-}
 /** Function to initialize the settings view.
  * @param {HTMLElement} view The settings view element.
  * @returns {Promise<HTMLElement>} The container to add the items.
@@ -344,6 +338,7 @@ async function initTransitioSettings(view) {
         link.addEventListener("click", openURL);
     });
     setupEasterEggs(view);
+    setupTips(view);
     const container = $("setting-section.snippets > setting-panel > setting-list");
     return container;
 }
@@ -354,7 +349,7 @@ async function initTransitioSettings(view) {
  * @param {Object} varObj The variable object.
  * @returns {HTMLInputElement|HTMLSelectElement} The added variable's input element.
  */
-function addVar(details, preprocessor, path, name, varObj) {
+function addVar(details, path, name, varObj) {
     const varItem = details.appendChild(document.createElement("label"));
     varItem.textContent = varObj.label;
     varItem.title = name;
@@ -411,7 +406,7 @@ function transitioSettingsUpdateStyle(container, args) {
     for (const [name, varObj] of Object.entries(meta.vars)) {
         const varInput = details.querySelector(`label[title="${name}"] > input`)
             ?? details.querySelector(`label[title="${name}"] > select`)
-            ?? addVar(details, meta.preprocessor, path, name, varObj);
+            ?? addVar(details, path, name, varObj);
         setValueToInput(varInput, varObj.value ?? varObj.default);
     }
     log("transitioSettingsUpdateStyle", path, enabled);
