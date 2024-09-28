@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string",
+                "title": "Name",
+                "pattern": "^.+$",
+                "description": "The name of the style, preferably using only alphanumeric characters, hyphens and spaces and consistent with the style's `@name` metadata"
+            },
+            "author": {
+                "type": "string",
+                "title": "Author",
+                "pattern": "^[a-zA-Z0-9\\-_]+$",
+                "description": "The author's GitHub username"
+            },
+            "description": {
+                "type": "string",
+                "title": "Description",
+                "pattern": "^.+$",
+                "description": "A brief description of the style, preferably consistent with the style's `@description` metadata"
+            },
+            "preprocessor": {
+                "type": "string",
+                "title": "Preprocessor",
+                "enum": ["none", "transitio", "stylus"],
+                "description": "The preprocessor used for the style"
+            },
+            "link": {
+                "type": "string",
+                "title": "Homepage Link",
+                "format": "uri",
+                "description": "A link to the style's homepage or repository, preferably consistent with the style's `@homepageURL` metadata"
+            },
+            "download": {
+                "type": "string",
+                "title": "Download Link",
+                "format": "uri",
+                "description": "The download link for the style"
+            }
+        },
+        "required": ["name", "author", "description", "preprocessor", "link", "download"]
+    }
+}

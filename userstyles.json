@@ -1,0 +1,330 @@
+[
+    {
+        "name": "admin-s-green-hat",
+        "author": "sileence114",
+        "description": "让管理员戴回绿帽（将管理员头衔颜色重新改为绿色）",
+        "preprocessor": "transitio",
+        "link": "https://github.com/sileence114/ntqq_user_script/blob/main/README.md#admin-s-green-hat",
+        "download": "https://raw.githubusercontent.com/sileence114/ntqq_user_script/refs/heads/main/css/admin-s-green-hat.css"
+    },
+    {
+        "name": "auto-fold-chat-input-area",
+        "author": "lamprose",
+        "description": "消息输入框默认折叠有文字输入时展开",
+        "preprocessor": "none",
+        "link": "https://github.com/lamprose/transitio-css#auto-fold-chat-input-area",
+        "download": "https://raw.githubusercontent.com/lamprose/transitio-css/refs/heads/main/auto-fold-chat-input-area.css"
+    },
+    {
+        "name": "Avatar Float",
+        "author": "PRO-2684",
+        "description": "头像浮动",
+        "preprocessor": "stylus",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#avatar-float",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/avatar-float.styl"
+    },
+    {
+        "name": "Avatar The Bubbles",
+        "author": "BingZi-233",
+        "description": "头像描边",
+        "preprocessor": "transitio",
+        "link": "https://gist.github.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a",
+        "download": "https://gist.githubusercontent.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a/raw/c9d47c1722cf574e7ac51f2bdbaf3736081be57d/avatar-the-bubbles.css"
+    },
+    {
+        "name": "聊天气泡背景色修改",
+        "author": "EmptyDreams",
+        "description": "修改自己发送的聊天气泡的背景色",
+        "preprocessor": "transitio",
+        "link": "https://gist.github.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5",
+        "download": "https://gist.githubusercontent.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5/raw/e15a2b45214ea1fade76e0656aeae48cd561e2a9/bubble-bg-color.css"
+    },
+    {
+        "name": "Customize More Menu",
+        "author": "PRO-2684",
+        "description": "自定义隐藏主界面更多菜单中的项目",
+        "preprocessor": "stylus",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#customize-more-menu",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/customize-more-menu.styl"
+    },
+    {
+        "name": "Customize Settings",
+        "author": "PRO-2684",
+        "description": "自定义隐藏 QQNT 原生设置界面选项",
+        "preprocessor": "stylus",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#customize-settings",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/customize-settings.styl"
+    },
+    {
+        "name": "Compact At List",
+        "author": "PRO-2684",
+        "description": "艾特建议面板更为紧凑",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#compact-at-list",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/compact-at-list.css"
+    },
+    {
+        "name": "Chat The Bubbles",
+        "author": "BingZi-233",
+        "description": "气泡描边",
+        "preprocessor": "transitio",
+        "link": "https://gist.github.com/BingZi-233/0193165fa053f6d9e61140180d9a5995",
+        "download": "https://gist.githubusercontent.com/BingZi-233/0193165fa053f6d9e61140180d9a5995/raw/28e923bab6a7452226ec1f6d6c7488b68fa4fe95/chat-the-bubbles.css"
+    },
+    {
+        "name": "Demo Mode",
+        "author": "PRO-2684",
+        "description": "演示模式：模糊化部分元素",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#demo-mode",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/demo-mode.css"
+    },
+    {
+        "name": "Font Color",
+        "author": "nogodnodevil",
+        "description": "自定义 QQNT 一些文字的颜色",
+        "preprocessor": "none",
+        "link": "https://github.com/nogodnodevil/Transitio--font-color",
+        "download": "https://raw.githubusercontent.com/nogodnodevil/Transitio--font-color/refs/heads/main/font-color.css"
+    },
+    {
+        "name": "Hide Emoticon Response",
+        "author": "InfSein",
+        "description": "移除右键消息上的表情回应",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#hide-emoticon-response",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/hide-emoticon-response.css"
+    },
+    {
+        "name": "Hide Items",
+        "author": "PRO-2684",
+        "description": "隐藏一些元素",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#hide-items",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/hide-items.css"
+    },
+    {
+        "name": "hide-level",
+        "author": "SoudayoWwww",
+        "description": "隐藏群内等级",
+        "preprocessor": "transitio",
+        "link": "https://github.com/SoudayoWwww/transitio-hide-level#hide-level",
+        "download": "https://raw.githubusercontent.com/SoudayoWwww/transitio-hide-level/refs/heads/main/hide-level.css"
+    },
+    {
+        "name": "Hide Lock",
+        "author": "Shapaper233",
+        "description": "隐藏侧边栏 \"更多\" 中倒数第四个按钮 (\"锁定\")",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#hide-lock",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/hide-lock.css"
+    },
+    {
+        "name": "Hide Self",
+        "author": "PRO-2684",
+        "description": "隐藏自己的头像和昵称",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#hide-self",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/hide-self.css"
+    },
+    {
+        "name": "Highlight At",
+        "author": "PRO-2684",
+        "description": "高亮艾特",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#highlight-at",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/highlight-at.css"
+    },
+    {
+        "name": "Image Viewer",
+        "author": "PRO-2684",
+        "description": "媒体查看器透明度修改",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#image-viewer",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/image-viewer.css"
+    },
+    {
+        "name": "Imagesize",
+        "author": "zhuoxin-lzk",
+        "description": "限制图片和 gif 高度",
+        "preprocessor": "none",
+        "link": "https://github.com/zhuoxin-lzk/transitio-ImageSize",
+        "download": "https://raw.githubusercontent.com/zhuoxin-lzk/transitio-ImageSize/refs/heads/main/ImageSize.css"
+    },
+    {
+        "name": "Input Placeholder",
+        "author": "PRO-2684",
+        "description": "添加输入框提示（占位符）",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#input-placeholder",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/input-placeholder.css"
+    },
+    {
+        "name": "Less Spacing",
+        "author": "sileence114",
+        "description": "减少元素间距",
+        "preprocessor": "transitio",
+        "link": "https://github.com/sileence114/ntqq_user_script/blob/main/README.md#less-spacing",
+        "download": "https://raw.githubusercontent.com/sileence114/ntqq_user_script/refs/heads/main/css/less-spacing.css"
+    },
+    {
+        "name": "Link Color",
+        "author": "PRO-2684",
+        "description": "链接动态颜色：悬浮/按下时显示相应颜色。",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#link-color",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/link-color.css"
+    },
+    {
+        "name": "Lite Tools Recall Enhancement",
+        "author": "Shapaper233",
+        "description": "给 lite-tools 的撤回消息加上红色增强描边",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#lite-tools-recall-enhancement",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/lite-tools-recall-enhancement.css"
+    },
+    {
+        "name": "Message Img Transparent",
+        "author": "lamprose",
+        "description": "包含图片消息背景透明",
+        "preprocessor": "none",
+        "link": "https://github.com/lamprose/transitio-css#message-img-transparent",
+        "download": "https://raw.githubusercontent.com/lamprose/transitio-css/refs/heads/main/message-img-transparent.css"
+    },
+    {
+        "name": "Ng Mask",
+        "author": "KelsAstell",
+        "description": "图片模糊（鼠标悬停查看）",
+        "preprocessor": "none",
+        "link": "https://github.com/KelsAstell/Transitio-ng-mask",
+        "download": "https://raw.githubusercontent.com/KelsAstell/Transitio-ng-mask/refs/heads/main/ng-mask.css"
+    },
+    {
+        "name": "No Update",
+        "author": "PRO-2684",
+        "description": "通过 CSS 隐藏更新提示框以及小红点",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#no-update",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/no-update.css"
+    },
+    {
+        "name": "Private Plus",
+        "author": "MapleRecall",
+        "description": "真是隐隐又私私啊",
+        "preprocessor": "transitio",
+        "link": "https://github.com/MapleRecall/Transitio-user-css#2-private-plus",
+        "download": "https://raw.githubusercontent.com/MapleRecall/Transitio-user-css/main/private_plus.css"
+    },
+    {
+        "name": "QQ Face Fine Tune",
+        "author": "PRO-2684",
+        "description": "QQ 表情微调",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/qqface-fine-tune.css"
+    },
+    {
+        "name": "q-tag-enhancement",
+        "author": "Shapaper233",
+        "description": "给 qq 的各种头衔添加对应颜色的高光，同时控制头衔的显示/隐藏",
+        "preprocessor": "stylus",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#q-tag-enhancement",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/q-tag-enhancement.styl"
+    },
+    {
+        "name": "Rainbow Name",
+        "author": "InfSein",
+        "description": "让自己的名字变为彩虹色",
+        "preprocessor": "none",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#rainbow-name",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/rainbow-name.css"
+    },
+    {
+        "name": "Rounded Corners",
+        "author": "zhulinyv",
+        "description": "圆角会话列表",
+        "preprocessor": "transitio",
+        "link": "https://github.com/zhulinyv/rounded-corners",
+        "download": "https://raw.githubusercontent.com/zhulinyv/rounded-corners/main/rounded_corners.css"
+    },
+    {
+        "name": "Sidebar Management",
+        "author": "YF-Eternal",
+        "description": "侧边栏管理器",
+        "preprocessor": "transitio",
+        "link": "https://github.com/YF-Eternal/Sidebar-Management",
+        "download": "https://raw.githubusercontent.com/YF-Eternal/Sidebar-Management/main/sidebar-management.css"
+    },
+    {
+        "name": "Simsun Font",
+        "author": "shiquda",
+        "description": "使用宋体字体",
+        "preprocessor": "none",
+        "link": "https://github.com/shiquda/Transitio-user-css/#SimSun-font.css",
+        "download": "https://raw.githubusercontent.com/shiquda/Transitio-user-css/refs/heads/main/SimSun-font.css"
+    },
+    {
+        "name": "Smooth QQ",
+        "author": "MapleRecall",
+        "description": "这么顺滑的 QQ 谁不喜欢呢",
+        "preprocessor": "transitio",
+        "link": "https://github.com/MapleRecall/Transitio-user-css#1-smooth-qq",
+        "download": "https://raw.githubusercontent.com/MapleRecall/Transitio-user-css/main/smooth.css"
+    },
+    {
+        "name": "StarRailUIExtra",
+        "author": "yhzcake",
+        "description": "针对安装仿星穹铁道短信 UI 与其他主题冲突及部分特性进行修改",
+        "preprocessor": "transitio",
+        "link": "https://github.com/yhzcake/Transitio-user-css/#sr_ui_extra",
+        "download": "https://raw.githubusercontent.com/yhzcake/Transitio-user-css/refs/heads/main/sr_ui_extra.css"
+    },
+    {
+        "name": "Teams",
+        "author": "MapleRecall",
+        "description": "`© Microsoft Teams` 主题",
+        "preprocessor": "transitio",
+        "link": "https://github.com/MapleRecall/Transitio-user-css#3-teams",
+        "download": "https://raw.githubusercontent.com/MapleRecall/Transitio-user-css/main/Teams.css"
+    },
+    {
+        "name": "Transition",
+        "author": "PRO-2684",
+        "description": "添加过渡动画",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#transition",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/transition.css"
+    },
+    {
+        "name": "Transparent",
+        "author": "PRO-2684",
+        "description": "透明化部分元素",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#transparent",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/transparent.css"
+    },
+    {
+        "name": "Variable Fonts Fix",
+        "author": "Shapaper233",
+        "description": "给可变字体添加一定的字宽",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#variable-fonts-fix",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/variable-fonts-fix.css"
+    },
+    {
+        "name": "Vue Highlight",
+        "author": "PRO-2684",
+        "description": "高亮 Vue components，用于开发目的",
+        "preprocessor": "transitio",
+        "link": "https://github.com/PRO-2684/Transitio-user-css/#vue-highlight",
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/vue-highlight.css"
+    },
+    {
+        "name": "wechat-theme",
+        "author": "festoney8",
+        "description": "高仿微信风格主题",
+        "preprocessor": "none",
+        "link": "https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/",
+        "download": "https://raw.githubusercontent.com/festoney8/LiteLoaderQQNT-Wechat-Theme/v4/wechat-theme.css"
+    }
+]
