@@ -8,6 +8,14 @@
         "download": "https://raw.githubusercontent.com/sileence114/ntqq_user_script/refs/heads/main/css/admin-s-green-hat.css"
     },
     {
+        "name": "Anti-Recall",
+        "author": "Cranyozen",
+        "description": "自用的适用于 anti-recall 撤回提示样式",
+        "preprocessor": "transitio",
+        "link": "https://gist.github.com/Cranyozen/320f90513b658ae82a9c7872f867a33f",
+        "download": "https://gist.githubusercontent.com/Cranyozen/320f90513b658ae82a9c7872f867a33f/raw/76824fca4d93794551db82004dcd926151437537/anti-recall-css.css"
+    },
+    {
         "name": "auto-fold-chat-input-area",
         "author": "lamprose",
         "description": "消息输入框默认折叠有文字输入时展开",
