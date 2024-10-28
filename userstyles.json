@@ -334,5 +334,13 @@
         "preprocessor": "none",
         "link": "https://github.com/festoney8/LiteLoaderQQNT-Wechat-Theme/",
         "download": "https://raw.githubusercontent.com/festoney8/LiteLoaderQQNT-Wechat-Theme/v4/wechat-theme.css"
+    },
+    {
+        "name": "Simplify chat boxes",
+        "author": "YatFanLan",
+        "description": "隐藏聊天窗口的按钮",
+        "preprocessor": "transitio",
+        "link": "https://github.com/YatFanLan/Simplify-chat-boxes",
+        "download": "https://raw.githubusercontent.com/YatFanLan/Simplify-chat-boxes"
     }
 ]
