@@ -136,6 +136,14 @@
         "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/hide-self.css"
     },
     {
+        "name": "Hide the import phone album function for certain interfaces",
+        "author": "YatFanLan ",
+        "description": "隐藏某些界面的的导入手机相册功能",
+        "preprocessor": "transitio",
+        "link": "https://github.com/YatFanLan/Hide-importing-phone-photo-album",
+        "download": "https://raw.githubusercontent.com/YatFanLan/Hide-importing-phone-photo-album/refs/heads/main/YatFanLan/Hide-importing-phone-photo-album"
+    },
+    {
         "name": "Highlight At",
         "author": "PRO-2684",
         "description": "高亮艾特",
@@ -262,6 +270,14 @@
         "preprocessor": "transitio",
         "link": "https://github.com/YF-Eternal/Sidebar-Management",
         "download": "https://raw.githubusercontent.com/YF-Eternal/Sidebar-Management/main/sidebar-management.css"
+    },
+    {
+        "name": "Simplify chat boxes",
+        "author": "YatFanLan",
+        "description": "隐藏聊天窗口的按钮",
+        "preprocessor": "transitio",
+        "link": "https://github.com/YatFanLan/Simplify-chat-boxes",
+        "download": "https://raw.githubusercontent.com/YatFanLan/Simplify-chat-boxes/refs/heads/main/Simplify%20chat%20boxes.css"
     },
     {
         "name": "Simsun Font",
