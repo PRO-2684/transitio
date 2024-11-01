@@ -137,7 +137,7 @@
     },
     {
         "name": "Hide the import phone album function for certain interfaces",
-        "author": "YatFanLan ",
+        "author": "YatFanLan",
         "description": "隐藏某些界面的的导入手机相册功能",
         "preprocessor": "transitio",
         "link": "https://github.com/YatFanLan/Hide-importing-phone-photo-album",
