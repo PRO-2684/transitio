@@ -229,7 +229,7 @@
         "description": "QQ 表情微调",
         "preprocessor": "transitio",
         "link": "https://github.com/PRO-2684/Transitio-user-css/#qqface-fine-tune",
-        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/qqface-fine-tune.css"
+        "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/qqface-fine-tune.styl"
     },
     {
         "name": "q-tag-enhancement",
