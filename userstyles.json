@@ -48,6 +48,14 @@
         "download": "https://gist.githubusercontent.com/EmptyDreams/e1374d3e334904f1103bee1ff9087dc5/raw/e15a2b45214ea1fade76e0656aeae48cd561e2a9/bubble-bg-color.css"
     },
     {
+        "name": "Bubble Show or Hide",
+        "author": "GuestLiang",
+        "description": "显示或隐藏用户自定义的气泡",
+        "preprocessor": "transitio",
+        "link": "https://github.com/Guest-Liang/Bubble-Show-or-Hide",
+        "download": "https://raw.githubusercontent.com/Guest-Liang/Bubble-Show-or-Hide/refs/heads/main/bubble-show-or-hide.css"
+    },
+    {
         "name": "Customize More Menu",
         "author": "PRO-2684",
         "description": "自定义隐藏主界面更多菜单中的项目",
