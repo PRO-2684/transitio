@@ -9,6 +9,8 @@ const searchHiddenDataAttr = "data-search-hidden";
 const hashtagDataAttr = "data-preprocessor";
 /** Attribute of `<setting-text>` that indicates its preprocessor hashtag is highlighted by search */
 const hashtagHighlightDataAttr = "data-hashtag-highlight";
+/** Attribute of `<setting-switch>` that indicates its state is highlighted by search */
+const atRuleHighlightDataAttr = "data-at-rule-highlight";
 
 /** Search `keyword` in the `el` and highlight the matched text.
  * @param {Highlight} highlight The highlight object.
@@ -80,7 +82,7 @@ function matchHashtags(hashtags, details) {
  * @returns {boolean} Returns `true` if the `details` satisfies the `atRules`.
  */
 function matchAtRules(atRules, details) {
-    const switch_ = details.querySelector("summary > setting-item > .transitio-menu > setting-switch");
+    const switch_ = details.querySelector("summary > setting-item setting-switch");
     const enabled = switch_.hasAttribute("is-active");
     let isMatch = true;
     for (const atRule of atRules) {
@@ -96,6 +98,7 @@ function matchAtRules(atRules, details) {
         }
         if (!isMatch) break; // Stop if any rule is not matched
     }
+    switch_.toggleAttribute(atRuleHighlightDataAttr, isMatch && (atRules.size > 0));
     return isMatch;
 }
 /** Perform search and hide the `details` that doesn't match the search.

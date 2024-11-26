@@ -94,28 +94,33 @@
                 background-color: yellow;
                 color: black;
             }
-            > setting-item > div > setting-text[data-type="primary"] {
-                &::after { /* Preprocessor hashtag */
-                    content: "#" attr(data-preprocessor);
-                    text-transform: capitalize;
-                    font-size: smaller;
-                    border-radius: 4px;
-                    margin-left: 0.1em;
-                    padding: 2px;
-                    opacity: 0.8;
+            > setting-item {
+                > div > setting-text[data-type="primary"] {
+                    &::after { /* Preprocessor hashtag */
+                        content: "#" attr(data-preprocessor);
+                        text-transform: capitalize;
+                        font-size: smaller;
+                        border-radius: 4px;
+                        margin-left: 0.1em;
+                        padding: 2px;
+                        opacity: 0.8;
+                    }
+                    &[data-preprocessor="none"]::after {
+                        background: #808080aa;
+                    }
+                    &[data-preprocessor="transitio"]::after {
+                        background: #74a9f6aa;
+                    }
+                    &[data-preprocessor="stylus"]::after {
+                        background: #6da13faa;
+                    }
+                    &[data-hashtag-highlight]::after {
+                        opacity: 1;
+                        font-weight: bold;
+                    }
                 }
-                &[data-preprocessor="none"]::after {
-                    background: #808080aa;
-                }
-                &[data-preprocessor="transitio"]::after {
-                    background: #74a9f6aa;
-                }
-                &[data-preprocessor="stylus"]::after {
-                    background: #6da13faa;
-                }
-                &[data-hashtag-highlight]::after {
-                    opacity: 1;
-                    font-weight: bold;
+                .transitio-menu > setting-switch[data-at-rule-highlight] {
+                    box-shadow: 0px 0px 4px 2px var(--brand_standard);
                 }
             }
             &:hover .transitio-more {
