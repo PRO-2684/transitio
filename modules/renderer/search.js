@@ -95,6 +95,8 @@ function matchAtRules(atRules, details) {
             case "off":
             case "0": // `@disabled`/`@off`/`@0`: Match if disabled
                 isMatch = !enabled; break;
+            default:
+                isMatch = false; // Invalid rule
         }
         if (!isMatch) break; // Stop if any rule is not matched
     }
@@ -117,15 +119,12 @@ function doSearch(highlight, text, container) { // Main function for searching
         .filter(word => word.length > 0); // Remove empty strings
     // Split the `words` into normal words and hashtags
     const [searchWords, hashtags, atRules] = Array.from({ length: 3 }, () => new Set());
-    function trimAndLower(word) {
-        return word.slice(1).toLowerCase();
-    }
     words.forEach((word) => {
         switch (word[0]) {
             case "#":
-                hashtags.add(trimAndLower(word)); break;
+                hashtags.add(word.slice(1)); break;
             case "@":
-                atRules.add(trimAndLower(word)); break;
+                atRules.add(word.slice(1)); break;
             default:
                 searchWords.add(word);
         }
