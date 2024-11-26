@@ -117,7 +117,7 @@ function doSearch(highlight, text, container) { // Main function for searching
         .split(" ") // Split by space
         .map(word => word.trim()) // Remove leading and trailing spaces
         .filter(word => word.length > 0); // Remove empty strings
-    // Split the `words` into normal words and hashtags
+    // Split the `words` into normal words, hashtags and at-rules
     const [searchWords, hashtags, atRules] = Array.from({ length: 3 }, () => new Set());
     words.forEach((word) => {
         switch (word[0]) {
