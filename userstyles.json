@@ -40,7 +40,7 @@
         "download": "https://gist.githubusercontent.com/BingZi-233/bfed496741624cc2e51aa7c9cdfca78a/raw/c9d47c1722cf574e7ac51f2bdbaf3736081be57d/avatar-the-bubbles.css"
     },
     {
-        "name": "聊天气泡背景色修改",
+        "name": "bubble-bg-color",
         "author": "EmptyDreams",
         "description": "修改自己发送的聊天气泡的背景色",
         "preprocessor": "transitio",
