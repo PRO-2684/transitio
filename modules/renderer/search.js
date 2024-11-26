@@ -71,6 +71,33 @@ function matchHashtags(hashtags, details) {
     itemName.toggleAttribute(hashtagHighlightDataAttr, isMatch); // Case 2 and 3
     return isMatch;
 }
+/**
+ * Check if the `details` satisfies the `atRules`.
+ * 1. If `atRules` is empty or all `atRules` are matched, return `true`
+ * 2. If not all `atRules` are matched, return `false`
+ * @param {Set<string>} atRules The at-rules to search. (without leading `@`)
+ * @param {HTMLDetailsElement} details The `details` element to search.
+ * @returns {boolean} Returns `true` if the `details` satisfies the `atRules`.
+ */
+function matchAtRules(atRules, details) {
+    const switch_ = details.querySelector("summary > setting-item > .transitio-menu > setting-switch");
+    const enabled = switch_.hasAttribute("is-active");
+    let isMatch = true;
+    for (const atRule of atRules) {
+        switch (atRule) {
+            case "enabled":
+            case "on":
+            case "1": // `@enabled`/`@on`/`@1`: Match if enabled
+                isMatch = enabled; break;
+            case "disabled":
+            case "off":
+            case "0": // `@disabled`/`@off`/`@0`: Match if disabled
+                isMatch = !enabled; break;
+        }
+        if (!isMatch) break; // Stop if any rule is not matched
+    }
+    return isMatch;
+}
 /** Perform search and hide the `details` that doesn't match the search.
  * @param {Highlight} highlight The highlight object.
  * @param {string} text The search text.
@@ -86,11 +113,24 @@ function doSearch(highlight, text, container) { // Main function for searching
         .map(word => word.trim()) // Remove leading and trailing spaces
         .filter(word => word.length > 0); // Remove empty strings
     // Split the `words` into normal words and hashtags
-    const searchWords = new Set(words.filter(word => !word.startsWith("#"))); // Normal words
-    const hashtags = new Set(words.filter(word => word.startsWith("#")).map(word => word.slice(1))); // Hashtags
+    const [searchWords, hashtags, atRules] = Array.from({ length: 3 }, () => new Set());
+    function trimAndLower(word) {
+        return word.slice(1).toLowerCase();
+    }
+    words.forEach((word) => {
+        switch (word[0]) {
+            case "#":
+                hashtags.add(trimAndLower(word)); break;
+            case "@":
+                atRules.add(trimAndLower(word)); break;
+            default:
+                searchWords.add(word);
+        }
+    });
     items.forEach((details) => { // Iterate through all `details`
         const isMatch = searchAllAndHighlight(highlight, details, searchWords)
-            && matchHashtags(hashtags, details);
+            && matchHashtags(hashtags, details)
+            && matchAtRules(atRules, details);
         details.toggleAttribute(searchHiddenDataAttr, !isMatch); // Hide the `details` if it doesn't match
     });
 }

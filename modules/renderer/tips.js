@@ -13,7 +13,8 @@ const tips = [
     "可以在 <code>data/transitio/styles/</code> 目录下创建快捷方式或软链接来导入样式",
     "点击 <code><i>用户样式列表</i></code> 可以快速打开 Transitio 的用户样式列表，双击 <code>导入用户样式...</code> 可以立即重载所有用户样式",
     "搜索框中可以使用 Hashtag 来筛选使用指定预处理器的样式，例如 <code>#stylus</code>。若存在多个 Hashtag，则展示满足其中 <em>任意</em> 一个的用户样式",
-    "搜索框中的所有关键词均大小写不敏感，搜索结果中仅展示包含 <em>所有普通关键词</em> 以及 <em>任一 Hashtag 关键词</em> 的用户样式",
+    "搜索框中可以使用 @ 来筛选满足指定条件的样式，例如可以通过 <code>@enabled</code>/<code>@on</code>/<code>@1</code> 来筛选已启用的样式，通过 <code>@disabled</code>/<code>@off</code>/<code>@0</code> 来筛选已禁用的样式。若存在多个 @ 条件，则展示满足 <em>所有</em> 条件的用户样式",
+    "搜索框中的所有关键词均大小写不敏感，搜索结果中仅展示包含 <em>所有普通关键词</em>，<em>所有 @ 关键词</em> 以及 <em>任一 Hashtag 关键词</em> (若有) 的用户样式",
     "单击此处可以查看更多提示",
     // "按下 <kbd>Alt</kbd> 的同时拖拽文件到虚线区域可以导入用户样式的快捷方式或软链接", // Not implemented
     // Dev notes
