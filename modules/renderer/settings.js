@@ -368,6 +368,7 @@ function addVar(details, path, name, varObj) {
  * @returns {void}
  */
 function transitioSettingsUpdateStyle(container, args) {
+    // log("transitioSettingsUpdateStyle", args);
     const { path, meta, enabled } = args;
     const isDeleted = meta.name === " [已删除] ";
     const details = container.querySelector(`details[${configDataAttr}="${path}"]`) ?? addItem(path, container);
@@ -403,12 +404,13 @@ function transitioSettingsUpdateStyle(container, args) {
     // Details part
     if (noVariables) { // Close the details if there are no variables
         details.toggleAttribute("open", false);
-    }
-    for (const [name, varObj] of Object.entries(meta.vars)) {
-        const varInput = details.querySelector(`label[title="${name}"] > input`)
-            ?? details.querySelector(`label[title="${name}"] > select`)
-            ?? addVar(details, path, name, varObj);
-        setValueToInput(varInput, varObj.value ?? varObj.default);
+    } else {
+        for (const [name, varObj] of Object.entries(meta.vars)) {
+            const varInput = details.querySelector(`label[title="${name}"] > input`)
+                ?? details.querySelector(`label[title="${name}"] > select`)
+                ?? addVar(details, path, name, varObj);
+            setValueToInput(varInput, varObj.value ?? varObj.default);
+        }
     }
     log("transitioSettingsUpdateStyle", path, enabled);
 }
