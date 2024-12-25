@@ -87,11 +87,6 @@ function processVar(value) {
         }
         const varData = { type: varType, label: varLabel, name: varName, value: null, default: null, options: null };
         switch (varType) {
-            case "text":
-            case "color":
-            case "colour":
-                varData.default = varArgs[0];
-                break;
             case "number":
             case "range":
             case "percent":
@@ -128,6 +123,9 @@ function processVar(value) {
                 });
                 break;
             }
+            default: // text, color, colour, raw
+                varData.default = varArgs[0];
+                break;
         }
         return [varName, varData];
     } else {

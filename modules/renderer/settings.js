@@ -231,7 +231,7 @@ function addVarInput(varItem, varObj) {
             break;
         }
         default:
-            // text
+            // text, raw
             varInput = document.createElement("input");
             varInput.type = "text";
             varInput.title = `默认值: ${defaultValue}`;
