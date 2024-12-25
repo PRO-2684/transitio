@@ -201,7 +201,7 @@
             "label": "Var 17",
             "name": "var-17",
             "value": null,
-            "default": null,
+            "default": "display: none;",
             "options": null
         }
     },
