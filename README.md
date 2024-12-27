@@ -2,8 +2,11 @@
 
 # Transitio
 
-> [!NOTE]
-> 此插件 `1.0.0` 版本及以上最低支持 LiteLoaderQQNT 1.0.0，之前版本的 LiteLoaderQQNT 请使用 `1.0.0` 之前的 Release
+[![GitHub License](https://img.shields.io/github/license/PRO-2684/transitio?logo=gnu)](https://github.com/PRO-2684/transitio/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/PRO-2684/transitio/release.yml?branch=main&logo=githubactions)](https://github.com/PRO-2684/transitio/blob/main/.github/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/PRO-2684/transitio?logo=githubactions)](https://github.com/PRO-2684/transitio/releases)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/transitio/total?logo=github)](https://github.com/PRO-2684/transitio/releases)
+[![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/transitio/latest/total?logo=github)](https://github.com/PRO-2684/transitio/releases/latest)
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意用户样式。
 
