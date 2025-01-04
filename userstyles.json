@@ -272,6 +272,14 @@
         "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/rainbow-name.css"
     },
     {
+        "name": "Rounded Avatar",
+        "author": "Candquarzy",
+        "description": "将QQ纯圆头像修改为圆角+阴影的形式(我要圆角!)",
+        "preprocessor": "transitio",
+        "link": "https://github.com/Candquarzy/Rounded_Avatar_For_QQNT",
+        "download": "https://raw.githubusercontent.com/Candquarzy/Rounded_Avatar_For_QQNT/refs/heads/main/Rounded_Avatar.css"
+    },
+    {
         "name": "Rounded Corners",
         "author": "zhulinyv",
         "description": "圆角会话列表",
