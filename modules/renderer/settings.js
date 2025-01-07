@@ -18,6 +18,8 @@ const deletedDataAttr = "data-deleted";
 const detailsName = "transitio-setting-details";
 /** Supported extensions for style files. */
 const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
+/** Function to manually trigger the search (re-search) */
+let research = () => { }; // Placeholder for the search function
 
 /** Function to parse the value from the input/select element.
  * @param {HTMLInputElement|HTMLSelectElement} varInput The input/select element.
@@ -302,7 +304,7 @@ async function initTransitioSettings(view) {
         }
     }
     // Search
-    setupSearch(view);
+    research = setupSearch(view);
     // Dev mode
     const dev = $("#transitio-dev");
     dev.addEventListener("click", devMode);
@@ -368,7 +370,6 @@ function addVar(details, path, name, varObj) {
  * @returns {void}
  */
 function transitioSettingsUpdateStyle(container, args) {
-    // log("transitioSettingsUpdateStyle", args);
     const { path, meta, enabled } = args;
     const isDeleted = meta.name === " [已删除] ";
     const details = container.querySelector(`details[${configDataAttr}="${path}"]`) ?? addItem(path, container);
@@ -412,6 +413,7 @@ function transitioSettingsUpdateStyle(container, args) {
             setValueToInput(varInput, varObj.value ?? varObj.default);
         }
     }
+    research(); // Trigger search
     log("transitioSettingsUpdateStyle", path, enabled);
 }
 /** Function to handle `resetStyle` event on settings view.
