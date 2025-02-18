@@ -27,13 +27,13 @@ ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     reloadStyle(window.webContents);
 });
-ipcMain.on("LiteLoader.transitio.reloadStyle", (event) => {
+ipcMain.on("LiteLoader.transitio.reloadStyle", (_event) => {
     reloadStyle();
 });
-ipcMain.on("LiteLoader.transitio.importStyle", (event, fname, content) => {
+ipcMain.on("LiteLoader.transitio.importStyle", (_event, fname, content) => {
     importStyle(fname, content);
 });
-ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
+ipcMain.on("LiteLoader.transitio.removeStyle", (_event, absPath) => {
     log("removeStyle", absPath);
     fs.unlinkSync(absPath);
     delete config.styles[absPath];
@@ -53,13 +53,13 @@ ipcMain.on("LiteLoader.transitio.removeStyle", (event, absPath) => {
         });
     }
 });
-ipcMain.on("LiteLoader.transitio.resetStyle", (event, absPath) => {
+ipcMain.on("LiteLoader.transitio.resetStyle", (_event, absPath) => {
     log("resetStyle", absPath);
     delete config.styles[absPath].variables;
     updateConfig();
     updateStyle(absPath);
 });
-ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
+ipcMain.on("LiteLoader.transitio.open", (_event, type, uri) => {
     log("open", type, uri);
     switch (type) {
         case "link":
@@ -77,11 +77,11 @@ ipcMain.on("LiteLoader.transitio.open", (event, type, uri) => {
 });
 ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
 ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
-ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
+ipcMain.handle("LiteLoader.transitio.queryDevMode", async (_event) => {
     log("queryDevMode", devMode);
     return devMode;
 });
-ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
+ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (_event) => {
     log("queryIsDebug", isDebug);
     return isDebug;
 });
@@ -216,7 +216,7 @@ function onStyleChange(eventType, filename) {
 }
 
 // Listen to config modification (from renderer)
-function onConfigChange(event, absPath, arg) {
+function onConfigChange(_event, absPath, arg) {
     log("onConfigChange", absPath, arg);
     const styleConfig = config.styles[absPath];
     if (typeof arg === "boolean") {
@@ -229,7 +229,7 @@ function onConfigChange(event, absPath, arg) {
 }
 
 // Listen to dev mode switch (from renderer)
-function onDevMode(event, enable) {
+function onDevMode(_event, enable) {
     log("onDevMode", enable);
     devMode = enable;
     if (enable && !watcher) {
@@ -250,7 +250,7 @@ function watchStyleChange() {
 }
 
 // Handle URL scheme
-function handleUrlScheme(rest, url) {
+function handleUrlScheme(rest, _url) {
     switch (rest[0]) {
         case "install": {
             if (!rest[1]) {

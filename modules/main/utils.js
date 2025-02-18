@@ -75,10 +75,11 @@ async function renderStylus(path, content, vars) {
  * Download a file to a path.
  * @param {string} url URL to download.
  * @param {string} [savePath] Path to save the file. If not provided, the file will be saved under `styles` with filename from URL.
+ * @param {boolean} [overwrite] Whether to overwrite the file if it already exists.
  * @returns {Promise<void>} Promise that resolves when download is complete.
  */
-async function downloadFile(url, savePath) {
-    return new Promise((resolve, reject) => {
+async function downloadFile(url, savePath = null, overwrite = false) {
+    return new Promise(async (resolve, reject) => {
         const urlObj = new URL(url);
 
         let scheme = null;
@@ -97,25 +98,21 @@ async function downloadFile(url, savePath) {
             }
             savePath = path.join(stylePath, filename);
         }
-        const file = fs.createWriteStream(savePath);
+        const stream = fs.createWriteStream(savePath, { flags: overwrite ? "w" : "wx" });
 
         scheme.get(urlObj, (res) => {
-            res.pipe(file);
-            file.on("finish", () => {
-                file.close((err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                });
+            res.pipe(stream);
+            stream.on("finish", () => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
             }).on("error", (err) => {
-                file.close(() => {
-                    fs.unlink(savePath, () => reject(err))
-                });
+                fs.unlink(savePath, () => reject(err))
             });
         }).on("error", (err) => {
-            file.close(() => {
+            stream.close(() => {
                 fs.unlink(savePath, () => reject(err));
             });
         });
