@@ -1,5 +1,12 @@
 // Description: Some utility functions for main.
+const path = require('path');
 const stylus = require('stylus');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+
+const dataPath = LiteLoader.plugins.transitio.path.data;
+const stylePath = path.join(dataPath, "styles");
 
 /**
  * Normalize a path to Unix style.
@@ -64,5 +71,55 @@ async function renderStylus(path, content, vars) {
         });
     });
 }
+/**
+ * Download a file to a path.
+ * @param {string} url URL to download.
+ * @param {string} [savePath] Path to save the file. If not provided, the file will be saved under `styles` with filename from URL.
+ * @returns {Promise<void>} Promise that resolves when download is complete.
+ */
+async function downloadFile(url, savePath) {
+    return new Promise((resolve, reject) => {
+        const urlObj = new URL(url);
 
-module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus };
+        let scheme = null;
+        if (urlObj.protocol === "http:") {
+            scheme = http;
+        } else if (urlObj.protocol === "https:") {
+            scheme = https;
+        } else {
+            reject(`Unsupported protocol: ${urlObj.protocol}`);
+        }
+
+        if (!savePath) {
+            const filename = path.basename(urlObj.pathname);
+            if (!filename) {
+                reject("Cannot detect filename from URL");
+            }
+            savePath = path.join(stylePath, filename);
+        }
+        const file = fs.createWriteStream(savePath);
+
+        scheme.get(urlObj, (res) => {
+            res.pipe(file);
+            file.on("finish", () => {
+                file.close((err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+            }).on("error", (err) => {
+                file.close(() => {
+                    fs.unlink(savePath, () => reject(err))
+                });
+            });
+        }).on("error", (err) => {
+            file.close(() => {
+                fs.unlink(savePath, () => reject(err));
+            });
+        });
+    });
+}
+
+module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile };

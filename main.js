@@ -3,7 +3,8 @@ const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const { extractUserStyleMetadata } = require("./modules/main/parser");
 const { listStyles } = require("./modules/main/walker");
-const { normalize, debounce, simpleLog, dummyLog, renderStylus } = require("./modules/main/utils");
+const { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile } = require("./modules/main/utils");
+const { app } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -83,6 +84,11 @@ ipcMain.handle("LiteLoader.transitio.queryDevMode", async (event) => {
 ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (event) => {
     log("queryIsDebug", isDebug);
     return isDebug;
+});
+
+app.whenReady().then(() => {
+    // https://github.com/PRO-2684/protocio
+    LiteLoader.api.registerUrlHandler?.("transitio", handleUrlScheme);
 });
 
 function updateConfig() {
@@ -241,4 +247,30 @@ function watchStyleChange() {
     return fs.watch(stylePath, "utf-8",
         debounce(onStyleChange, updateInterval)
     );
+}
+
+// Handle URL scheme
+function handleUrlScheme(rest, url) {
+    switch (rest[0]) {
+        case "install": {
+            if (!rest[1]) {
+                log("No URL provided for install action");
+                break;
+            }
+            const url = decodeURIComponent(rest[1]);
+            log("Downloading style from:", url);
+            downloadFile(url).then(() => {
+                log("Download complete");
+                return reloadStyle();
+            }).then(() => {
+                log("Reload complete");
+            }).catch((err) => {
+                log("Download failed:", err);
+            });
+            break;
+        }
+        default:
+            log("Unknown action:", rest[0]);
+            break;
+    }
 }
