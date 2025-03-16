@@ -5,7 +5,7 @@
     "name": "Transitio",
     "slug": "transitio",
     "description": "🪄 自定义用户样式加载器",
-    "version": "1.5.6",
+    "version": "1.5.7",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
     "authors": [
@@ -18,7 +18,7 @@
         "repo": "PRO-2684/transitio",
         "branch": "main",
         "release": {
-            "tag": "v1.5.6",
+            "tag": "v1.5.7",
             "file": "transitio-release.zip"
         }
     },
