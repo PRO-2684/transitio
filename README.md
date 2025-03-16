@@ -8,6 +8,11 @@
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/transitio/total?logo=github)](https://github.com/PRO-2684/transitio/releases)
 [![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/transitio/latest/total?logo=github)](https://github.com/PRO-2684/transitio/releases/latest)
 
+> [!NOTE]
+> 最近风控较为严格，作者的账号也没有幸免，现在无法在电脑上登录与调试。因此此插件本体暂停维护，但仍然会接受用户样式的提交。
+>
+> 最新的 CI 版本包含了通过 URI 自动安装样式的功能，但是用户交互不友好并且未经测试，因此并未正式发布。若您有兴趣，可以自行 [构建](#ci-版) 并尝试。
+
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意用户样式。
 
 你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义渲染层 JavaScript 脚本加载器。
