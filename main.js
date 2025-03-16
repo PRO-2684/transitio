@@ -4,7 +4,7 @@ const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const { extractUserStyleMetadata } = require("./modules/main/parser");
 const { listStyles } = require("./modules/main/walker");
 const { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile } = require("./modules/main/utils");
-const { app } = require("electron");
+const { app, dialog } = require("electron");
 
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
@@ -258,14 +258,23 @@ function handleUrlScheme(rest, _url) {
                 break;
             }
             const url = decodeURIComponent(rest[1]);
-            log("Downloading style from:", url);
+            log("Trying to download style from:", url);
             downloadFile(url).then(() => {
                 log("Download complete");
                 return reloadStyle();
             }).then(() => {
                 log("Reload complete");
+                dialog.showMessageBox({
+                    title: "Download success!",
+                    message: `Successfully downloaded ${url} and reloaded styles!`,
+                    type: "info",
+                });
             }).catch((err) => {
-                log("Download failed:", err);
+                dialog.showErrorBox({
+                    title: "Download failed!",
+                    content: `Failed to download ${url}: ${err}`,
+                });
+                log(`Failed to download ${url}: ${err}`);
             });
             break;
         }

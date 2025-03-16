@@ -4,6 +4,7 @@ const stylus = require('stylus');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
+const { BrowserWindow, dialog } = require('electron');
 
 const dataPath = LiteLoader.plugins.transitio.path.data;
 const stylePath = path.join(dataPath, "styles");
@@ -76,9 +77,10 @@ async function renderStylus(path, content, vars) {
  * @param {string} url URL to download.
  * @param {string} [savePath] Path to save the file. If not provided, the file will be saved under `styles` with filename from URL.
  * @param {boolean} [overwrite] Whether to overwrite the file if it already exists.
+ * @param {boolean} [confirm] Whether the download should be confirmed by the user.
  * @returns {Promise<void>} Promise that resolves when download is complete.
  */
-async function downloadFile(url, savePath = null, overwrite = false) {
+async function downloadFile(url, savePath = null, overwrite = false, confirm = true) {
     return new Promise(async (resolve, reject) => {
         const urlObj = new URL(url);
 
@@ -88,28 +90,45 @@ async function downloadFile(url, savePath = null, overwrite = false) {
         } else if (urlObj.protocol === "https:") {
             scheme = https;
         } else {
-            reject(`Unsupported protocol: ${urlObj.protocol}`);
+            reject(`Unsupported protocol "${urlObj.protocol}"`);
+            return;
         }
 
         if (!savePath) {
             const filename = path.basename(urlObj.pathname);
             if (!filename) {
-                reject("Cannot detect filename from URL");
+                reject(`Cannot detect filename from URL`);
+                return;
             }
             savePath = path.join(stylePath, filename);
         }
-        const stream = fs.createWriteStream(savePath, { flags: overwrite ? "w" : "wx" });
+
+        if (!overwrite && fs.existsSync(savePath)) {
+            reject(`File already exists at ${savePath}`);
+            return;
+        }
+
+        if (confirm) {
+            const result = await dialog.showMessageBox({
+                title: "Download confirmation",
+                message: `Do you want to download ${url} to ${savePath}?`,
+                type: "question",
+                buttons: ["Yes", "No"]
+            });
+            if (result.response !== 0) {
+                reject("Download cancelled by user");
+                return;
+            }
+        }
+
+        const stream = fs.createWriteStream(savePath);
 
         scheme.get(urlObj, (res) => {
             res.pipe(stream);
             stream.on("finish", () => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
+                resolve();
             }).on("error", (err) => {
-                fs.unlink(savePath, () => reject(err))
+                fs.unlink(savePath, () => reject(err));
             });
         }).on("error", (err) => {
             stream.close(() => {
