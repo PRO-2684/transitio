@@ -16,21 +16,27 @@ jobs:
         with:
           fetch-depth: 16 # Ensure we can generate changelogs
 
+      - name: "Setup pnpm"
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: "Setup Node.js"
-        uses: "actions/setup-node@v2"
+        uses: "actions/setup-node@v4"
         with:
           node-version: "20"
+          cache: "pnpm"
 
       - name: "Install Dependencies"
-        run: npm i
+        run: pnpm install --prod --shamefully-hoist # Avoid symlinking for releasing
 
       - name: "Test"
-        run: npm test
+        run: pnpm test
 
       - name: "Zip release files" # Only if the version has been updated
         run: |
           echo "Creating a release zip file..."
-          zip -r transitio-release.zip icons/ node_modules/ modules/ main.js manifest.json preload.js renderer.js settings.html
+          zip -r transitio-release.zip icons/ modules/ node_modules/ main.js manifest.json preload.js renderer.js settings.html
           echo "Done!"
 
       - name: "Create Release"
