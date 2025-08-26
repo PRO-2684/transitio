@@ -69,6 +69,7 @@
 若您安装了 [Protocio](https://github.com/PRO-2684/protocio)，可以使用 `llqqnt://transitio/` 协议来与 Transitio 交互。下面列举了支持的协议参数：
 
 - `install/<url>`：导入指定 URL 的用户样式，`url` 需要经过 URL 编码 (`encodeURIComponent`)。
+- `ping`：测试 URL Scheme 功能。
 
 ## 💻 调试
 

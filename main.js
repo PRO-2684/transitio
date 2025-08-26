@@ -278,6 +278,13 @@ function handleUrlScheme(rest, _url) {
             });
             break;
         }
+        case "ping": {
+            dialog.showMessageBox({
+                title: "Pong!",
+                message: "Pong!",
+                type: "info",
+            });
+        }
         default:
             log("Unknown action:", rest[0]);
             break;
