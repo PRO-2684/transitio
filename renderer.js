@@ -1,4 +1,4 @@
-import { cssHelper, removeAllStyles } from "./modules/renderer/css.js";
+import { cssHelper, removeAllStyles } from "./modules/renderer/css.js"; // FIXME: import not supported?
 
 transitio.onUpdateStyle((event, args) => {
     cssHelper(args.path, args.css, args.enabled, args.meta);

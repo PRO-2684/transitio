@@ -5,9 +5,11 @@ import { setupEasterEggs } from "./eggs.js";
 import { setupTips } from "./tips.js";
 
 /** Transitio plugin path. */
-const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
+const pluginPath = (globalThis?.LiteLoader?.plugins?.transitio?.path?.plugin ?? qwqnt.framework.plugins.transitio.meta.path).replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 /** Transitio data path. */
-const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
+const dataPath = (globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? (qwqnt.framework.paths.data + "/transitio")).replace(":\\", "://").replaceAll("\\", "/");
+/** Transitio version. */
+const transitioVersion = globalThis?.LiteLoader?.plugins?.transitio?.manifest?.version ?? qwqnt.framework.plugins.transitio.meta.packageJson.version;
 /** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
 /** Attribute of `<setting-switch>` that stores the style path. */
@@ -17,7 +19,7 @@ const deletedDataAttr = "data-deleted";
 /** The `name` attribute of the details element. */
 const detailsName = "transitio-setting-details";
 /** Supported extensions for style files. */
-const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
+const supportedExtensions = [".css", ".styl"];
 /** Function to manually trigger the search (re-search) */
 let research = () => { }; // Placeholder for the search function
 
@@ -323,7 +325,7 @@ async function initTransitioSettings(view) {
     importBtn.accept = supportedExtensions.join(",");
     importBtn.addEventListener("change", importStyle);
     // About - Version
-    $("#transitio-version").textContent = LiteLoader.plugins.transitio.manifest.version;
+    $("#transitio-version").textContent = transitioVersion;
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
         $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;

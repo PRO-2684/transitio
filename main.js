@@ -3,21 +3,20 @@ const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
 const { extractUserStyleMetadata } = require("./modules/main/parser");
 const { listStyles } = require("./modules/main/walker");
-const { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile } = require("./modules/main/utils");
+const { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi } = require("./modules/main/utils");
 const { app, dialog } = require("electron");
 
+const slug = "transitio";
 const isDebug = process.argv.includes("--transitio-debug");
 const updateInterval = 1000;
 const log = isDebug ? simpleLog : dummyLog;
 let devMode = false;
 let watcher = null;
 
-const supportedPreprocessors = ["none", "transitio", "stylus"];
-const dataPath = LiteLoader.plugins.transitio.path.data;
-const stylePath = path.join(dataPath, "styles");
-const debouncedSet = debounce(LiteLoader.api.config.set, updateInterval);
+const supportedPreprocessors = ["none", slug, "stylus"];
+const debouncedSet = debounce(configApi.set, updateInterval);
 
-// Create `styles` directory if not exists
+// Create data & `styles` directory if not exists
 if (!fs.existsSync(stylePath)) {
     log(`${stylePath} does not exist, creating...`);
     fs.mkdirSync(stylePath, { recursive: true });
@@ -44,7 +43,7 @@ ipcMain.on("PRO-2684.transitio.removeStyle", (_event, absPath) => {
                 name: " [已删除] ",
                 description: "[此样式已被删除]",
                 enabled: false,
-                preprocessor: "transitio",
+                preprocessor: slug,
                 vars: {}
             }
         };
@@ -88,15 +87,15 @@ ipcMain.handle("PRO-2684.transitio.queryIsDebug", async (_event) => {
 
 app.whenReady().then(() => {
     // https://github.com/PRO-2684/protocio
-    LiteLoader.api.registerUrlHandler?.("transitio", handleUrlScheme);
+    globalThis?.LiteLoader?.api?.registerUrlHandler?.(slug, handleUrlScheme);
 });
 
 function updateConfig() {
     log("Calling updateConfig");
-    debouncedSet("transitio", config);
+    debouncedSet(config);
 }
 
-let config = LiteLoader.api.config.get("transitio", { styles: {} });
+let config = configApi.get();
 
 // Get CSS content
 function getStyle(absPath) {
@@ -130,7 +129,7 @@ async function updateStyle(absPath, webContent) {
     const meta = extractUserStyleMetadata(css);
     meta.name ??= path.basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
-    meta.preprocessor ??= "transitio";
+    meta.preprocessor ??= slug;
     if (!supportedPreprocessors.includes(meta.preprocessor)) {
         log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`);
         return;
@@ -176,7 +175,7 @@ async function reloadStyle(webContent) {
             webContent.send("PRO-2684.transitio.resetStyle");
         });
     }
-    config = LiteLoader.api.config.get("transitio", { styles: {} });
+    config = configApi.get();
     const styles = listStyles(stylePath);
     for (const absPath of styles) {
         updateStyle(absPath, webContent);

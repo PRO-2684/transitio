@@ -4,9 +4,10 @@ const stylus = require('stylus');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
-const { BrowserWindow, dialog } = require('electron');
+const { dialog } = require('electron');
 
-const dataPath = LiteLoader.plugins.transitio.path.data;
+const slug = "transitio";
+const dataPath = globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? path.join(qwqnt.framework.paths.data, slug);
 const stylePath = path.join(dataPath, "styles");
 
 /**
@@ -138,4 +139,20 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
     });
 }
 
-module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile };
+const configApi = globalThis?.LiteLoader?.api?.config ? {
+    get: () => globalThis?.LiteLoader.api.config.get(slug, { styles: {} }),
+    set: (config) => globalThis?.LiteLoader.api.config.set(slug, config),
+} : {
+        _configPath: path.join(dataPath, "config.json"),
+        get: () => {
+            if (fs.existsSync(configApi._configPath)) {
+                const data = fs.readFileSync(configApi._configPath, "utf-8");
+                return JSON.parse(data);
+            } else {
+                return { styles: {} };
+            }
+        },
+        set: (config) => fs.writeFileSync(configApi._configPath, JSON.stringify(config, null, 4), "utf-8"),
+};
+
+module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi };

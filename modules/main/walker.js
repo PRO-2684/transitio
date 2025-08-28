@@ -6,7 +6,7 @@ const { shell } = require("electron");
 /** Folders to ignore. */
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
 /** Supported extensions for style files. */
-const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
+const supportedExtensions = [".css", ".styl"];
 
 /**
  * Whether the file name has a supported extension.

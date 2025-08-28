@@ -31,9 +31,5 @@
         "renderer": "./renderer.js",
         "main": "./main.js",
         "preload": "./preload.js"
-    },
-    "supported_extensions": [
-        ".css",
-        ".styl"
-    ]
+    }
 }
