@@ -2,47 +2,47 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("transitio", {
     rendererReady: () => ipcRenderer.send(
-        "LiteLoader.transitio.rendererReady"
+        "PRO-2684.transitio.rendererReady"
     ),
     configChange: (path, arg) => ipcRenderer.send(
-        "LiteLoader.transitio.configChange",
+        "PRO-2684.transitio.configChange",
         path, arg
     ),
     devMode: (enable) => ipcRenderer.send(
-        "LiteLoader.transitio.devMode",
+        "PRO-2684.transitio.devMode",
         enable
     ),
     reloadStyle: () => ipcRenderer.send(
-        "LiteLoader.transitio.reloadStyle"
+        "PRO-2684.transitio.reloadStyle"
     ),
     importStyle: (fname, content) => ipcRenderer.send(
-        "LiteLoader.transitio.importStyle",
+        "PRO-2684.transitio.importStyle",
         fname, content
     ),
     removeStyle: (path) => ipcRenderer.send(
-        "LiteLoader.transitio.removeStyle",
+        "PRO-2684.transitio.removeStyle",
         path
     ),
     resetStyle: (path) => ipcRenderer.send(
-        "LiteLoader.transitio.resetStyle",
+        "PRO-2684.transitio.resetStyle",
         path
     ),
     open: (type, uri) => ipcRenderer.send(
-        "LiteLoader.transitio.open",
+        "PRO-2684.transitio.open",
         type, uri
     ),
     queryIsDebug: () => ipcRenderer.invoke(
-        "LiteLoader.transitio.queryIsDebug"
+        "PRO-2684.transitio.queryIsDebug"
     ),
     queryDevMode: () => ipcRenderer.invoke(
-        "LiteLoader.transitio.queryDevMode"
+        "PRO-2684.transitio.queryDevMode"
     ),
     onUpdateStyle: (callback) => ipcRenderer.on(
-        "LiteLoader.transitio.updateStyle",
+        "PRO-2684.transitio.updateStyle",
         callback
     ),
     onResetStyle: (callback) => ipcRenderer.on(
-        "LiteLoader.transitio.resetStyle",
+        "PRO-2684.transitio.resetStyle",
         callback
     ),
 });

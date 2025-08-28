@@ -23,17 +23,17 @@ if (!fs.existsSync(stylePath)) {
     fs.mkdirSync(stylePath, { recursive: true });
 }
 // IPC events
-ipcMain.on("LiteLoader.transitio.rendererReady", (event) => {
+ipcMain.on("PRO-2684.transitio.rendererReady", (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     reloadStyle(window.webContents);
 });
-ipcMain.on("LiteLoader.transitio.reloadStyle", (_event) => {
+ipcMain.on("PRO-2684.transitio.reloadStyle", (_event) => {
     reloadStyle();
 });
-ipcMain.on("LiteLoader.transitio.importStyle", (_event, fname, content) => {
+ipcMain.on("PRO-2684.transitio.importStyle", (_event, fname, content) => {
     importStyle(fname, content);
 });
-ipcMain.on("LiteLoader.transitio.removeStyle", (_event, absPath) => {
+ipcMain.on("PRO-2684.transitio.removeStyle", (_event, absPath) => {
     log("removeStyle", absPath);
     fs.unlinkSync(absPath);
     delete config.styles[absPath];
@@ -49,17 +49,17 @@ ipcMain.on("LiteLoader.transitio.removeStyle", (_event, absPath) => {
             }
         };
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", msg);
+            webContent.send("PRO-2684.transitio.updateStyle", msg);
         });
     }
 });
-ipcMain.on("LiteLoader.transitio.resetStyle", (_event, absPath) => {
+ipcMain.on("PRO-2684.transitio.resetStyle", (_event, absPath) => {
     log("resetStyle", absPath);
     delete config.styles[absPath].variables;
     updateConfig();
     updateStyle(absPath);
 });
-ipcMain.on("LiteLoader.transitio.open", (_event, type, uri) => {
+ipcMain.on("PRO-2684.transitio.open", (_event, type, uri) => {
     log("open", type, uri);
     switch (type) {
         case "link":
@@ -75,13 +75,13 @@ ipcMain.on("LiteLoader.transitio.open", (_event, type, uri) => {
             break;
     }
 });
-ipcMain.on("LiteLoader.transitio.configChange", onConfigChange);
-ipcMain.on("LiteLoader.transitio.devMode", onDevMode);
-ipcMain.handle("LiteLoader.transitio.queryDevMode", async (_event) => {
+ipcMain.on("PRO-2684.transitio.configChange", onConfigChange);
+ipcMain.on("PRO-2684.transitio.devMode", onDevMode);
+ipcMain.handle("PRO-2684.transitio.queryDevMode", async (_event) => {
     log("queryDevMode", devMode);
     return devMode;
 });
-ipcMain.handle("LiteLoader.transitio.queryIsDebug", async (_event) => {
+ipcMain.handle("PRO-2684.transitio.queryIsDebug", async (_event) => {
     log("queryIsDebug", isDebug);
     return isDebug;
 });
@@ -158,10 +158,10 @@ async function updateStyle(absPath, webContent) {
     // Send message to renderer
     const msg = { path: absPath, enabled, css, meta };
     if (webContent) {
-        webContent.send("LiteLoader.transitio.updateStyle", msg);
+        webContent.send("PRO-2684.transitio.updateStyle", msg);
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.updateStyle", msg);
+            webContent.send("PRO-2684.transitio.updateStyle", msg);
         });
     }
 }
@@ -170,10 +170,10 @@ async function updateStyle(absPath, webContent) {
 async function reloadStyle(webContent) {
     log("reloadStyle");
     if (webContent) {
-        webContent.send("LiteLoader.transitio.resetStyle");
+        webContent.send("PRO-2684.transitio.resetStyle");
     } else {
         webContents.getAllWebContents().forEach((webContent) => {
-            webContent.send("LiteLoader.transitio.resetStyle");
+            webContent.send("PRO-2684.transitio.resetStyle");
         });
     }
     config = LiteLoader.api.config.get("transitio", { styles: {} });
