@@ -1,15 +1,16 @@
 {
+  "$schema": "https://raw.githubusercontent.com/QwQ-002/types/main/plugin.schema.json",
   "name": "transitio",
   "type": "module",
   "version": "1.5.7",
   "description": "Load custom UserStyles for QQNT",
   "main": "main.js",
   "qwqnt": {
-    "icon": "./icons/thumb.svg",
     "name": "Transitio",
     "dependencies": {
       "qwqnt-plugin_settings": "^1.2.5"
-    }
+    },
+    "icon": "./icons/thumb.svg"
   },
   "scripts": {
     "test": "node ./scripts/test.js",
