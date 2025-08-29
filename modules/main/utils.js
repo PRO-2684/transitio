@@ -1,14 +1,14 @@
 // Description: Some utility functions for main.
-const path = require('path');
-const stylus = require('stylus');
-const http = require('http');
-const https = require('https');
-const fs = require('fs');
-const { dialog } = require('electron');
+import { join as path_join, basename } from 'path';
+import stylus from 'stylus';
+import http from 'http';
+import https from 'https';
+import { existsSync, createWriteStream, unlink, readFileSync, writeFileSync } from 'fs';
+import { dialog } from 'electron';
 
 const slug = "transitio";
-const dataPath = globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? path.join(qwqnt.framework.paths.data, slug);
-const stylePath = path.join(dataPath, "styles");
+const dataPath = globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? path_join(qwqnt.framework.paths.data, slug);
+const stylePath = path_join(dataPath, "styles");
 
 /**
  * Normalize a path to Unix style.
@@ -96,15 +96,15 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
         }
 
         if (!savePath) {
-            const filename = path.basename(urlObj.pathname);
+            const filename = basename(urlObj.pathname);
             if (!filename) {
                 reject(`Cannot detect filename from URL`);
                 return;
             }
-            savePath = path.join(stylePath, filename);
+            savePath = path_join(stylePath, filename);
         }
 
-        if (!overwrite && fs.existsSync(savePath)) {
+        if (!overwrite && existsSync(savePath)) {
             reject(`File already exists at ${savePath}`);
             return;
         }
@@ -122,18 +122,18 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
             }
         }
 
-        const stream = fs.createWriteStream(savePath);
+        const stream = createWriteStream(savePath);
 
         scheme.get(urlObj, (res) => {
             res.pipe(stream);
             stream.on("finish", () => {
                 resolve();
             }).on("error", (err) => {
-                fs.unlink(savePath, () => reject(err));
+                unlink(savePath, () => reject(err));
             });
         }).on("error", (err) => {
             stream.close(() => {
-                fs.unlink(savePath, () => reject(err));
+                unlink(savePath, () => reject(err));
             });
         });
     });
@@ -143,16 +143,16 @@ const configApi = globalThis?.LiteLoader?.api?.config ? {
     get: () => globalThis?.LiteLoader.api.config.get(slug, { styles: {} }),
     set: (config) => globalThis?.LiteLoader.api.config.set(slug, config),
 } : {
-        _configPath: path.join(dataPath, "config.json"),
+        _configPath: path_join(dataPath, "config.json"),
         get: () => {
-            if (fs.existsSync(configApi._configPath)) {
-                const data = fs.readFileSync(configApi._configPath, "utf-8");
+            if (existsSync(configApi._configPath)) {
+                const data = readFileSync(configApi._configPath, "utf-8");
                 return JSON.parse(data);
             } else {
                 return { styles: {} };
             }
         },
-        set: (config) => fs.writeFileSync(configApi._configPath, JSON.stringify(config, null, 4), "utf-8"),
+        set: (config) => writeFileSync(configApi._configPath, JSON.stringify(config, null, 4), "utf-8"),
 };
 
-module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi };
+export { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi };

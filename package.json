@@ -1,5 +1,6 @@
 {
   "name": "transitio",
+  "type": "module",
   "version": "1.5.7",
   "description": "Load custom UserStyles for QQNT",
   "main": "main.js",

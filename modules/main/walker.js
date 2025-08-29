@@ -1,7 +1,7 @@
 // Description: Walks a directory and returns a list of style files or a shortcut to a style file.
-const { normalize } = require("./utils");
-const fs = require("fs");
-const { shell } = require("electron");
+import { normalize } from "./utils.js";
+import { readdirSync, lstatSync } from "fs";
+import { shell } from "electron";
 
 /** Folders to ignore. */
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
@@ -30,9 +30,9 @@ function hasValidExtension(name) {
 function listStyles(dir) {
     const files = [];
     function walk(dir) {
-        const dirFiles = fs.readdirSync(dir);
+        const dirFiles = readdirSync(dir);
         for (const f of dirFiles) {
-            const stat = fs.lstatSync(dir + "/" + f);
+            const stat = lstatSync(dir + "/" + f);
             if (stat.isDirectory()) {
                 if (!ignoredFolders.has(f)) {
                     walk(dir + "/" + f);
@@ -56,4 +56,4 @@ function listStyles(dir) {
     return files;
 }
 
-module.exports = { listStyles };
+export { listStyles };

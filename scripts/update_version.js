@@ -3,17 +3,16 @@
 // to the new version number.
 // And then `git add manifest.json`.
 
-const fs = require("fs");
-const { exec } = require("child_process");
-const package = require("../package.json");
+import { readFileSync, writeFileSync } from "fs";
+import { exec } from "child_process";
+import { version } from "../package.json";
 const manifestPath = "./manifest.json";
 
-const version = package.version;
-const data = fs.readFileSync(manifestPath, "utf8");
+const data = readFileSync(manifestPath, "utf8");
 const result = data
     .replace(/"version": "\d+\.\d+\.\d+",/, `"version": "${version}",`)
     .replace(/"tag": "v\d+\.\d+\.\d+",/, `"tag": "v${version}",`);
-fs.writeFileSync(manifestPath, result, "utf8");
+writeFileSync(manifestPath, result, "utf8");
 console.log(`Updated version to ${version}`);
 
 console.log("Adding manifest.json to git...");

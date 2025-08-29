@@ -1,10 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const { BrowserWindow, ipcMain, webContents, shell } = require("electron");
-const { extractUserStyleMetadata } = require("./modules/main/parser");
-const { listStyles } = require("./modules/main/walker");
-const { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi } = require("./modules/main/utils");
-const { app, dialog } = require("electron");
+import { existsSync, mkdirSync, unlinkSync, readFileSync, writeFileSync, watch } from "fs";
+import { normalize as normalize_platform, basename, join } from "path";
+import { BrowserWindow, ipcMain, webContents, shell } from "electron";
+import { extractUserStyleMetadata } from "./modules/main/parser.js";
+import { listStyles } from "./modules/main/walker.js";
+import { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi } from "./modules/main/utils.js";
+import { app, dialog } from "electron";
 
 const slug = "transitio";
 const isDebug = process.argv.includes("--transitio-debug");
@@ -17,9 +17,9 @@ const supportedPreprocessors = ["none", slug, "stylus"];
 const debouncedSet = debounce(configApi.set, updateInterval);
 
 // Create data & `styles` directory if not exists
-if (!fs.existsSync(stylePath)) {
+if (!existsSync(stylePath)) {
     log(`${stylePath} does not exist, creating...`);
-    fs.mkdirSync(stylePath, { recursive: true });
+    mkdirSync(stylePath, { recursive: true });
 }
 // IPC events
 ipcMain.on("PRO-2684.transitio.rendererReady", (event) => {
@@ -34,7 +34,7 @@ ipcMain.on("PRO-2684.transitio.importStyle", (_event, fname, content) => {
 });
 ipcMain.on("PRO-2684.transitio.removeStyle", (_event, absPath) => {
     log("removeStyle", absPath);
-    fs.unlinkSync(absPath);
+    unlinkSync(absPath);
     delete config.styles[absPath];
     updateConfig();
     if (!devMode) {
@@ -65,10 +65,10 @@ ipcMain.on("PRO-2684.transitio.open", (_event, type, uri) => {
             shell.openExternal(uri);
             break;
         case "path":
-            shell.openPath(path.normalize(uri));
+            shell.openPath(normalize_platform(uri));
             break;
         case "show":
-            shell.showItemInFolder(path.normalize(uri));
+            shell.showItemInFolder(normalize_platform(uri));
             break;
         default:
             break;
@@ -104,7 +104,7 @@ function getStyle(absPath) {
         absPath = target;
     }
     try {
-        return fs.readFileSync(absPath, "utf-8");
+        return readFileSync(absPath, "utf-8");
     } catch (err) {
         log("getStyle", absPath, err);
         return "";
@@ -127,7 +127,7 @@ async function updateStyle(absPath, webContent) {
     // Read metadata
     const enabled = config.styles[absPath].enabled;
     const meta = extractUserStyleMetadata(css);
-    meta.name ??= path.basename(absPath, ".css");
+    meta.name ??= basename(absPath, ".css");
     meta.description ??= "此文件没有描述";
     meta.preprocessor ??= slug;
     if (!supportedPreprocessors.includes(meta.preprocessor)) {
@@ -193,8 +193,8 @@ async function reloadStyle(webContent) {
 // Import style from renderer
 function importStyle(fname, content) {
     log("importStyle", fname);
-    const filePath = path.join(stylePath, fname);
-    fs.writeFileSync(filePath, content, "utf-8");
+    const filePath = join(stylePath, fname);
+    writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
         updateStyle(filePath);
     }
@@ -243,7 +243,7 @@ function onDevMode(_event, enable) {
 
 // Listen to `styles` directory
 function watchStyleChange() {
-    return fs.watch(stylePath, "utf-8",
+    return watch(stylePath, "utf-8",
         debounce(onStyleChange, updateInterval)
     );
 }
