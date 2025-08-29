@@ -5,11 +5,13 @@ import { setupEasterEggs } from "./eggs.js";
 import { setupTips } from "./tips.js";
 
 /** Transitio plugin path. */
-const pluginPath = (globalThis?.LiteLoader?.plugins?.transitio?.path?.plugin ?? qwqnt.framework.plugins.transitio.meta.path).replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
+const pluginPath = (window.LiteLoader?.plugins?.transitio?.path?.plugin ?? qwqnt.framework.plugins.transitio.meta.path).replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
+/** Transitio plugin uri */
+const pluginUri = window.LiteLoader ? `local:///${pluginPath}` : qwqnt.framework.protocol.pathToStorageUrl(pluginPath);
 /** Transitio data path. */
-const dataPath = (globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? (qwqnt.framework.paths.data + "/transitio")).replace(":\\", "://").replaceAll("\\", "/");
+const dataPath = (window.LiteLoader?.plugins?.transitio?.path?.data ?? (qwqnt.framework.paths.data + "/transitio")).replace(":\\", "://").replaceAll("\\", "/");
 /** Transitio version. */
-const transitioVersion = globalThis?.LiteLoader?.plugins?.transitio?.manifest?.version ?? qwqnt.framework.plugins.transitio.meta.packageJson.version;
+const transitioVersion = window.LiteLoader?.plugins?.transitio?.manifest?.version ?? qwqnt.framework.plugins.transitio.meta.packageJson.version;
 /** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
 /** Attribute of `<setting-switch>` that stores the style path. */
@@ -251,7 +253,7 @@ function addVarInput(varItem, varObj) {
  * @returns {Promise<HTMLElement>} The container to add the items.
  */
 async function initTransitioSettings(view) {
-    const r = await fetch(`local:///${pluginPath}/settings.html`);
+    const r = await fetch(pluginUri + "/settings.html");
     const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
     function devMode() {
@@ -328,11 +330,11 @@ async function initTransitioSettings(view) {
     $("#transitio-version").textContent = transitioVersion;
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+        $(`#transitio-about-${id}`).style.backgroundImage = `url("${pluginUri}/icons/${id}.svg")`;
     });
     // Logo
     const logo = $(".logo");
-    logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    logo.src = pluginUri + "/icons/icon.svg";
     // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {

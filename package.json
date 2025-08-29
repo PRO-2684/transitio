@@ -4,6 +4,13 @@
   "version": "1.5.7",
   "description": "Load custom UserStyles for QQNT",
   "main": "main.js",
+  "qwqnt": {
+    "icon": "./icons/thumb.svg",
+    "name": "Transitio",
+    "dependencies": {
+      "qwqnt-plugin_settings": "^1.2.5"
+    }
+  },
   "scripts": {
     "test": "node ./scripts/test.js",
     "version": "node ./scripts/update_version.js"

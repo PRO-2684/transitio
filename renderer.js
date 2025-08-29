@@ -1,4 +1,4 @@
-import { cssHelper, removeAllStyles } from "./modules/renderer/css.js"; // FIXME: import not supported?
+import { cssHelper, removeAllStyles } from "./modules/renderer/css.js";
 
 transitio.onUpdateStyle((event, args) => {
     cssHelper(args.path, args.css, args.enabled, args.meta);
@@ -21,5 +21,16 @@ async function onSettingWindowCreated(view) {
     });
     transitio.rendererReady(); // Call again to ensure the settings view gets the styles data.
 }
+
+window.onSettingWindowCreated = onSettingWindowCreated; // DEBUG
+// https://github.com/QwQ-002/QwQNT-RendererEvents
+window.RendererEvents?.onSettingsWindowCreated?.(async () => {
+    // https://github.com/QwQ-002/QwQNT-PluginSettings
+    const view = await window.PluginSettings?.renderer?.registerPluginSettings?.(qwqnt.framework.plugins.transitio.meta.packageJson);
+    if (view) {
+        window.TransitioView = view; // DEBUG
+        onSettingWindowCreated(view);
+    }
+});
 
 export { onSettingWindowCreated };
