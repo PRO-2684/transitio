@@ -3,11 +3,10 @@ import { join as path_join, basename } from 'path';
 import stylus from 'stylus';
 import http from 'http';
 import https from 'https';
-import { existsSync, createWriteStream, unlink, readFileSync, writeFileSync } from 'fs';
+import { existsSync, createWriteStream, unlink } from 'fs';
 import { dialog } from 'electron';
+import { dataPath } from "../loaders/unified.js"
 
-const slug = "transitio";
-const dataPath = globalThis?.LiteLoader?.plugins?.transitio?.path?.data ?? path_join(qwqnt.framework.paths.data, slug);
 const stylePath = path_join(dataPath, "styles");
 
 /**
@@ -139,20 +138,4 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
     });
 }
 
-const configApi = globalThis?.LiteLoader?.api?.config ? {
-    get: () => globalThis?.LiteLoader.api.config.get(slug, { styles: {} }),
-    set: (config) => globalThis?.LiteLoader.api.config.set(slug, config),
-} : {
-        _configPath: path_join(dataPath, "config.json"),
-        get: () => {
-            if (existsSync(configApi._configPath)) {
-                const data = readFileSync(configApi._configPath, "utf-8");
-                return JSON.parse(data);
-            } else {
-                return { styles: {} };
-            }
-        },
-        set: (config) => writeFileSync(configApi._configPath, JSON.stringify(config, null, 4), "utf-8"),
-};
-
-export { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi };
+export { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath };

@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, unlinkSync, readFileSync, writeFileSync, watch } from "fs";
 import { normalize as normalize_platform, basename, join } from "path";
-import { BrowserWindow, ipcMain, webContents, shell } from "electron";
+import { BrowserWindow, ipcMain, webContents, shell, app, dialog } from "electron";
 import { extractUserStyleMetadata } from "./modules/main/parser.js";
 import { listStyles } from "./modules/main/walker.js";
-import { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath, configApi } from "./modules/main/utils.js";
-import { app, dialog } from "electron";
+import { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath } from "./modules/main/utils.js";
+import { configApi } from "./modules/loaders/unified.js";
 
 const slug = "transitio";
 const isDebug = process.argv.includes("--transitio-debug");
