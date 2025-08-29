@@ -1,4 +1,4 @@
-// Description: Search module for settings view.
+// Search module for settings view.
 import { log } from "./debug.js";
 
 /** The name of the highlight object for search */

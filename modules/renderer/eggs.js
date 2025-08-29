@@ -1,4 +1,4 @@
-// Description: Easter eggs.
+// Easter eggs.
 
 /**
  * Easter eggs.

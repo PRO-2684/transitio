@@ -1,5 +1,6 @@
-// Description: Transitio's parser module for UserStyle metadata extraction.
+// Transitio's parser module for UserStyle metadata extraction.
 import { createParser, util, ParseError } from "usercss-meta";
+
 const parser = createParser({
     mandatoryKeys: ["name"],
     parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: https://github.com/openstyles/usercss-meta/issues/93

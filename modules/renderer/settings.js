@@ -1,4 +1,4 @@
-// Description: The renderer script for the settings view of Transitio.
+// The renderer script for the settings view of Transitio.
 import { log, showDebugHint } from "./debug.js";
 import { setupSearch } from "./search.js";
 import { setupEasterEggs } from "./eggs.js";

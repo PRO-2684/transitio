@@ -1,4 +1,4 @@
-// Description: Some utility functions for main.
+// Some utility functions for main.
 import { join as path_join, basename } from 'path';
 import stylus from 'stylus';
 import http from 'http';
