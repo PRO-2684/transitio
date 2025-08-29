@@ -4,7 +4,7 @@
             "fileMatch": [
                 "/userstyles.json"
             ],
-            "url": "/userstyles_schema.json"
+            "url": "/userstyles.schema.json"
         }
     ]
 }
