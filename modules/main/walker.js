@@ -23,26 +23,27 @@ function hasValidExtension(name) {
 }
 
 /**
- * Walks a directory and returns a list of either style files or shortcuts to style files.
- * @param {string} dir Directory to walk.
+ * Walks a directory and returns a list of either style files or shortcuts to style files, relative to given directory.
+ * @param {string} baseDir Directory to walk, ending with `/`.
  * @returns {string[]} List of style files or shortcuts.
  */
-function listStyles(dir) {
+function listStyles(baseDir) {
     const files = [];
+    // `dir` must end with `/` or be empty.
     function walk(dir) {
-        const dirFiles = readdirSync(dir);
+        const dirFiles = readdirSync(baseDir + dir);
         for (const f of dirFiles) {
-            const stat = lstatSync(dir + "/" + f);
+            const stat = lstatSync(baseDir + dir + f);
             if (stat.isDirectory()) {
                 if (!ignoredFolders.has(f)) {
-                    walk(dir + "/" + f);
+                    walk(dir + f + "/");
                 }
             } else if (hasValidExtension(f)) {
-                files.push(normalize(dir + "/" + f));
+                files.push(normalize(dir + f));
             } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-                const linkPath = dir + "/" + f;
+                const linkPath = dir + f;
                 try {
-                    const { target } = shell.readShortcutLink(linkPath);
+                    const { target } = shell.readShortcutLink(baseDir + linkPath);
                     if (hasValidExtension(target)) {
                         files.push(normalize(linkPath));
                     }
@@ -52,7 +53,7 @@ function listStyles(dir) {
             }
         }
     }
-    walk(dir);
+    walk("");
     return files;
 }
 

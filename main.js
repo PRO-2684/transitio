@@ -32,14 +32,14 @@ ipcMain.on("PRO-2684.transitio.reloadStyle", (_event) => {
 ipcMain.on("PRO-2684.transitio.importStyle", (_event, fname, content) => {
     importStyle(fname, content);
 });
-ipcMain.on("PRO-2684.transitio.removeStyle", (_event, absPath) => {
-    log("removeStyle", absPath);
-    unlinkSync(absPath);
-    delete config.styles[absPath];
+ipcMain.on("PRO-2684.transitio.removeStyle", (_event, relPath) => {
+    log("removeStyle", relPath);
+    unlinkSync(stylePath + relPath);
+    delete config.styles[relPath];
     updateConfig();
     if (!devMode) {
         const msg = {
-            path: absPath, enabled: false, css: "/* Removed */", meta: {
+            path: relPath, enabled: false, css: "/* Removed */", meta: {
                 name: " [已删除] ",
                 description: "[此样式已被删除]",
                 enabled: false,
@@ -52,11 +52,11 @@ ipcMain.on("PRO-2684.transitio.removeStyle", (_event, absPath) => {
         });
     }
 });
-ipcMain.on("PRO-2684.transitio.resetStyle", (_event, absPath) => {
-    log("resetStyle", absPath);
-    delete config.styles[absPath].variables;
+ipcMain.on("PRO-2684.transitio.resetStyle", (_event, relPath) => {
+    log("resetStyle", relPath);
+    delete config.styles[relPath].variables;
     updateConfig();
-    updateStyle(absPath);
+    updateStyle(relPath);
 });
 ipcMain.on("PRO-2684.transitio.open", (_event, type, uri) => {
     log("open", type, uri);
@@ -98,64 +98,65 @@ function updateConfig() {
 let config = configApi.get();
 
 // Get CSS content
-function getStyle(absPath) {
-    if (absPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-        const { target } = shell.readShortcutLink(absPath);
-        absPath = target;
+function getStyle(relPath) {
+    let realPath = stylePath + relPath;
+    if (relPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
+        const { target } = shell.readShortcutLink(realPath);
+        realPath = target;
     }
     try {
-        return readFileSync(absPath, "utf-8");
+        return readFileSync(realPath, "utf-8");
     } catch (err) {
-        log("getStyle", absPath, err);
+        log("getStyle", relPath, err);
         return "";
     }
 }
 
 // Send updated style to renderer
-async function updateStyle(absPath, webContent) {
-    absPath = normalize(absPath);
-    log("updateStyle", absPath);
-    let css = getStyle(absPath);
+async function updateStyle(relPath, webContent) {
+    relPath = normalize(relPath);
+    log("updateStyle", relPath);
+    let css = getStyle(relPath);
     if (!css) return;
     // Initialize style configuration
-    if (typeof config.styles[absPath] !== "object") {
-        config.styles[absPath] = {
-            enabled: Boolean(config.styles[absPath] ?? true)
+    if (typeof config.styles[relPath] !== "object") {
+        config.styles[relPath] = {
+            enabled: Boolean(config.styles[relPath] ?? true)
         };
         updateConfig();
     }
     // Read metadata
-    const enabled = config.styles[absPath].enabled;
+    const enabled = config.styles[relPath].enabled;
     const meta = extractUserStyleMetadata(css);
-    meta.name ??= basename(absPath, ".css");
+    meta.name ??= basename(relPath, ".css");
     meta.description ??= "此文件没有描述";
     meta.preprocessor ??= slug;
     if (!supportedPreprocessors.includes(meta.preprocessor)) {
-        log(`Unsupported preprocessor "${meta.preprocessor}" at ${absPath}`);
+        log(`Unsupported preprocessor "${meta.preprocessor}" at ${relPath}`);
         return;
     }
     // Read variables config, delete non-existent ones
-    const udfVariables = config.styles[absPath].variables ?? {};
+    const udfVariables = config.styles[relPath].variables ?? {};
     for (const [varName, varValue] of Object.entries(udfVariables)) {
         if (varName in meta.vars) {
             meta.vars[varName].value = varValue;
         } else {
-            log(`Variable "${varName}" not found in ${absPath}`);
-            delete config.styles[absPath].variables[varName];
+            log(`Variable "${varName}" not found in ${relPath}`);
+            delete config.styles[relPath].variables[varName];
             updateConfig();
         }
     }
     if (meta.preprocessor === "stylus") {
         try {
-            css = await renderStylus(absPath, css, meta.vars);
+            css = await renderStylus(stylePath + relPath, css, meta.vars);
         } catch (err) {
-            log(`Failed to render ${absPath}:`, err);
+            log(`Failed to render ${relPath}:`, err);
             css = `/* Stylus 编译失败: ${err.name} (使用 Debug 模式查看终端输出来获得更多信息) */`;
             meta.name += " (编译失败)";
         }
     }
     // Send message to renderer
-    const msg = { path: absPath, enabled, css, meta };
+    const msg = { path: relPath, enabled, css, meta };
     if (webContent) {
         webContent.send("PRO-2684.transitio.updateStyle", msg);
     } else {
@@ -177,13 +178,13 @@ async function reloadStyle(webContent) {
     }
     config = configApi.get();
     const styles = listStyles(stylePath);
-    for (const absPath of styles) {
-        updateStyle(absPath, webContent);
+    for (const relPath of styles) {
+        updateStyle(relPath, webContent);
     }
     const removedStyles = new Set(Object.keys(config.styles)).difference(new Set(styles));
-    for (const absPath of removedStyles) {
-        log("Removed style", absPath);
-        delete config.styles[absPath];
+    for (const relPath of removedStyles) {
+        log("Removed style", relPath);
+        delete config.styles[relPath];
     }
     if (removedStyles.size) {
         updateConfig();
@@ -215,16 +216,16 @@ function onStyleChange(eventType, filename) {
 }
 
 // Listen to config modification (from renderer)
-function onConfigChange(_event, absPath, arg) {
-    log("onConfigChange", absPath, arg);
-    const styleConfig = config.styles[absPath];
+function onConfigChange(_event, relPath, arg) {
+    log("onConfigChange", relPath, arg);
+    const styleConfig = config.styles[relPath];
     if (typeof arg === "boolean") {
         styleConfig.enabled = arg;
     } else if (typeof arg === "object") {
         styleConfig.variables = Object.assign(styleConfig.variables ?? {}, arg);
     }
     updateConfig();
-    updateStyle(absPath);
+    updateStyle(relPath);
 }
 
 // Listen to dev mode switch (from renderer)

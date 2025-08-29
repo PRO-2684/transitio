@@ -7,7 +7,8 @@ import { existsSync, createWriteStream, unlink } from 'fs';
 import { dialog } from 'electron';
 import { dataPath } from "../loaders/unified.js"
 
-const stylePath = path_join(dataPath, "styles");
+/** Style path normalized to use `/`, ending with `/` */
+const stylePath = normalize(dataPath) + "/styles/";
 
 /**
  * Normalize a path to Unix style.
@@ -100,7 +101,7 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
                 reject(`Cannot detect filename from URL`);
                 return;
             }
-            savePath = path_join(stylePath, filename);
+            savePath = stylePath + filename;
         }
 
         if (!overwrite && existsSync(savePath)) {
