@@ -1,5 +1,5 @@
 // Some utility functions for main.
-import { join as path_join, basename } from 'path';
+import { basename } from 'path';
 import stylus from 'stylus';
 import http from 'http';
 import https from 'https';
@@ -8,16 +8,8 @@ import { dialog } from 'electron';
 import { dataPath } from "../loaders/unified.js"
 
 /** Style path normalized to use `/`, ending with `/` */
-const stylePath = normalize(dataPath) + "/styles/";
+const stylePath = dataPath + "styles/";
 
-/**
- * Normalize a path to Unix style.
- * @param {string} path Path to normalize.
- * @returns {string} Normalized path.
- */
-function normalize(path) {
-    return path.replace(":\\", "://").replaceAll("\\", "/");
-}
 /**
  * Debounces a function.
  * @param {Function} fn Function to debounce.
@@ -139,4 +131,4 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
     });
 }
 
-export { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath };
+export { debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath };

@@ -1,22 +1,15 @@
-import { join } from "path";
-import { existsSync, readFileSync, writeFileSync } from "fs";
-
 const slug = "transitio";
-const dataPath = join(qwqnt.framework.paths.data, slug);
-const configPath = join(dataPath, "config.json");
+const dataPathOrig = qwqnt.framework.paths.data + "/" + slug;
+const pluginPathOrig = qwqnt.framework.plugins[slug].meta.path;
+const transitioVersion = qwqnt.framework.plugins[slug].meta.packageJson.version;
 const configApi = {
-        get: () => {
-            if (existsSync(configPath)) {
-                const data = readFileSync(configPath, "utf-8");
-                return JSON.parse(data);
-            } else {
-                return { styles: {} };
-            }
-        },
-        set: (config) => writeFileSync(configPath, JSON.stringify(config, null, 4), "utf-8"),
+    get: () => PluginSettings.main.readConfig(slug, { styles: {} }),
+    set: (config) => PluginSettings.main.writeConfig(slug, config),
 };
 
 export {
-    dataPath,
+    dataPathOrig,
+    pluginPathOrig,
+    transitioVersion,
     configApi,
 }

@@ -1,5 +1,5 @@
 // Walks a directory and returns a list of style files or a shortcut to a style file.
-import { normalize } from "./utils.js";
+import { normalize } from "../loaders/unified.js";
 import { readdirSync, lstatSync } from "fs";
 import { shell } from "electron";
 

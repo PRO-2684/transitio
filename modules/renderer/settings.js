@@ -3,15 +3,10 @@ import { log, showDebugHint } from "./debug.js";
 import { setupSearch } from "./search.js";
 import { setupEasterEggs } from "./eggs.js";
 import { setupTips } from "./tips.js";
+import { dataPath, pluginPath, transitioVersion } from "../loaders/unified.js";
 
-/** Transitio plugin path. */
-const pluginPath = (window.LiteLoader?.plugins?.transitio?.path?.plugin ?? qwqnt.framework.plugins.transitio.meta.path).replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 /** Transitio plugin uri */
 const pluginUri = window.LiteLoader ? `local:///${pluginPath}` : qwqnt.framework.protocol.pathToStorageUrl(pluginPath);
-/** Transitio data path. */
-const dataPath = (window.LiteLoader?.plugins?.transitio?.path?.data ?? (qwqnt.framework.paths.data + "/transitio")).replace(":\\", "://").replaceAll("\\", "/");
-/** Transitio version. */
-const transitioVersion = window.LiteLoader?.plugins?.transitio?.manifest?.version ?? qwqnt.framework.plugins.transitio.meta.packageJson.version;
 /** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
 /** Attribute of `<setting-switch>` that stores the style path. */
