@@ -14,7 +14,7 @@ jobs:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
         with:
-          fetch-depth: 16 # Ensure we can generate changelogs
+          fetch-depth: 32 # Ensure we can generate changelogs
 
       - name: "Setup pnpm"
         uses: pnpm/action-setup@v4
