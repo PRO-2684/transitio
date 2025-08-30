@@ -5,10 +5,7 @@ import http from 'http';
 import https from 'https';
 import { existsSync, createWriteStream, unlink } from 'fs';
 import { dialog } from 'electron';
-import { dataPath } from "../loaders/unified.js"
-
-/** Style path normalized to use `/`, ending with `/` */
-const stylePath = dataPath + "styles/";
+import { stylePath } from "../loaders/unified.js"
 
 /**
  * Debounces a function.

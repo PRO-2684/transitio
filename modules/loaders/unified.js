@@ -5,6 +5,8 @@ const { dataPathOrig, pluginPathOrig, transitioVersion, configApi } = globalThis
     await import("./qwqnt.js");
 /** Transitio data path, normalized to use `/`, ending with `/` */
 const dataPath = normalize(dataPathOrig) + "/";
+/** Transitio style path, normalized to use `/`, ending with `/` */
+const stylePath = dataPath + "styles/";
 /** Transitio plugin path, normalized to use `/`, ending with `/` */
 const pluginPath = normalize(pluginPathOrig) + "/";
 
@@ -19,6 +21,7 @@ function normalize(path) {
 
 export {
     dataPath,
+    stylePath,
     pluginPath,
     transitioVersion,
     /** Should only be used in main */

@@ -197,7 +197,7 @@ function importStyle(fname, content) {
     const filePath = join(stylePath, fname);
     writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
-        updateStyle(filePath);
+        updateStyle(fname);
     }
 }
 
