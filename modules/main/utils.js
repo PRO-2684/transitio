@@ -128,4 +128,4 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
     });
 }
 
-export { debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath };
+export { debounce, simpleLog, dummyLog, renderStylus, downloadFile };

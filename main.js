@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, unlinkSync, readFileSync, writeFileSync, watch } from "fs";
-import { normalize as normalize_platform, basename, join } from "path";
+import { normalize as normalize_platform, basename } from "path";
 import { BrowserWindow, ipcMain, webContents, shell, app, dialog } from "electron";
 import { extractUserStyleMetadata } from "./modules/main/parser.js";
 import { listStyles } from "./modules/main/walker.js";
-import { debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath } from "./modules/main/utils.js";
-import { normalize, configApi } from "./modules/loaders/unified.js";
+import { debounce, simpleLog, dummyLog, renderStylus, downloadFile } from "./modules/main/utils.js";
+import { normalize, configApi, stylePath } from "./modules/loaders/unified.js";
 
 const slug = "transitio";
 const isDebug = process.argv.includes("--transitio-debug");
@@ -194,7 +194,7 @@ async function reloadStyle(webContent) {
 // Import style from renderer
 function importStyle(fname, content) {
     log("importStyle", fname);
-    const filePath = join(stylePath, fname);
+    const filePath = stylePath + fname;
     writeFileSync(filePath, content, "utf-8");
     if (!devMode) {
         updateStyle(fname);
