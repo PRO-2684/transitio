@@ -1,4 +1,4 @@
-// Description: Utilities related to styles.
+// Utilities related to styles.
 
 /** Attribute name for the style element to store the path of the style file. */
 const styleDataAttr = "data-transitio-style";

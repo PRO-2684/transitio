@@ -1,12 +1,12 @@
-// Description: Walks a directory and returns a list of style files or a shortcut to a style file.
-const { normalize } = require("./utils");
-const fs = require("fs");
-const { shell } = require("electron");
+// Walks a directory and returns a list of style files or a shortcut to a style file.
+import { normalize } from "../loaders/unified.js";
+import { readdirSync, lstatSync } from "fs";
+import { shell } from "electron";
 
 /** Folders to ignore. */
 const ignoredFolders = new Set(["node_modules", ".git", ".vscode", ".idea", ".github"]);
 /** Supported extensions for style files. */
-const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
+const supportedExtensions = [".css", ".styl"];
 
 /**
  * Whether the file name has a supported extension.
@@ -23,26 +23,27 @@ function hasValidExtension(name) {
 }
 
 /**
- * Walks a directory and returns a list of either style files or shortcuts to style files.
- * @param {string} dir Directory to walk.
+ * Walks a directory and returns a list of either style files or shortcuts to style files, relative to given directory.
+ * @param {string} baseDir Directory to walk, ending with `/`.
  * @returns {string[]} List of style files or shortcuts.
  */
-function listStyles(dir) {
+function listStyles(baseDir) {
     const files = [];
+    // `dir` must end with `/` or be empty.
     function walk(dir) {
-        const dirFiles = fs.readdirSync(dir);
+        const dirFiles = readdirSync(baseDir + dir);
         for (const f of dirFiles) {
-            const stat = fs.lstatSync(dir + "/" + f);
+            const stat = lstatSync(baseDir + dir + f);
             if (stat.isDirectory()) {
                 if (!ignoredFolders.has(f)) {
-                    walk(dir + "/" + f);
+                    walk(dir + f + "/");
                 }
             } else if (hasValidExtension(f)) {
-                files.push(normalize(dir + "/" + f));
+                files.push(normalize(dir + f));
             } else if (f.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
-                const linkPath = dir + "/" + f;
+                const linkPath = dir + f;
                 try {
-                    const { target } = shell.readShortcutLink(linkPath);
+                    const { target } = shell.readShortcutLink(baseDir + linkPath);
                     if (hasValidExtension(target)) {
                         files.push(normalize(linkPath));
                     }
@@ -52,8 +53,8 @@ function listStyles(dir) {
             }
         }
     }
-    walk(dir);
+    walk("");
     return files;
 }
 
-module.exports = { listStyles };
+export { listStyles };

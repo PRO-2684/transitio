@@ -14,7 +14,7 @@ jobs:
       - name: "Checkout Repository"
         uses: "actions/checkout@v4"
         with:
-          fetch-depth: 16 # Ensure we can generate changelogs
+          fetch-depth: 32 # Ensure we can generate changelogs
 
       - name: "Setup pnpm"
         uses: pnpm/action-setup@v4
@@ -28,7 +28,7 @@ jobs:
           cache: "pnpm"
 
       - name: "Install Dependencies"
-        run: pnpm install --prod --shamefully-hoist # Avoid symlinking for releasing
+        run: pnpm install --node-linker=hoisted --prod # Avoid symlinking for releasing
 
       - name: "Test"
         run: pnpm test
@@ -36,7 +36,7 @@ jobs:
       - name: "Zip release files" # Only if the version has been updated
         run: |
           echo "Creating a release zip file..."
-          zip -r transitio-release.zip icons/ modules/ node_modules/ main.js manifest.json preload.js renderer.js settings.html
+          zip -r transitio-release.zip icons/ modules/ node_modules/ main.js manifest.json package.json preload.js renderer.js settings.html
           echo "Done!"
 
       - name: "Create Release"

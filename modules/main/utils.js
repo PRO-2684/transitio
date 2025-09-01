@@ -1,22 +1,12 @@
-// Description: Some utility functions for main.
-const path = require('path');
-const stylus = require('stylus');
-const http = require('http');
-const https = require('https');
-const fs = require('fs');
-const { BrowserWindow, dialog } = require('electron');
+// Some utility functions for main.
+import { basename } from 'path';
+import stylus from 'stylus';
+import http from 'http';
+import https from 'https';
+import { existsSync, createWriteStream, unlink } from 'fs';
+import { dialog } from 'electron';
+import { stylePath } from "../loaders/unified.js"
 
-const dataPath = LiteLoader.plugins.transitio.path.data;
-const stylePath = path.join(dataPath, "styles");
-
-/**
- * Normalize a path to Unix style.
- * @param {string} path Path to normalize.
- * @returns {string} Normalized path.
- */
-function normalize(path) {
-    return path.replace(":\\", "://").replaceAll("\\", "/");
-}
 /**
  * Debounces a function.
  * @param {Function} fn Function to debounce.
@@ -95,15 +85,15 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
         }
 
         if (!savePath) {
-            const filename = path.basename(urlObj.pathname);
+            const filename = basename(urlObj.pathname);
             if (!filename) {
                 reject(`Cannot detect filename from URL`);
                 return;
             }
-            savePath = path.join(stylePath, filename);
+            savePath = stylePath + filename;
         }
 
-        if (!overwrite && fs.existsSync(savePath)) {
+        if (!overwrite && existsSync(savePath)) {
             reject(`File already exists at ${savePath}`);
             return;
         }
@@ -121,21 +111,21 @@ async function downloadFile(url, savePath = null, overwrite = false, confirm = t
             }
         }
 
-        const stream = fs.createWriteStream(savePath);
+        const stream = createWriteStream(savePath);
 
         scheme.get(urlObj, (res) => {
             res.pipe(stream);
             stream.on("finish", () => {
                 resolve();
             }).on("error", (err) => {
-                fs.unlink(savePath, () => reject(err));
+                unlink(savePath, () => reject(err));
             });
         }).on("error", (err) => {
             stream.close(() => {
-                fs.unlink(savePath, () => reject(err));
+                unlink(savePath, () => reject(err));
             });
         });
     });
 }
 
-module.exports = { normalize, debounce, simpleLog, dummyLog, renderStylus, downloadFile };
+export { debounce, simpleLog, dummyLog, renderStylus, downloadFile, stylePath };

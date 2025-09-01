@@ -1,4 +1,4 @@
-// Description: Showing tips on settings view.
+// Showing tips on settings view.
 
 /**
  * Tips to show on settings view.

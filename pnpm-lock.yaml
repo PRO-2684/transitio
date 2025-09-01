@@ -14,11 +14,19 @@ importers:
       usercss-meta:
         specifier: ^0.12.0
         version: 0.12.0
+    devDependencies:
+      '@qwqnt/types':
+        specifier: github:QwQ-002/types
+        version: https://codeload.github.com/QwQ-002/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037
 
 packages:
 
   '@adobe/css-tools@4.3.3':
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==}
+
+  '@qwqnt/types@https://codeload.github.com/QwQ-002/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037':
+    resolution: {tarball: https://codeload.github.com/QwQ-002/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037}
+    version: 0.0.0
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -86,6 +94,8 @@ packages:
 snapshots:
 
   '@adobe/css-tools@4.3.3': {}
+
+  '@qwqnt/types@https://codeload.github.com/QwQ-002/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037': {}
 
   balanced-match@1.0.2: {}
 

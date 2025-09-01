@@ -1,6 +1,6 @@
 // Test `extractUserStyleMetadata` from modules/main/parser.js
-const { extractUserStyleMetadata } = require("../modules/main/parser");
-const fs = require("fs");
+import { extractUserStyleMetadata } from "../modules/main/parser.js";
+import { readdirSync, readFileSync } from "fs";
 
 /** Recursively compare two Objects.
  * @param {Object} a The first object.
@@ -30,13 +30,13 @@ function isSame(a, b) {
 }
 
 // Read testcases from `tests/input` directory
-const testcases = fs.readdirSync("tests/input").map(file => {
+const testcases = readdirSync("tests/input").map(file => {
     // Filename
     const fname = file.split(".")[0];
     return {
         name: fname,
-        input: fs.readFileSync(`tests/input/${file}`, "utf-8"),
-        output: fs.readFileSync(`tests/output/${fname}.json`, "utf-8")
+        input: readFileSync(`tests/input/${file}`, "utf-8"),
+        output: readFileSync(`tests/output/${fname}.json`, "utf-8")
     };
 });
 

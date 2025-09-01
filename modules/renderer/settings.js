@@ -1,13 +1,12 @@
-// Description: The renderer script for the settings view of Transitio.
+// The renderer script for the settings view of Transitio.
 import { log, showDebugHint } from "./debug.js";
 import { setupSearch } from "./search.js";
 import { setupEasterEggs } from "./eggs.js";
 import { setupTips } from "./tips.js";
+import { stylePath, pluginPath, transitioVersion } from "../loaders/unified.js";
 
-/** Transitio plugin path. */
-const pluginPath = LiteLoader.plugins.transitio.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
-/** Transitio data path. */
-const dataPath = LiteLoader.plugins.transitio.path.data.replace(":\\", "://").replaceAll("\\", "/");
+/** Transitio plugin uri */
+const pluginUri = window.LiteLoader ? `local:///${pluginPath}` : qwqnt.framework.protocol.pathToStorageUrl(pluginPath);
 /** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
 /** Attribute of `<setting-switch>` that stores the style path. */
@@ -17,7 +16,7 @@ const deletedDataAttr = "data-deleted";
 /** The `name` attribute of the details element. */
 const detailsName = "transitio-setting-details";
 /** Supported extensions for style files. */
-const supportedExtensions = LiteLoader.plugins.transitio.manifest.supported_extensions;
+const supportedExtensions = [".css", ".styl"];
 /** Function to manually trigger the search (re-search) */
 let research = () => { }; // Placeholder for the search function
 
@@ -110,7 +109,7 @@ function addItem(path, container) {
     const showInFolder = addTransitioMore(right, { icon: "📂", title: "在文件夹中显示", className: "transitio-folder" });
     showInFolder.addEventListener("click", () => {
         if (!details.hasAttribute(deletedDataAttr)) {
-            transitio.open("show", path);
+            transitio.open("show", stylePath + path);
         }
     });
     const configureBtn = addTransitioMore(right, { icon: "⚙️", title: "配置变量，右键以重置为默认值", className: "transitio-configure" });
@@ -249,7 +248,7 @@ function addVarInput(varItem, varObj) {
  * @returns {Promise<HTMLElement>} The container to add the items.
  */
 async function initTransitioSettings(view) {
-    const r = await fetch(`local:///${pluginPath}/settings.html`);
+    const r = await fetch(pluginUri + "/settings.html");
     const $ = view.querySelector.bind(view);
     view.innerHTML = await r.text();
     function devMode() {
@@ -317,20 +316,20 @@ async function initTransitioSettings(view) {
     // Buttons
     $("#transitio-reload").addEventListener("dblclick", transitio.reloadStyle);
     $("#transitio-open-folder").addEventListener("click", () => {
-        openURI("path", `${dataPath}/styles`); // Relative to the data directory
+        openURI("path", stylePath); // Relative to the data directory
     });
     const importBtn = $("#transitio-import");
     importBtn.accept = supportedExtensions.join(",");
     importBtn.addEventListener("change", importStyle);
     // About - Version
-    $("#transitio-version").textContent = LiteLoader.plugins.transitio.manifest.version;
+    $("#transitio-version").textContent = transitioVersion;
     // About - Backgroud image
     ["version", "author", "issues", "submit"].forEach(id => {
-        $(`#transitio-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+        $(`#transitio-about-${id}`).style.backgroundImage = `url("${pluginUri}/icons/${id}.svg")`;
     });
     // Logo
     const logo = $(".logo");
-    logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    logo.src = pluginUri + "/icons/icon.svg";
     // Links
     view.querySelectorAll(".transitio-link").forEach(link => {
         if (!link.getAttribute("title")) {

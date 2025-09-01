@@ -1,3 +1,4 @@
+// ESM support in preload is not quite mature, so we use CommonJS `require` here
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("transitio", {

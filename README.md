@@ -8,7 +8,7 @@
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/transitio/total?logo=github)](https://github.com/PRO-2684/transitio/releases)
 [![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/transitio/latest/total?logo=github)](https://github.com/PRO-2684/transitio/releases/latest)
 
-[LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于为 QQNT 加载任意用户样式。
+[LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) / QwQNT 插件，用于为 QQNT 加载任意用户样式。
 
 你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义渲染层 JavaScript 脚本加载器。
 
@@ -23,13 +23,13 @@
 
 > 演示中使用了 [MSpring-Theme](https://github.com/MUKAPP/LiteLoaderQQNT-MSpring-Theme)，主题色为 `#74A9F6`。
 
-![Transitio settings](./attachments/settings.jpg)
+![Transitio settings](./attachments/settings.png)
 
 ## 📥 安装
 
 ### 稳定版
 
-下载 Release 中的 `transitio-release.zip`，解压后放入[数据目录](https://github.com/mo-jinran/LiteLoaderQQNT-Plugin-Template/wiki/1.%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84#liteloader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95)下的 `plugins/transitio` 文件夹中即可。(若没有该文件夹请自行创建)
+下载 Release 中的 `transitio-release.zip`，解压后放入相对应的 `plugins/transitio` 文件夹中即可。(若没有该文件夹请自行创建)
 
 ### CI 版
 

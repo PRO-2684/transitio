@@ -1,4 +1,4 @@
-// Description: Debugging utilities for the renderer.
+// Debugging utilities for the renderer.
 let isDebug = false;
 transitio.queryIsDebug().then((result) => {
     isDebug = result;

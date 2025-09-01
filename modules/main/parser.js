@@ -1,6 +1,7 @@
-// Description: Transitio's parser module for UserStyle metadata extraction.
-const usercssMeta = require("usercss-meta");
-const parser = usercssMeta.createParser({
+// Transitio's parser module for UserStyle metadata extraction.
+import { createParser, util, ParseError } from "usercss-meta";
+
+const parser = createParser({
     mandatoryKeys: ["name"],
     parseVar: { // Changes parser for checkbox so that it now returns a boolean. Ref: https://github.com/openstyles/usercss-meta/issues/93
         checkbox: parseBool
@@ -15,13 +16,13 @@ const parser = usercssMeta.createParser({
  * @param {object} state The parser state.
  */
 function parseBool(state) {
-    usercssMeta.util.parseChar(state);
+    util.parseChar(state);
     if (state.value === "0") {
         state.value = false;
     } else if (state.value === "1") {
         state.value = true;
     } else {
-        throw new usercssMeta.ParseError({
+        throw new ParseError({
             code: "invalidBool",
             message: "value must be 0 or 1",
             index: state.valueIndex
@@ -34,7 +35,7 @@ function parseBool(state) {
  */
 function validateBool(state) {
     if (!state.value instanceof Boolean) {
-        throw new usercssMeta.ParseError({
+        throw new ParseError({
             code: "invalidCheckboxDefault",
             message: "value must be 0 or 1",
             index: state.valueIndex
@@ -177,4 +178,4 @@ function extractUserStyleMetadata(css) {
     return result;
 }
 
-module.exports = { extractUserStyleMetadata };
+export { extractUserStyleMetadata };
