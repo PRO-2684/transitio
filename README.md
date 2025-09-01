@@ -10,7 +10,7 @@
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) / QwQNT 插件，用于为 QQNT 加载任意用户样式。
 
-你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义渲染层 JavaScript 脚本加载器。
+你可能也感兴趣：[Scriptio](https://github.com/PRO-2684/Scriptio)，自定义用户脚本加载器。
 
 ## 🪄 具体功能
 
