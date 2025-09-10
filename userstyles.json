@@ -264,6 +264,14 @@
         "download": "https://raw.githubusercontent.com/PRO-2684/Transitio-user-css/refs/heads/main/q-tag-enhancement.styl"
     },
     {
+        "name": "QQ-Privacy-protectiont",
+        "author": "Fuduji95",
+        "description": "通过css样式实现三种防窥功能",
+        "preprocessor": "transitio",
+        "link": "https://github.com/Fuduji95/NTQQPrivacy-Protection/blob/main/README.md",
+        "download": "https://raw.githubusercontent.com/Fuduji95/NTQQPrivacy-Protection/refs/heads/main/QQ-Privacy-protection.css"
+    },
+    {
         "name": "Rainbow Name",
         "author": "InfSein",
         "description": "让自己的名字变为彩虹色",
