@@ -304,6 +304,14 @@
         "download": "https://raw.githubusercontent.com/YF-Eternal/Sidebar-Management/main/sidebar-management.css"
     },
     {
+        "name": "Sidebar Management",
+        "author": "Nekozuka-Hibiki",
+        "description": "更新的侧边栏管理器",
+        "preprocessor": "transitio",
+        "link": "https://github.com/Nekozuka-Hibiki/Sidebar-Management",
+        "download": "https://raw.githubusercontent.com/Nekozuka-Hibiki/Sidebar-Management/refs/heads/main/sidebar-management.css"
+    },
+    {
         "name": "Simple Nudge",
         "author": "PRO-2684",
         "description": "简易拍一拍",
