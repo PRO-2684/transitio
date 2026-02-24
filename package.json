@@ -1,44 +1,44 @@
 {
-  "$schema": "https://raw.githubusercontent.com/QwQ-002/types/main/plugin.schema.json",
-  "name": "transitio",
-  "type": "module",
-  "version": "1.5.7",
-  "description": "Load custom UserStyles for QQNT",
-  "main": "main.js",
-  "qwqnt": {
-    "name": "Transitio",
-    "dependencies": {
-      "qwqnt-plugin_settings": "^1.2.5"
+    "$schema": "https://raw.githubusercontent.com/qwqnt-community/types/main/plugin.schema.json",
+    "name": "transitio",
+    "type": "module",
+    "version": "1.5.7",
+    "description": "Load custom UserStyles for QQNT",
+    "main": "main.js",
+    "qwqnt": {
+        "name": "Transitio",
+        "dependencies": {
+            "qwqnt-plugin_settings": "^1.2.5"
+        },
+        "icon": "./icons/thumb.svg"
     },
-    "icon": "./icons/thumb.svg"
-  },
-  "scripts": {
-    "test": "node ./scripts/test.js",
-    "version": "node ./scripts/update_version.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/PRO-2684/transitio.git"
-  },
-  "keywords": [
-    "css",
-    "liteloaderqqnt",
-    "llqqnt",
-    "qwqnt",
-    "stylus",
-    "userstyle"
-  ],
-  "author": "PRO-2684",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/PRO-2684/transitio/issues"
-  },
-  "homepage": "https://github.com/PRO-2684/transitio#readme",
-  "dependencies": {
-    "stylus": "^0.63.0",
-    "usercss-meta": "^0.12.0"
-  },
-  "devDependencies": {
-    "@qwqnt/types": "github:QwQ-002/types"
-  }
+    "scripts": {
+        "test": "node ./scripts/test.js",
+        "version": "node ./scripts/update_version.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/PRO-2684/transitio.git"
+    },
+    "keywords": [
+        "css",
+        "liteloaderqqnt",
+        "llqqnt",
+        "qwqnt",
+        "stylus",
+        "userstyle"
+    ],
+    "author": "PRO-2684",
+    "license": "GPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/PRO-2684/transitio/issues"
+    },
+    "homepage": "https://github.com/PRO-2684/transitio#readme",
+    "dependencies": {
+        "stylus": "^0.64.0",
+        "usercss-meta": "^0.12.0"
+    },
+    "devDependencies": {
+        "@qwqnt/types": "github:qwqnt-community/types"
+    }
 }
