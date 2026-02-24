@@ -2,7 +2,7 @@
     "$schema": "https://raw.githubusercontent.com/qwqnt-community/types/main/plugin.schema.json",
     "name": "transitio",
     "type": "module",
-    "version": "1.5.7",
+    "version": "1.5.8",
     "description": "Load custom UserStyles for QQNT",
     "main": "main.js",
     "qwqnt": {

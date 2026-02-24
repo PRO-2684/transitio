@@ -6,7 +6,7 @@
     "name": "Transitio",
     "slug": "transitio",
     "description": "🪄 自定义用户样式加载器",
-    "version": "1.5.7",
+    "version": "1.5.8",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
     "authors": [
@@ -19,15 +19,11 @@
         "repo": "PRO-2684/transitio",
         "branch": "main",
         "release": {
-            "tag": "v1.5.7",
+            "tag": "v1.5.8",
             "file": "transitio-release.zip"
         }
     },
-    "platform": [
-        "win32",
-        "linux",
-        "darwin"
-    ],
+    "platform": ["win32", "linux", "darwin"],
     "injects": {
         "renderer": "./renderer.js",
         "main": "./main.js",
