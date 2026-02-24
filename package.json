@@ -8,7 +8,7 @@
     "qwqnt": {
         "name": "Transitio",
         "dependencies": {
-            "qwqnt-plugin_settings": "^1.2.5"
+            "qwqnt-hako": "^1.0.1"
         },
         "icon": "./icons/thumb.svg"
     },

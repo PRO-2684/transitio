@@ -11,7 +11,11 @@ transitio.rendererReady();
  * @param {HTMLElement} view The settings view element.
  */
 async function onSettingWindowCreated(view) {
-    const { initTransitioSettings, transitioSettingsUpdateStyle, transitioSettingsResetStyle } = await import("./modules/renderer/settings.js");
+    const {
+        initTransitioSettings,
+        transitioSettingsUpdateStyle,
+        transitioSettingsResetStyle,
+    } = await import("./modules/renderer/settings.js");
     const container = await initTransitioSettings(view);
     transitio.onUpdateStyle((event, args) => {
         transitioSettingsUpdateStyle(container, args);
@@ -22,10 +26,12 @@ async function onSettingWindowCreated(view) {
     transitio.rendererReady(); // Call again to ensure the settings view gets the styles data.
 }
 
-// https://github.com/QwQ-002/QwQNT-RendererEvents
+// https://github.com/qwqnt-community/qwqnt-hako
 window.RendererEvents?.onSettingsWindowCreated?.(async () => {
-    // https://github.com/QwQ-002/QwQNT-PluginSettings
-    const view = await window.PluginSettings?.renderer?.registerPluginSettings?.(qwqnt.framework.plugins.transitio.meta.packageJson);
+    const view =
+        await window.PluginSettings?.renderer?.registerPluginSettings?.(
+            qwqnt.framework.plugins.transitio.meta.packageJson,
+        );
     if (view) {
         onSettingWindowCreated(view);
     }
