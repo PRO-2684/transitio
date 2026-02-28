@@ -1,9 +1,22 @@
-import { existsSync, mkdirSync, unlinkSync, readFileSync, writeFileSync, watch } from "fs";
+import {
+    existsSync,
+    mkdirSync,
+    unlinkSync,
+    readFileSync,
+    writeFileSync,
+    watch,
+} from "fs";
 import { normalize as normalize_platform, basename } from "path";
-import { BrowserWindow, ipcMain, webContents, shell, app, dialog } from "electron";
+import { BrowserWindow, ipcMain, webContents, shell, dialog } from "electron";
 import { extractUserStyleMetadata } from "./modules/main/parser.js";
 import { listStyles } from "./modules/main/walker.js";
-import { debounce, simpleLog, dummyLog, renderStylus, downloadFile } from "./modules/main/utils.js";
+import {
+    debounce,
+    simpleLog,
+    dummyLog,
+    renderStylus,
+    downloadFile,
+} from "./modules/main/utils.js";
 import { normalize, configApi, stylePath } from "./modules/loaders/unified.js";
 
 const slug = "transitio";
@@ -39,13 +52,16 @@ ipcMain.on("PRO-2684.transitio.removeStyle", (_event, relPath) => {
     updateConfig();
     if (!devMode) {
         const msg = {
-            path: relPath, enabled: false, css: "/* Removed */", meta: {
+            path: relPath,
+            enabled: false,
+            css: "/* Removed */",
+            meta: {
                 name: " [已删除] ",
                 description: "[此样式已被删除]",
                 enabled: false,
                 preprocessor: slug,
-                vars: {}
-            }
+                vars: {},
+            },
         };
         webContents.getAllWebContents().forEach((webContent) => {
             webContent.send("PRO-2684.transitio.updateStyle", msg);
@@ -85,11 +101,6 @@ ipcMain.handle("PRO-2684.transitio.queryIsDebug", async (_event) => {
     return isDebug;
 });
 
-app.whenReady().then(() => {
-    // https://github.com/PRO-2684/protocio
-    globalThis?.LiteLoader?.api?.registerUrlHandler?.(slug, handleUrlScheme);
-});
-
 function updateConfig() {
     log("Calling updateConfig");
     debouncedSet(config);
@@ -100,7 +111,8 @@ let config = configApi.get();
 // Get CSS content
 function getStyle(relPath) {
     let realPath = stylePath + relPath;
-    if (relPath.endsWith(".lnk") && shell.readShortcutLink) { // lnk file & on Windows
+    if (relPath.endsWith(".lnk") && shell.readShortcutLink) {
+        // lnk file & on Windows
         const { target } = shell.readShortcutLink(realPath);
         realPath = target;
     }
@@ -121,7 +133,7 @@ async function updateStyle(relPath, webContent) {
     // Initialize style configuration
     if (typeof config.styles[relPath] !== "object") {
         config.styles[relPath] = {
-            enabled: Boolean(config.styles[relPath] ?? true)
+            enabled: Boolean(config.styles[relPath] ?? true),
         };
         updateConfig();
     }
@@ -181,7 +193,9 @@ async function reloadStyle(webContent) {
     for (const relPath of styles) {
         updateStyle(relPath, webContent);
     }
-    const removedStyles = new Set(Object.keys(config.styles)).difference(new Set(styles));
+    const removedStyles = new Set(Object.keys(config.styles)).difference(
+        new Set(styles),
+    );
     for (const relPath of removedStyles) {
         log("Removed style", relPath);
         delete config.styles[relPath];
@@ -244,49 +258,5 @@ function onDevMode(_event, enable) {
 
 // Listen to `styles` directory
 function watchStyleChange() {
-    return watch(stylePath, "utf-8",
-        debounce(onStyleChange, updateInterval)
-    );
-}
-
-// Handle URL scheme
-function handleUrlScheme(rest, _url) {
-    switch (rest[0]) {
-        case "install": {
-            if (!rest[1]) {
-                log("No URL provided for install action");
-                break;
-            }
-            const url = decodeURIComponent(rest[1]);
-            log("Trying to download style from:", url);
-            downloadFile(url).then(() => {
-                log("Download complete");
-                return reloadStyle();
-            }).then(() => {
-                log("Reload complete");
-                dialog.showMessageBox({
-                    title: "Download success!",
-                    message: `Successfully downloaded ${url} and reloaded styles!`,
-                    type: "info",
-                });
-            }).catch((err) => {
-                dialog.showErrorBox({
-                    title: "Download failed!",
-                    content: `Failed to download ${url}: ${err}`,
-                });
-                log(`Failed to download ${url}: ${err}`);
-            });
-            break;
-        }
-        case "ping": {
-            dialog.showMessageBox({
-                title: "Pong!",
-                message: "Pong!",
-                type: "info",
-            });
-        }
-        default:
-            log("Unknown action:", rest[0]);
-            break;
-    }
+    return watch(stylePath, "utf-8", debounce(onStyleChange, updateInterval));
 }

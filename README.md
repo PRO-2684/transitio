@@ -64,16 +64,6 @@ QwQNT 插件，用于为 QQNT 加载任意用户样式。
 - 重置样式：右键 `⚙️` 按钮，即可将样式的配置重置为默认值。
 - 更新样式：重新导入、禁用后启用或重载样式即可。
 
-## 🔗 URL Scheme
-
-> [!WARNING]
-> 此功能并未完善，仅作测试使用。
-
-若您安装了 [Protocio](https://github.com/PRO-2684/protocio)，可以使用 `llqqnt://transitio/` 协议来与 Transitio 交互。下面列举了支持的协议参数：
-
-- `install/<url>`：导入指定 URL 的用户样式，`url` 需要经过 URL 编码 (`encodeURIComponent`)。
-- `ping`：测试 URL Scheme 功能。
-
 ## 💻 调试
 
 - 开发者模式 (不推荐)：若您想要调试 **您的用户样式的效果**，可以在插件设置界面打开*开发者模式*，此时插件会监控 `data/transitio/styles/` 文件夹，当发生更改时，会自动重载。
