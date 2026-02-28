@@ -1,8 +1,11 @@
 // Unified API for LiteLoader & QwQNT, main & renderer
 
-const { dataPathOrig, pluginPathOrig, transitioVersion, configApi } = globalThis.LiteLoader ?
-    await import("./liteloader.js") :
-    await import("./qwqnt.js");
+import {
+    dataPathOrig,
+    pluginPathOrig,
+    transitioVersion,
+    configApi,
+} from "./qwqnt.js";
 /** Transitio data path, normalized to use `/`, ending with `/` */
 const dataPath = normalize(dataPathOrig) + "/";
 /** Transitio style path, normalized to use `/`, ending with `/` */
@@ -27,4 +30,4 @@ export {
     /** Should only be used in main */
     configApi,
     normalize,
-}
+};
