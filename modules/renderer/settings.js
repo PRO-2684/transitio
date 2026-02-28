@@ -6,7 +6,7 @@ import { setupTips } from "./tips.js";
 import { stylePath, pluginPath, transitioVersion } from "../loaders/unified.js";
 
 /** Transitio plugin uri */
-const pluginUri = window.LiteLoader ? `local:///${pluginPath}` : qwqnt.framework.protocol.pathToStorageUrl(pluginPath);
+const pluginUri = qwqnt.framework.protocol.pathToStorageUrl(pluginPath);
 /** Attribute of `<details>` that stores the style path. */
 const configDataAttr = "data-transitio-config";
 /** Attribute of `<setting-switch>` that stores the style path. */
@@ -18,7 +18,7 @@ const detailsName = "transitio-setting-details";
 /** Supported extensions for style files. */
 const supportedExtensions = [".css", ".styl"];
 /** Function to manually trigger the search (re-search) */
-let research = () => { }; // Placeholder for the search function
+let research = () => {}; // Placeholder for the search function
 
 /** Function to parse the value from the input/select element.
  * @param {HTMLInputElement|HTMLSelectElement} varInput The input/select element.
@@ -54,7 +54,12 @@ function setValueToInput(varInput, value) {
             break;
     }
     if (changed) {
-        varInput.dispatchEvent(new CustomEvent("change", { bubbles: true, detail: { fromCallback: true } }));
+        varInput.dispatchEvent(
+            new CustomEvent("change", {
+                bubbles: true,
+                detail: { fromCallback: true },
+            }),
+        );
     }
 }
 /** Function to add a button to the right side of the setting item.
@@ -94,33 +99,61 @@ function addItem(path, container) {
     left.appendChild(itemDesc);
     const right = item.appendChild(document.createElement("div"));
     right.classList.add("transitio-menu");
-    const homepage = addTransitioMore(right, { icon: "🔗", title: "打开样式主页", className: "transitio-homepage" });
+    const homepage = addTransitioMore(right, {
+        icon: "🔗",
+        title: "打开样式主页",
+        className: "transitio-homepage",
+    });
     homepage.addEventListener("click", () => {
-        if (!details.hasAttribute(deletedDataAttr) && !homepage.hasAttribute("disabled")) {
+        if (
+            !details.hasAttribute(deletedDataAttr) &&
+            !homepage.hasAttribute("disabled")
+        ) {
             transitio.open("link", homepage.getAttribute("data-homepage-url"));
         }
     });
-    const remove = addTransitioMore(right, { icon: "🗑️", title: "删除此样式", className: "transitio-remove" });
+    const remove = addTransitioMore(right, {
+        icon: "🗑️",
+        title: "删除此样式",
+        className: "transitio-remove",
+    });
     remove.addEventListener("click", () => {
         if (!details.hasAttribute(deletedDataAttr)) {
             transitio.removeStyle(path);
         }
     });
-    const showInFolder = addTransitioMore(right, { icon: "📂", title: "在文件夹中显示", className: "transitio-folder" });
+    const showInFolder = addTransitioMore(right, {
+        icon: "📂",
+        title: "在文件夹中显示",
+        className: "transitio-folder",
+    });
     showInFolder.addEventListener("click", () => {
         if (!details.hasAttribute(deletedDataAttr)) {
             transitio.open("show", stylePath + path);
         }
     });
-    const configureBtn = addTransitioMore(right, { icon: "⚙️", title: "配置变量，右键以重置为默认值", className: "transitio-configure" });
+    const configureBtn = addTransitioMore(right, {
+        icon: "⚙️",
+        title: "配置变量，右键以重置为默认值",
+        className: "transitio-configure",
+    });
     configureBtn.addEventListener("click", () => {
-        if (!details.hasAttribute(deletedDataAttr) && !configureBtn.hasAttribute("disabled")) {
+        if (
+            !details.hasAttribute(deletedDataAttr) &&
+            !configureBtn.hasAttribute("disabled")
+        ) {
             details.toggleAttribute("open");
         }
     });
     configureBtn.addEventListener("mouseup", (e) => {
-        if (!details.hasAttribute(deletedDataAttr) && !configureBtn.hasAttribute("disabled")
-            && e.button === 2 && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+        if (
+            !details.hasAttribute(deletedDataAttr) &&
+            !configureBtn.hasAttribute("disabled") &&
+            e.button === 2 &&
+            !e.ctrlKey &&
+            !e.shiftKey &&
+            !e.altKey
+        ) {
             transitio.resetStyle(path);
         }
     });
@@ -180,7 +213,12 @@ function createLinkedInputs(args) {
     number.addEventListener("change", () => {
         if (number.reportValidity()) {
             range.value = number.value;
-            range.dispatchEvent(new CustomEvent("change", { bubbles: true, detail: { fromCallback: false } }));
+            range.dispatchEvent(
+                new CustomEvent("change", {
+                    bubbles: true,
+                    detail: { fromCallback: false },
+                }),
+            );
         }
     });
     return [range, number];
@@ -193,7 +231,9 @@ function createLinkedInputs(args) {
 function addVarInput(varItem, varObj) {
     let varInput;
     let defaultValue = varObj.default;
-    switch (varObj.type) { // https://github.com/openstyles/stylus/wiki/Writing-UserCSS#type
+    switch (
+        varObj.type // https://github.com/openstyles/stylus/wiki/Writing-UserCSS#type
+    ) {
         case "color":
         case "colour":
             varInput = document.createElement("input");
@@ -219,14 +259,24 @@ function addVarInput(varItem, varObj) {
         }
         case "number": {
             const { min, max, step } = varObj;
-            varInput = createNumberLikeInput("number", { defaultValue, min, max, step });
+            varInput = createNumberLikeInput("number", {
+                defaultValue,
+                min,
+                max,
+                step,
+            });
             break;
         }
         case "percent":
         case "percentage":
         case "range": {
             const { min, max, step } = varObj;
-            const [range, number] = createLinkedInputs({ defaultValue, min, max, step });
+            const [range, number] = createLinkedInputs({
+                defaultValue,
+                min,
+                max,
+                step,
+            });
             varInput = range;
             varItem.appendChild(number);
             break;
@@ -281,17 +331,19 @@ async function initTransitioSettings(view) {
                 log("Ignored", file.name);
                 continue;
             }
-            promises.push(new Promise((resolve, reject) => {
-                cnt++;
-                log("Importing", file.name);
-                let reader = new FileReader();
-                reader.onload = () => {
-                    transitio.importStyle(file.name, reader.result);
-                    log("Imported", file.name);
-                    resolve();
-                };
-                reader.readAsText(file);
-            }));
+            promises.push(
+                new Promise((resolve, reject) => {
+                    cnt++;
+                    log("Importing", file.name);
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        transitio.importStyle(file.name, reader.result);
+                        log("Imported", file.name);
+                        resolve();
+                    };
+                    reader.readAsText(file);
+                }),
+            );
         }
         await Promise.all(promises);
         this.parentNode.classList.toggle("is-loading", false);
@@ -307,7 +359,7 @@ async function initTransitioSettings(view) {
     // Dev mode
     const dev = $("#transitio-dev");
     dev.addEventListener("click", devMode);
-    transitio.queryDevMode().then(enabled => {
+    transitio.queryDevMode().then((enabled) => {
         log("queryDevMode", enabled);
         dev.toggleAttribute("is-active", enabled);
     });
@@ -324,14 +376,15 @@ async function initTransitioSettings(view) {
     // About - Version
     $("#transitio-version").textContent = transitioVersion;
     // About - Backgroud image
-    ["version", "author", "issues", "submit"].forEach(id => {
-        $(`#transitio-about-${id}`).style.backgroundImage = `url("${pluginUri}/icons/${id}.svg")`;
+    ["version", "author", "issues", "submit"].forEach((id) => {
+        $(`#transitio-about-${id}`).style.backgroundImage =
+            `url("${pluginUri}/icons/${id}.svg")`;
     });
     // Logo
     const logo = $(".logo");
     logo.src = pluginUri + "/icons/icon.svg";
     // Links
-    view.querySelectorAll(".transitio-link").forEach(link => {
+    view.querySelectorAll(".transitio-link").forEach((link) => {
         if (!link.getAttribute("title")) {
             link.setAttribute("title", link.getAttribute("data-transitio-url"));
         }
@@ -339,7 +392,9 @@ async function initTransitioSettings(view) {
     });
     setupEasterEggs(view);
     setupTips(view);
-    const container = $("setting-section.snippets > setting-panel > setting-list");
+    const container = $(
+        "setting-section.snippets > setting-panel > setting-list",
+    );
     return container;
 }
 /** Function to add a variable to the UserStyle.
@@ -371,7 +426,9 @@ function addVar(details, path, name, varObj) {
 function transitioSettingsUpdateStyle(container, args) {
     const { path, meta, enabled } = args;
     const isDeleted = meta.name === " [已删除] ";
-    const details = container.querySelector(`details[${configDataAttr}="${path}"]`) ?? addItem(path, container);
+    const details =
+        container.querySelector(`details[${configDataAttr}="${path}"]`) ??
+        addItem(path, container);
     // Summary part - Name and Description
     const item = details.querySelector("summary > setting-item");
     const itemName = item.querySelector("setting-text[data-type='primary']");
@@ -393,22 +450,26 @@ function transitioSettingsUpdateStyle(container, args) {
         homepage.toggleAttribute("disabled", true);
     }
     const configureBtn = item.querySelector("span.transitio-configure");
-    const noVariables = !meta.vars || (Object.keys(meta.vars).length === 0);
+    const noVariables = !meta.vars || Object.keys(meta.vars).length === 0;
     configureBtn.toggleAttribute("disabled", noVariables);
-    const switch_ = item.querySelector(`setting-switch[${switchDataAttr}="${path}"]`);
+    const switch_ = item.querySelector(
+        `setting-switch[${switchDataAttr}="${path}"]`,
+    );
     switch_.toggleAttribute("is-active", enabled);
     switch_.parentNode.classList.toggle("is-loading", false);
     if (isDeleted) {
         details.toggleAttribute(deletedDataAttr, true);
     }
     // Details part
-    if (noVariables) { // Close the details if there are no variables
+    if (noVariables) {
+        // Close the details if there are no variables
         details.toggleAttribute("open", false);
     } else {
         for (const [name, varObj] of Object.entries(meta.vars)) {
-            const varInput = details.querySelector(`label[title="${name}"] > input`)
-                ?? details.querySelector(`label[title="${name}"] > select`)
-                ?? addVar(details, path, name, varObj);
+            const varInput =
+                details.querySelector(`label[title="${name}"] > input`) ??
+                details.querySelector(`label[title="${name}"] > select`) ??
+                addVar(details, path, name, varObj);
             setValueToInput(varInput, varObj.value ?? varObj.default);
         }
     }
@@ -426,4 +487,8 @@ function transitioSettingsResetStyle(container) {
     });
 }
 
-export { initTransitioSettings, transitioSettingsUpdateStyle, transitioSettingsResetStyle };
+export {
+    initTransitioSettings,
+    transitioSettingsUpdateStyle,
+    transitioSettingsResetStyle,
+};

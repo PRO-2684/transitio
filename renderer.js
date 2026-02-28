@@ -27,14 +27,12 @@ async function onSettingWindowCreated(view) {
 }
 
 // https://github.com/qwqnt-community/qwqnt-hako
-window.RendererEvents?.onSettingsWindowCreated?.(async () => {
-    const view =
-        await window.PluginSettings?.renderer?.registerPluginSettings?.(
-            qwqnt.framework.plugins.transitio.meta.packageJson,
-        );
-    if (view) {
-        onSettingWindowCreated(view);
-    }
-});
+PluginSettings.renderer
+    .registerPluginSettings(qwqnt.framework.plugins.transitio.meta.packageJson)
+    .then((view) => {
+        if (view) {
+            onSettingWindowCreated(view);
+        }
+    });
 
 export { onSettingWindowCreated };

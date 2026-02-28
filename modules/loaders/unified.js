@@ -1,4 +1,4 @@
-// Unified API for LiteLoader & QwQNT, main & renderer
+// Unified API for ~~LiteLoader &~~ QwQNT, main & renderer
 
 import {
     dataPathOrig,
