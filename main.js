@@ -15,7 +15,6 @@ import {
     simpleLog,
     dummyLog,
     renderStylus,
-    downloadFile,
 } from "./modules/main/utils.js";
 import { normalize, configApi, stylePath } from "./modules/loaders/unified.js";
 
